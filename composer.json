@@ -1,0 +1,29 @@
+{
+	"name": "mythemeshop/wordpress-helpers",
+	"description": "Collection of utilities required during development of a plugin or theme for WordPress. Build for developers by developers.",
+	"type": "library",
+	"require": {
+		"php": ">=5.6"
+	},
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "MyThemeShop",
+			"email": "info@mythemeshop.com"
+		}
+	],
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"autoload" : {
+		"psr-4" : {
+			"MyThemeShop\\Helpers\\": "src/"
+		},
+		"classmap" : [ "src/" ]
+	},
+	"config": {
+		"optimize-autoloader": true
+	},
+	"archive": {
+		"exclude": [ "/bin", "/tests/", ".gitattributes", ".gitignore", ".travis.yml", ".phpcs.xml.dist", "phpunit.xml.dist", "README.md" ]
+	}
+}
