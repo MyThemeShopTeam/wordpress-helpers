@@ -8,10 +8,6 @@
  * @author     MyThemeShop <admin@mythemeshop.com>
  */
 
-namespace MyThemeShop\Tests;
-
-use WP_UnitTestCase;
-
 abstract class UnitTestCase extends WP_UnitTestCase {
 
 	public function getPrivate( $obj, $attribute ) {

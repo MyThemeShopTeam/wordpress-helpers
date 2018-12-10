@@ -10,92 +10,162 @@
 
 namespace MyThemeShop\Tests\Helpers;
 
-use ArrayAccess;
+use UnitTestCase;
+use MyThemeShop\Helpers\Arr;
 
 /**
- * Arr class.
+ * TestArr class.
  */
-class Arr {
+class TestArr extends UnitTestCase {
 
 	/**
 	 * Determine whether the given value is array accessible.
-	 *
-	 * @param  mixed $value Value to check.
-	 * @return bool
 	 */
-	public static function accessible( $value ) {
-		return is_array( $value ) || $value instanceof ArrayAccess;
+	public function test_accessible() {
+		$array = array();
+		$this->assertTrue( Arr::accessible( $array ) );
+		$this->assertFalse( Arr::accessible( true ) );
+		$this->assertFalse( Arr::accessible( 123 ) );
+		$this->assertFalse( Arr::accessible( 'string' ) );
 	}
 
 	/**
 	 * Determine if the given key exists in the provided array.
-	 *
-	 * @param  \ArrayAccess|array $array Array to check key in.
-	 * @param  string|int         $key   Key to check for.
-	 * @return bool
 	 */
-	public static function exists( $array, $key ) {
-		if ( $array instanceof ArrayAccess ) {
-			return $array->offsetExists( $key );
-		}
+	public function test_exists() {
+		$array = array( 'shakeeb', 'ahmed' );
+		$this->assertTrue( Arr::exists( $array, 0 ) );
+		$this->assertTrue( Arr::exists( $array, 1 ) );
+		$this->assertFalse( Arr::exists( $array, 2 ) );
 
-		return array_key_exists( $key, $array );
+		$array = array( 'shakeeb' => 'ahmed' );
+		$this->assertTrue( Arr::exists( $array, 'shakeeb' ) );
+		$this->assertFalse( Arr::exists( $array, 'ahmed' ) );
 	}
 
 	/**
 	 * Insert a single array item inside another array at a set position
-	 *
-	 * @param array $array    Array to modify. Is passed by reference, and no return is needed.
-	 * @param array $new      New array to insert.
-	 * @param int   $position Position in the main array to insert the new array.
 	 */
-	public static function insert( &$array, $new, $position ) {
-		$before = array_slice( $array, 0, $position - 1 );
-		$after  = array_diff_key( $array, $before );
-		$array  = array_merge( $before, $new, $after );
+	public function test_insert() {
+		$array = array(
+			'b' => 'B',
+			'd' => 'D',
+		);
+
+		Arr::insert( $array, array( 'a' => 'A' ), 0 );
+		$this->assertEquals(
+			$array,
+			array(
+				'a' => 'A',
+				'b' => 'B',
+				'd' => 'D',
+			)
+		);
+
+		Arr::insert( $array, array( 'c' => 'C' ), 2 );
+		$this->assertEquals(
+			$array,
+			array(
+				'a' => 'A',
+				'b' => 'B',
+				'c' => 'C',
+				'd' => 'D',
+			)
+		);
+
+		Arr::insert( $array, array( 'f' => 'F' ), -1 );
+		$this->assertEquals(
+			$array,
+			array(
+				'a' => 'A',
+				'b' => 'B',
+				'c' => 'C',
+				'd' => 'D',
+				'f' => 'F',
+			)
+		);
+
+		Arr::insert( $array, array( 'e' => 'E' ), -2 );
+		$this->assertEquals(
+			$array,
+			array(
+				'a' => 'A',
+				'b' => 'B',
+				'c' => 'C',
+				'd' => 'D',
+				'e' => 'E',
+				'f' => 'F',
+			)
+		);
+
+		Arr::insert( $array, array( 'g' => 'G' ), 99 );
+		$this->assertEquals(
+			$array,
+			array(
+				'a' => 'A',
+				'b' => 'B',
+				'c' => 'C',
+				'd' => 'D',
+				'e' => 'E',
+				'f' => 'F',
+				'g' => 'G',
+			)
+		);
 	}
 
 	/**
 	 * Push an item onto the beginning of an array.
-	 *
-	 * @param  array $array Array to add.
-	 * @param  mixed $value Value to add.
-	 * @param  mixed $key   Add with this key.
-	 * @return array
 	 */
-	public static function prepend( $array, $value, $key = null ) {
-		if ( is_null( $key ) ) {
-			array_unshift( $array, $value );
-		} else {
-			$array = [ $key => $value ] + $array;
-		}
+	public function test_prepend() {
+		$array = array();
+		Arr::prepend( $array, 'orange' );
+		$this->assertEquals(
+			$array,
+			array(
+				'orange',
+			)
+		);
 
-		return $array;
-	}
+		Arr::prepend( $array, 'stawberry' );
+		$this->assertEquals(
+			$array,
+			array(
+				'stawberry',
+				'orange',
+			)
+		);
 
-	/**
-	 * Filter the array using the given callback.
-	 *
-	 * @param  array    $array    Array to filter.
-	 * @param  callable $callback Function to filter by.
-	 * @return array
-	 */
-	public static function where( $array, callable $callback ) {
-		return array_filter( $array, $callback, ARRAY_FILTER_USE_BOTH );
+		$array = array();
+		Arr::prepend( $array, 'stawberry', 'first' );
+		$this->assertEquals(
+			$array,
+			array(
+				'first' => 'stawberry',
+			)
+		);
+
+		Arr::prepend( $array, 'banana', 'second' );
+		$this->assertEquals(
+			$array,
+			array(
+				'second' => 'banana',
+				'first'  => 'stawberry',
+			)
+		);
 	}
 
 	/**
 	 * Update array add or delete value
-	 *
-	 * @param array $array Array to modify. Is passed by reference, and no return is needed.
-	 * @param array $value Value to add or delete.
 	 */
-	public static function add_delete_value( &$array, $value ) {
-		if ( ( $key = array_search( $value, $array ) ) !== false ) { // @codingStandardsIgnoreLine
-			unset( $array[ $key ] );
-			return;
-		}
+	public function test_add_delete_value() {
+		$array = array();
 
-		$array[] = $value;
+		// Add.
+		Arr::add_delete_value( $array, 'shakeeb' );
+		$this->assertContains( 'shakeeb', $array );
+
+		// Delete.
+		Arr::add_delete_value( $array, 'shakeeb' );
+		$this->assertNotContains( 'shakeeb', $array );
 	}
 }

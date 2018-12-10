@@ -58,30 +58,16 @@ class Arr {
 	/**
 	 * Push an item onto the beginning of an array.
 	 *
-	 * @param  array $array Array to add.
-	 * @param  mixed $value Value to add.
-	 * @param  mixed $key   Add with this key.
-	 * @return array
+	 * @param array $array Array to add.
+	 * @param mixed $value Value to add.
+	 * @param mixed $key   Add with this key.
 	 */
-	public static function prepend( $array, $value, $key = null ) {
+	public static function prepend( &$array, $value, $key = null ) {
 		if ( is_null( $key ) ) {
 			array_unshift( $array, $value );
 		} else {
 			$array = [ $key => $value ] + $array;
 		}
-
-		return $array;
-	}
-
-	/**
-	 * Filter the array using the given callback.
-	 *
-	 * @param  array    $array    Array to filter.
-	 * @param  callable $callback Function to filter by.
-	 * @return array
-	 */
-	public static function where( $array, callable $callback ) {
-		return array_filter( $array, $callback, ARRAY_FILTER_USE_BOTH );
 	}
 
 	/**
