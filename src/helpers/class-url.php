@@ -24,7 +24,7 @@ class Url {
 	 * @param  string $url to check.
 	 * @return bool
 	 */
-	function is_url( $url ) {
+	public static function is_url( $url ) {
 		if ( ! is_string( $url ) ) {
 			return false;
 		}
@@ -34,12 +34,13 @@ class Url {
 			return false;
 		}
 
-		// Must pass validation.
-		if ( ! filter_var( $url, FILTER_VALIDATE_URL ) ) {
-			return false;
+		// Check for scheme first, if it's missing then add it.
+		if ( 0 === strpos( $url, '//' ) ) {
+			$url = 'http:' . $url;
 		}
 
-		return true;
+		// Must pass validation.
+		return false !== filter_var( trailingslashit( $url ), FILTER_VALIDATE_URL ) ? true : false;
 	}
 
 	/**

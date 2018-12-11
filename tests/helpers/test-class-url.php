@@ -21,117 +21,87 @@ class TestUrl extends UnitTestCase {
 	/**
 	 * Simple check for validating a URL, it must start with http:// or https://.
 	 * and pass FILTER_VALIDATE_URL validation.
-	 *
-	 * @param  string $url to check.
-	 * @return bool
 	 */
-	function is_url( $url ) {
-		if ( ! is_string( $url ) ) {
-			return false;
-		}
+	public function test_is_url() {
+		// True.
+		$this->assertTrue( Url::is_url( 'http://shakeebahmed.com' ) );
+		$this->assertTrue( Url::is_url( 'https://shakeebahmed.com' ) );
+		$this->assertTrue( Url::is_url( '//shakeebahmed.com' ) );
 
-		// Must start with http:// or https://.
-		if ( 0 !== strpos( $url, 'http://' ) && 0 !== strpos( $url, 'https://' ) && 0 !== strpos( $url, '//' ) ) {
-			return false;
-		}
-
-		// Must pass validation.
-		if ( ! filter_var( $url, FILTER_VALIDATE_URL ) ) {
-			return false;
-		}
-
-		return true;
+		// False.
+		$this->assertFalse( Url::is_url( false ) );
+		$this->assertFalse( Url::is_url( 123456 ) );
+		$this->assertFalse( Url::is_url( '/wp-content/plugins/test/style.css' ) );
 	}
 
 	/**
 	 * Check whether a url is relative.
-	 *
-	 * @param  string $url URL string to check.
-	 * @return boolean
 	 */
-	public static function is_relative( $url ) {
-		return ( 0 !== strpos( $url, 'http' ) && 0 !== strpos( $url, '//' ) );
+	public function test_is_relative() {
+		// True.
+		$this->assertTrue( Url::is_relative( 'domain/hello-world' ) );
+		$this->assertTrue( Url::is_relative( '/domain/hello-world' ) );
+
+		// False.
+		$this->assertFalse( Url::is_relative( 'http://domain.com/hello-world' ) );
+		$this->assertFalse( Url::is_relative( 'https://domain.com/hello-world' ) );
 	}
 
 	/**
 	 * Checks whether a url is external.
-	 *
-	 * @param string $url    URL string to check. This should be a absolute URL.
-	 * @param string $domain If wants to use some other domain not home_url().
-	 * @return bool
 	 */
-	public static function is_external( $url, $domain = false ) {
-		if ( empty( $url ) || '#' === $url[0] || '/' === $url[0] ) { // Link to current page or relative link.
-			return false;
-		}
+	public function test_is_external() {
 
-		$domain = self::get_domain( $domain ? $domain : home_url() );
-		if ( Str::contains( $domain, $url ) ) {
-			return false;
-		}
+		// Relative.
+		$this->assertFalse( Url::is_external( '' ) );
+		$this->assertFalse( Url::is_external( '#section-links' ) );
+		$this->assertFalse( Url::is_external( '/domain/hello-world' ) );
+		$this->assertFalse( Url::is_external( '/domain/hello-world.html' ) );
 
-		return true;
+		// With FQDN.
+		$this->assertFalse( Url::is_external( 'http://example.org/#section-links' ) );
+		$this->assertFalse( Url::is_external( 'https://example.org/#section-links' ) );
+		$this->assertFalse( Url::is_external( 'http://example.org/domain/hello-world' ) );
+		$this->assertFalse( Url::is_external( 'https://example.org/domain/hello-world.html' ) );
+
+		// Other domain.
+		$this->assertTrue( Url::is_external( 'http://domain.com/hello-world' ) );
+		$this->assertTrue( Url::is_external( 'https://domain.com/hello-world' ) );
+		$this->assertTrue( Url::is_external( 'http://yahoo.com' ) );
 	}
 
 	/**
-	 * Get current url.
-	 *
-	 * @return string
+	 * Get current page full url.
 	 */
-	public static function get_current_url() {
-		$url = self::get_scheme() . '://';
-		if ( isset( $_SERVER['SERVER_PORT'] ) && $_SERVER['SERVER_PORT'] && '80' != $_SERVER['SERVER_PORT'] && '443' != $_SERVER['SERVER_PORT'] ) {
-			$url .= self::get_host() . ':' . $_SERVER['SERVER_PORT'] . $_SERVER['REQUEST_URI'];
-		} else {
-			$url .= self::get_host() . $_SERVER['REQUEST_URI'];
-		}
-		return $url;
+	public function test_get_current_url() {
+		$this->assertEquals( 'http://example.org', Url::get_current_url() );
+		$this->assertEquals( 'http://example.org', Url::get_current_url( true ) );
 	}
 
 	/**
 	 * Get url scheme.
-	 *
-	 * @return string
 	 */
-	public static function get_scheme() {
-		return is_ssl() ? 'https' : 'http';
+	public function test_get_scheme() {
+		$this->assertEquals( 'http', Url::get_scheme() );
 	}
 
 	/**
 	 * Some setups like HTTP_HOST, some like SERVER_NAME, it's complicated.
-	 *
-	 * @link http://stackoverflow.com/questions/2297403/http-host-vs-server-name
-	 *
-	 * @return string the HTTP_HOST or SERVER_NAME
 	 */
-	public static function get_host() {
-		if ( isset( $_SERVER['HTTP_HOST'] ) && $_SERVER['HTTP_HOST'] ) {
-			return $_SERVER['HTTP_HOST'];
-		}
-		if ( isset( $_SERVER['SERVER_NAME'] ) && $_SERVER['SERVER_NAME'] ) {
-			return $_SERVER['SERVER_NAME'];
-		}
-		return '';
+	public function test_get_host() {
+		$this->assertEquals( 'example.org', Url::get_host() );
 	}
 
 	/**
 	 * Get parent domain
-	 *
-	 * @param  string $url Url to parse.
-	 * @return string
 	 */
-	public static function get_domain( $url ) {
-		$pieces = wp_parse_url( $url );
-		$domain = isset( $pieces['host'] ) ? $pieces['host'] : '';
-
-		if ( Str::contains( 'localhost', $domain ) ) {
-			return 'localhost';
-		}
-
-		if ( preg_match( '/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,15})$/i', $domain, $regs ) ) {
-			return $regs['domain'];
-		}
-
-		return false;
+	public function test_get_domain() {
+		$this->assertFalse( Url::get_domain( '' ) );
+		$this->assertEquals( 'localhost', Url::get_domain( 'http://localhost/dummy' ) );
+		$this->assertEquals( 'domain.com', Url::get_domain( 'http://domain.com' ) );
+		$this->assertEquals( 'domain.com', Url::get_domain( 'https://domain.com' ) );
+		$this->assertEquals( 'shakeebahmed.com', Url::get_domain( 'http://shakeebahmed.com/hello-world' ) );
+		$this->assertEquals( 'shakeebahmed.com', Url::get_domain( 'https://shakeebahmed.com/hello-world' ) );
+		$this->assertEquals( 'meus.reviews', Url::get_domain( 'https://meus.reviews' ) );
 	}
 }
