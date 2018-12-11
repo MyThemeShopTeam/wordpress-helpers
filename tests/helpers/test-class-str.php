@@ -20,12 +20,17 @@ class TestStr extends UnitTestCase {
 
 	/**
 	 * Validates whether the passed variable is a non-empty string.
-	 *
-	 * @param mixed $variable The variable to validate.
-	 * @return bool Whether or not the passed value is a non-empty string.
 	 */
-	public static function is_non_empty( $variable ) {
-		return is_string( $variable ) && '' !== $variable;
+	public function test_is_non_empty() {
+		// True.
+		$this->assertTrue( Str::is_non_empty( '**' ) );
+		$this->assertTrue( Str::is_non_empty( '1112' ) );
+		$this->assertTrue( Str::is_non_empty( 'Hello world' ) );
+
+		// False.
+		$this->assertFalse( Str::is_non_empty( '' ) );
+		$this->assertFalse( Str::is_non_empty( 112 ) );
+		$this->assertFalse( Str::is_non_empty( false ) );
 	}
 
 	/**
@@ -132,7 +137,7 @@ class TestStr extends UnitTestCase {
 	 */
 	public function test_human_number() {
 		// Not numeric.
-		$this->assertEquals( Str::human_number( '0' ), 0 );
+		$this->assertEquals( Str::human_number( 'shakeeb' ), 0 );
 
 		// Negative.
 		$this->assertEquals( Str::human_number( -100 ), -100 );
@@ -148,5 +153,7 @@ class TestStr extends UnitTestCase {
 		$this->assertEquals( Str::human_number( 1585 ), '1.6K' );
 		$this->assertEquals( Str::human_number( 999900 ), '999.9K' );
 		$this->assertEquals( Str::human_number( 999900000000000 ), '999.9T' );
+		$this->assertEquals( Str::human_number( 999900000000000000 ), '999.9Q' );
+		$this->assertEquals( Str::human_number( 9999000000000000000 ), 9999000000000000000 );
 	}
 }
