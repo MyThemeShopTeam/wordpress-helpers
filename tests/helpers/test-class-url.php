@@ -93,6 +93,13 @@ class TestUrl extends UnitTestCase {
 	 */
 	public function test_get_host() {
 		$this->assertEquals( 'example.org', Url::get_host() );
+
+		unset( $_SERVER['HTTP_HOST'] );
+		$_SERVER['SERVER_NAME'] = 'shakeebahmed.com';
+		$this->assertEquals( 'shakeebahmed.com', Url::get_host() );
+		unset( $_SERVER['SERVER_NAME'] );
+
+		$this->assertEmpty( Url::get_host() );
 	}
 
 	/**
