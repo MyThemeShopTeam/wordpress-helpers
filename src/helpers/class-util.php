@@ -45,4 +45,26 @@ class Util {
 
 		highlight_string( "<?php\n" . var_export( $var, true ) );
 	}
+
+	/**
+	 * Get field from query string.
+	 *
+	 * @param  string $id      Field id to get.
+	 * @param  mixed  $default Default value to return if field is not found.
+	 * @return mixed
+	 */
+	public static function param_get( $id, $default = false ) {
+		return isset( $_GET[ $id ] ) ? $_GET[ $id ] : $default;
+	}
+
+	/**
+	 * Get field from FORM post.
+	 *
+	 * @param  string $id      Field id to get.
+	 * @param  mixed  $default Default value to return if field is not found.
+	 * @return mixed
+	 */
+	public static function param_post( $id, $default = false ) {
+		return isset( $_POST[ $id ] ) ? $_POST[ $id ] : $default;
+	}
 }
