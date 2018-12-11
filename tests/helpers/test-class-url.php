@@ -10,12 +10,13 @@
 
 namespace MyThemeShop\Tests\Helpers;
 
-use MyThemeShop\Helpers\Str;
+use UnitTestCase;
+use MyThemeShop\Helpers\Url;
 
 /**
- * Url class.
+ * TestUrl class.
  */
-class Url {
+class TestUrl extends UnitTestCase {
 
 	/**
 	 * Simple check for validating a URL, it must start with http:// or https://.

@@ -10,10 +10,13 @@
 
 namespace MyThemeShop\Tests\Helpers;
 
+use UnitTestCase;
+use MyThemeShop\Helpers\Str;
+
 /**
- * Str class.
+ * TestStr class.
  */
-class Str {
+class TestStr extends UnitTestCase {
 
 	/**
 	 * Validates whether the passed variable is a non-empty string.

@@ -19,11 +19,7 @@ matrix:
     - php: 7.2
       env: WP_VERSION=latest WP_MULTISITE=1 PHPLINT=1 PHPCS=1 TRAVIS_NODE_VERSION=node
     - php: 7.2
-      env: WP_VERSION=latest
-    - php: 7.2
       env: WP_VERSION=4.8
-    - php: 7.2
-      env: WP_VERSION=4.7.5
     - php: 7.2
       env: WP_VERSION=4.6
     - php: 7.0

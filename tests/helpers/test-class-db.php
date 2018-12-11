@@ -10,10 +10,13 @@
 
 namespace MyThemeShop\Tests\Helpers;
 
+use UnitTestCase;
+use MyThemeShop\Helpers\DB;
+
 /**
- * DB class.
+ * TestDB class.
  */
-class DB {
+class TestDB extends UnitTestCase {
 
 	/**
 	 * Check if table exists in db or not.

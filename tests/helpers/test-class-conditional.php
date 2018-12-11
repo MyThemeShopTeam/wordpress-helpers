@@ -10,102 +10,70 @@
 
 namespace MyThemeShop\Tests\Helpers;
 
+use UnitTestCase;
+use MyThemeShop\Helpers\Conditional;
+
 /**
- * Conditional class.
+ * TestConditional class.
  */
-class Conditional {
+class TestConditional extends UnitTestCase {
+
+	/**
+	 * The Conditional helpers.
+	 */
+	public function test_conditional_functions() {
+		$this->assertFalse( Conditional::is_edd_active() );
+		$this->assertFalse( Conditional::is_woocommerce_active() );
+	}
 
 	/**
 	 * Is AJAX request
-	 *
-	 * @return bool Returns true when the page is loaded via ajax.
 	 */
-	public static function is_ajax() {
-		return function_exists( 'wp_doing_ajax' ) ? wp_doing_ajax() : defined( 'DOING_AJAX' ) && DOING_AJAX;
+	public function test_is_ajax() {
+		$this->assertFalse( Conditional::is_ajax() );
+
+		define( 'DOING_AJAX', true );
+		$this->assertTrue( Conditional::is_ajax() );
 	}
 
 	/**
 	 * Is CRON request
-	 *
-	 * @return bool Returns true when the page is loaded via cron.
 	 */
-	public static function is_cron() {
-		return function_exists( 'wp_doing_cron' ) ? wp_doing_cron() : defined( 'DOING_CRON' ) && DOING_CRON;
+	public function test_is_cron() {
+		$this->assertFalse( Conditional::is_cron() );
+
+		define( 'DOING_CRON', true );
+		$this->assertTrue( Conditional::is_cron() );
 	}
 
 	/**
 	 * Is auto-saving
-	 *
-	 * @return bool Returns true when the page is loaded for auto-saving.
 	 */
-	public static function is_autosave() {
-		return defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE;
+	public function test_is_autosave() {
+		$this->assertFalse( Conditional::is_autosave() );
+
+		define( 'DOING_AUTOSAVE', true );
+		$this->assertTrue( Conditional::is_autosave() );
 	}
 
 	/**
 	 * Is REST request
-	 *
-	 * @return bool
 	 */
-	public static function is_rest() {
-		$prefix = rest_get_url_prefix();
-		if (
-			defined( 'REST_REQUEST' ) && REST_REQUEST || // (#1)
-			isset( $_GET['rest_route'] ) && // (#2)
-			0 === strpos( trim( $_GET['rest_route'], '\\/' ), $prefix, 0 )
-		) {
-			return true;
-		}
+	public function test_is_rest() {
+		$this->assertFalse( Conditional::is_rest() );
 
-		// (#3)
-		$rest_url    = wp_parse_url( site_url( $prefix ) );
-		$current_url = wp_parse_url( add_query_arg( array() ) );
-
-		return 0 === strpos( $current_url['path'], $rest_url['path'], 0 );
+		define( 'REST_REQUEST', true );
+		$this->assertTrue( Conditional::is_rest() );
 	}
 
 	/**
 	 * Check if the request is heartbeat.
-	 *
-	 * @return boolean
 	 */
-	public static function is_heartbeat() {
-		if ( isset( $_POST ) && isset( $_POST['action'] ) && 'heartbeat' === $_POST['action'] ) {
-			return true;
-		}
+	public function is_heartbeat() {
+		$this->assertFalse( Conditional::is_heartbeat() );
 
-		return false;
-	}
-
-	/**
-	 * Check if the request is from frontend.
-	 *
-	 * @return bool
-	 */
-	public function is_frontend() {
-		return ! is_admin();
-	}
-
-	/**
-	 * Is WooCommerce Installed
-	 *
-	 * @return bool
-	 */
-	public static function is_woocommerce_active() {
-		// @codeCoverageIgnoreStart
-		if ( ! function_exists( 'is_plugin_active' ) ) {
-			include_once ABSPATH . 'wp-admin/includes/plugin.php';
-		}
-		// @codeCoverageIgnoreEnd
-		return is_plugin_active( 'woocommerce/woocommerce.php' );
-	}
-
-	/**
-	 * Is EDD Installed
-	 *
-	 * @return bool
-	 */
-	public static function is_edd_active() {
-		return class_exists( 'Easy_Digital_Downloads' );
+		$_POST['action'] = 'heartbeat';
+		$this->assertTrue( Conditional::is_heartbeat() );
+		unset( $_POST['action'] );
 	}
 }

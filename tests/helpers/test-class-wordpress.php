@@ -10,12 +10,13 @@
 
 namespace MyThemeShop\Tests\Helpers;
 
-use MyThemeShop\Helpers\Str;
+use UnitTestCase;
+use MyThemeShop\Helpers\WordPress;
 
 /**
- * WordPress class.
+ * TestWordPress class.
  */
-class WordPress {
+class TestWordPress extends UnitTestCase {
 
 	/**
 	 * Get roles.

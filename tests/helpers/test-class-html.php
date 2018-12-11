@@ -10,10 +10,13 @@
 
 namespace MyThemeShop\Tests\Helpers;
 
+use UnitTestCase;
+use MyThemeShop\Helpers\HTML;
+
 /**
- * HTML class.
+ * TestHTML class.
  */
-class HTML {
+class TestHTML extends UnitTestCase {
 
 	/**
 	 * Extract attributes from a html tag.

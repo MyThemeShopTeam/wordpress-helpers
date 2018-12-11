@@ -10,10 +10,13 @@
 
 namespace MyThemeShop\Tests\Helpers;
 
+use UnitTestCase;
+use MyThemeShop\Helpers\Util;
+
 /**
- * Util class.
+ * TestUtil class.
  */
-class Util {
+class TestUtil extends UnitTestCase {
 
 	/**
 	 * Dumps the content of the given variable and exits the script.
