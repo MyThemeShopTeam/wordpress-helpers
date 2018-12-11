@@ -53,11 +53,11 @@ class Attachment {
 	 * @param string $url The URL to find the attachment for.
 	 * @return int The found attachment ID, or 0 if none was found.
 	 */
-	public static function get_attachment_by_url( $url ) {
-		// Because get_attachment_by_url won't work on resized versions of images, we strip out the size part of an image URL.
+	public static function get_by_url( $url ) {
+		// Because get_by_url won't work on resized versions of images, we strip out the size part of an image URL.
 		$url = preg_replace( '/(.*)-\d+x\d+\.(jpg|png|gif)$/', '$1.$2', $url );
 
-		$id = function_exists( 'wpcom_vip_attachment_url_to_postid' ) ? wpcom_vip_attachment_url_to_postid( $url ) : self::attachment_url_to_postid( $url );
+		$id = function_exists( 'wpcom_vip_attachment_url_to_postid' ) ? wpcom_vip_attachment_url_to_postid( $url ) : self::url_to_postid( $url );
 
 		return absint( $id );
 	}
@@ -72,7 +72,7 @@ class Attachment {
 	 * @param string $url The attachment URL for which we want to know the Post ID.
 	 * @return int The Post ID belonging to the attachment, 0 if not found.
 	 */
-	private static function attachment_url_to_postid( $url ) {
+	private static function url_to_postid( $url ) {
 		$cache_key = sprintf( 'mythemeshop_attachment_url_post_id_%s', md5( $url ) );
 
 		// Set the ID based on the hashed url in the cache.

@@ -21,7 +21,7 @@ class HTML {
 	 * @param  string $elem Extract attributes from tag.
 	 * @return array
 	 */
-	public static function html_extract_attributes( $elem ) {
+	public static function extract_attributes( $elem ) {
 		$regex = '#([^\s=]+)\s*=\s*(\'[^<\']*\'|"[^<"]*")#';
 		preg_match_all( $regex, $elem, $attributes, PREG_SET_ORDER );
 
@@ -40,7 +40,7 @@ class HTML {
 	 * @param  string $prefix     If you want to append a prefic before every key.
 	 * @return string
 	 */
-	public static function html_generate_attributes( $attributes = array(), $prefix = '' ) {
+	public static function attributes_to_string( $attributes = array(), $prefix = '' ) {
 
 		// Early Bail!
 		if ( empty( $attributes ) ) {

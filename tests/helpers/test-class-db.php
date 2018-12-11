@@ -20,17 +20,11 @@ class TestDB extends UnitTestCase {
 
 	/**
 	 * Check if table exists in db or not.
-	 *
-	 * @param  string $table_name Table name to check for existance.
-	 * @return bool
 	 */
-	public static function check_table_exists( $table_name ) {
-		global $wpdb;
-
-		if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $wpdb->prefix . $table_name ) ) ) === $wpdb->prefix . $table_name ) {
-			return true;
-		}
-
-		return false;
+	public function test_check_table_exists() {
+		$this->assertFalse( DB::check_table_exists( 'any_table' ) );
+		$this->assertTrue( DB::check_table_exists( 'posts' ) );
+		$this->assertTrue( DB::check_table_exists( 'options' ) );
+		$this->assertTrue( DB::check_table_exists( 'users' ) );
 	}
 }
