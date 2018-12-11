@@ -79,13 +79,7 @@ class Url {
 	 * @return string
 	 */
 	public static function get_current_url() {
-		$url = self::get_scheme() . '://';
-		if ( isset( $_SERVER['SERVER_PORT'] ) && $_SERVER['SERVER_PORT'] && '80' != $_SERVER['SERVER_PORT'] && '443' != $_SERVER['SERVER_PORT'] ) {
-			$url .= self::get_host() . ':' . $_SERVER['SERVER_PORT'] . $_SERVER['REQUEST_URI'];
-		} else {
-			$url .= self::get_host() . $_SERVER['REQUEST_URI'];
-		}
-		return $url;
+		return self::get_scheme() . '://' . self::get_host() . self::get_port() . $_SERVER['REQUEST_URI'];
 	}
 
 	/**
@@ -112,6 +106,16 @@ class Url {
 			return $_SERVER['SERVER_NAME'];
 		}
 		return '';
+	}
+
+	/**
+	 * Get current request port.
+	 *
+	 * @return string
+	 */
+	public static function get_port() {
+		$has_port = isset( $_SERVER['SERVER_PORT'] ) && $_SERVER['SERVER_PORT'] && ! in_array( $_SERVER['SERVER_PORT'], array( '80', '443' ) );
+		return $has_port ? ':' . $_SERVER['SERVER_PORT'] : '';
 	}
 
 	/**
