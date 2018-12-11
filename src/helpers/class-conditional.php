@@ -80,6 +80,8 @@ class Conditional {
 	/**
 	 * Check if the request is from frontend.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool
 	 */
 	public function is_frontend() {
