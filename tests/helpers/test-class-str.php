@@ -30,158 +30,123 @@ class TestStr extends UnitTestCase {
 
 	/**
 	 * Check if the string contains the given value.
-	 *
-	 * @param  string $needle   The sub-string to search for.
-	 * @param  string $haystack The string to search.
-	 * @return boolean
 	 */
-	public static function contains( $needle, $haystack ) {
-		if ( empty( $needle ) || empty( $haystack ) ) {
-			return false;
-		}
+	public function test_contains() {
+		// True.
+		$this->assertTrue( Str::contains( 'H', 'Hello world' ) );
+		$this->assertTrue( Str::contains( ' ', 'Hello world' ) );
+		$this->assertTrue( Str::contains( '0', 'Hello 0 world' ) );
+		$this->assertTrue( Str::contains( 'llo 1', 'Hello 1 world' ) );
 
-		return strpos( $haystack, $needle ) !== false;
+		// False.
+		$this->assertFalse( Str::contains( 'a', 'Hello world' ) );
 	}
 
 	/**
 	 * Check if the string begins with the given value.
-	 *
-	 * @param  string $needle   The sub-string to search for.
-	 * @param  string $haystack The string to search.
-	 * @return boolean
 	 */
-	public static function starts_with( $needle, $haystack ) {
-		if ( empty( $needle ) || empty( $haystack ) ) {
-			return false;
-		}
+	public function test_starts_with() {
+		// True.
+		$this->assertTrue( Str::starts_with( '', '' ) );
+		$this->assertTrue( Str::starts_with( '', 'Hello world' ) );
+		$this->assertTrue( Str::starts_with( 'Hell', 'Hello world' ) );
+		$this->assertTrue( Str::starts_with( 0, '0Hello world' ) );
+		$this->assertTrue( Str::starts_with( 10, '10 Hello world' ) );
 
-		return '' === $needle || substr_compare( $haystack, $needle, 0, strlen( $needle ) ) === 0;
+		// False.
+		$this->assertFalse( Str::starts_with( 'Hello', ' Hello world' ) );
+		$this->assertFalse( Str::starts_with( 'Hello', 'He' ) );
+		$this->assertFalse( Str::starts_with( 'H', '' ) );
+		$this->assertFalse( Str::starts_with( ' ', 'Hello world' ) );
+		$this->assertFalse( Str::starts_with( 'h', 'Hello world' ) );
 	}
 
 	/**
 	 * Check if the string end with the given value.
-	 *
-	 * @param  string $needle   The sub-string to search for.
-	 * @param  string $haystack The string to search.
-	 * @return boolean
 	 */
-	public static function ends_with( $needle, $haystack ) {
-		if ( empty( $needle ) || empty( $haystack ) ) {
-			return false;
-		}
+	public function test_ends_with() {
+		// True.
+		$this->assertTrue( Str::ends_with( '', 'Hello world' ) );
+		$this->assertTrue( Str::ends_with( 'rld', 'Hello world' ) );
+		$this->assertTrue( Str::ends_with( 0, 'Hello world0' ) );
+		$this->assertTrue( Str::ends_with( 1, 'Hello world1' ) );
 
-		return '' === $needle || substr_compare( $haystack, $needle, -strlen( $needle ) ) === 0;
+		// False.
+		$this->assertFalse( Str::ends_with( 'world', 'Hello world ' ) );
+		$this->assertFalse( Str::ends_with( 'H', '' ) );
+		$this->assertFalse( Str::ends_with( ' ', 'Hello world' ) );
+		$this->assertFalse( Str::ends_with( 'D', 'Hello world' ) );
+		$this->assertFalse( Str::ends_with( 'Hell', 'Hello world' ) );
+		$this->assertFalse( Str::ends_with( 0, 'Hello world' ) );
+		$this->assertFalse( Str::ends_with( 1, 'Hello world' ) );
 	}
 
 	/**
 	 * Check the string for desired comparison.
-	 *
-	 * @param  string $needle     The sub-string to search for.
-	 * @param  string $haystack   The string to search.
-	 * @param  string $comparison The type of comparison.
-	 * @return boolean
 	 */
-	public static function comparison( $needle, $haystack, $comparison = '' ) {
+	public function test_comparison() {
+		$this->assertTrue( Str::comparison( 'str', 'str', 'exact' ) );
+		$this->assertFalse( Str::comparison( 'str', 'str1', 'exact' ) );
 
-		$hash = array(
-			'regex'    => 'preg_match',
-			'end'      => array( __CLASS__, 'end_with' ),
-			'start'    => array( __CLASS__, 'start_with' ),
-			'contains' => array( __CLASS__, 'contains' ),
-		);
+		$this->assertTrue( Str::comparison( 'Hello', 'Hello world', 'start' ) );
+		$this->assertFalse( Str::comparison( 'world', 'Hello world', 'start' ) );
 
-		if ( $comparison && isset( $hash[ $comparison ] ) ) {
-			return call_user_func( $hash[ $comparison ], $needle, $haystack );
-		}
+		$this->assertTrue( Str::comparison( 'world', 'Hello world', 'end' ) );
+		$this->assertFalse( Str::comparison( 'Hello', 'Hello world', 'end' ) );
 
-		// Exact.
-		return $needle === $haystack;
+		$this->assertTrue( Str::comparison( 'llo', 'Hello world', 'contains' ) );
+		$this->assertFalse( Str::comparison( 'a', 'Hello world', 'contains' ) );
+
+		$this->assertEquals( 1, Str::comparison( '/\s/', 'Hello world', 'regex' ) );
+		$this->assertEquals( 0, Str::comparison( '/[0-9]/', 'Hello World', 'regex' ) );
 	}
 
 	/**
 	 * Convert string to array with defined seprator.
-	 *
-	 * @param  string $str String to convert.
-	 * @param  string $sep Seprator.
-	 * @return boolean|array
 	 */
-	public static function to_arr( $str, $sep = ',' ) {
-		$parts = explode( $sep, trim( $str ) );
-
-		return empty( $parts ) ? false : $parts;
+	public function test_to_arr() {
+		$this->assertEquals( Str::to_arr( 'a,b,c' ), array( 'a', 'b', 'c' ) );
+		$this->assertEquals( Str::to_arr( 'a-b-c', '-' ), array( 'a', 'b', 'c' ) );
 	}
 
 	/**
 	 * Convert string to array, weed out empty elements and whitespaces.
-	 *
-	 * @param string $str         User-defined list.
-	 * @param string $sep_pattern Separator pattern for regex.
-	 * @return array
 	 */
-	public static function to_arr_no_empty( $str, $sep_pattern = '\r\n|[\r\n]' ) {
-		$array = empty( $str ) ? array() : preg_split( '/' . $sep_pattern . '/', $str, -1, PREG_SPLIT_NO_EMPTY );
-		$array = array_filter( array_map( 'trim', $array ) );
-
-		return $array;
+	public function test_to_arr_no_empty() {
+		$this->assertEquals( Str::to_arr_no_empty( "a \r\n b \r\n c" ), array( 'a', 'b', 'c' ) );
+		$this->assertEquals( Str::to_arr_no_empty( "a \r\n\r\n c" ), array( 'a', 'c' ) );
 	}
 
 	/**
 	 * This function transforms the php.ini notation for numbers (like '2M') to an integer.
-	 *
-	 * @param  string $size The size.
-	 * @return int
 	 */
-	public static function let_to_num( $size ) {
-		$char = substr( $size, -1 );
-		$ret  = substr( $size, 0, -1 );
-
-		// @codingStandardsIgnoreStart
-		switch ( strtoupper( $char ) ) {
-			case 'P':
-				$ret *= 1024;
-			case 'T':
-				$ret *= 1024;
-			case 'G':
-				$ret *= 1024;
-			case 'M':
-				$ret *= 1024;
-			case 'K':
-				$ret *= 1024;
-		}
-		// @codingStandardsIgnoreEnd
-
-		return $ret;
+	public function test_let_to_num() {
+		$this->assertEquals( Str::let_to_num( '' ), 0 );
+		$this->assertEquals( Str::let_to_num( '0M' ), 0 );
+		$this->assertEquals( Str::let_to_num( '2M' ), 2 * 1024 * 1024 );
+		$this->assertEquals( Str::let_to_num( '10P' ), 10 * 1024 * 1024 * 1024 * 1024 * 1024 );
 	}
 
 	/**
 	 * Convert a number to K, M, B, etc.
-	 *
-	 * @param  int|double $number Number which to convert to pretty string.
-	 * @return string
 	 */
-	public static function human_number( $number ) {
+	public function test_human_number() {
+		// Not numeric.
+		$this->assertEquals( Str::human_number( '0' ), 0 );
 
-		if ( ! is_numeric( $number ) ) {
-			return 0;
-		}
+		// Negative.
+		$this->assertEquals( Str::human_number( -100 ), -100 );
+		$this->assertEquals( Str::human_number( -10550 ), '-10.6K' );
 
-		$negative = '';
-		if ( abs( $number ) != $number ) {
-			$negative = '-';
-			$number   = abs( $number );
-		}
+		// Less Than 1000.
+		$this->assertEquals( Str::human_number( 560 ), 560 );
 
-		if ( $number < 1000 ) {
-			return $negative ? -1 * $number : $number;
-		}
-
-		$unit  = intval( log( $number, 1000 ) );
-		$units = [ '', 'K', 'M', 'B', 'T', 'Q' ];
-
-		if ( array_key_exists( $unit, $units ) ) {
-			return sprintf( '%s%s%s', $negative, rtrim( number_format( $number / pow( 1000, $unit ), 1 ), '.0' ), $units[ $unit ] );
-		}
-
-		return $number;
+		$this->assertEquals( Str::human_number( 0 ), '0' );
+		$this->assertEquals( Str::human_number( 10 ), '10' );
+		$this->assertEquals( Str::human_number( 1000 ), '1K' );
+		$this->assertEquals( Str::human_number( 1500 ), '1.5K' );
+		$this->assertEquals( Str::human_number( 1585 ), '1.6K' );
+		$this->assertEquals( Str::human_number( 999900 ), '999.9K' );
+		$this->assertEquals( Str::human_number( 999900000000000 ), '999.9T' );
 	}
 }

@@ -33,10 +33,6 @@ class Str {
 	 * @return boolean
 	 */
 	public static function contains( $needle, $haystack ) {
-		if ( empty( $needle ) || empty( $haystack ) ) {
-			return false;
-		}
-
 		return strpos( $haystack, $needle ) !== false;
 	}
 
@@ -48,11 +44,7 @@ class Str {
 	 * @return boolean
 	 */
 	public static function starts_with( $needle, $haystack ) {
-		if ( empty( $needle ) || empty( $haystack ) ) {
-			return false;
-		}
-
-		return '' === $needle || substr_compare( $haystack, $needle, 0, strlen( $needle ) ) === 0;
+		return '' === $needle || substr( $haystack, 0, strlen( $needle ) ) === (string) $needle;
 	}
 
 	/**
@@ -63,11 +55,7 @@ class Str {
 	 * @return boolean
 	 */
 	public static function ends_with( $needle, $haystack ) {
-		if ( empty( $needle ) || empty( $haystack ) ) {
-			return false;
-		}
-
-		return '' === $needle || substr_compare( $haystack, $needle, -strlen( $needle ) ) === 0;
+		return '' === $needle || substr( $haystack, -strlen( $needle ) ) === (string) $needle;
 	}
 
 	/**
@@ -82,8 +70,8 @@ class Str {
 
 		$hash = array(
 			'regex'    => 'preg_match',
-			'end'      => array( __CLASS__, 'end_with' ),
-			'start'    => array( __CLASS__, 'start_with' ),
+			'end'      => array( __CLASS__, 'ends_with' ),
+			'start'    => array( __CLASS__, 'starts_with' ),
 			'contains' => array( __CLASS__, 'contains' ),
 		);
 
