@@ -36,7 +36,9 @@ class Arr {
 	 */
 	public static function exists( $array, $key ) {
 		if ( $array instanceof ArrayAccess ) {
+			// @codeCoverageIgnoreStart
 			return $array->offsetExists( $key );
+			// @codeCoverageIgnoreEnd
 		}
 
 		return array_key_exists( $key, $array );
