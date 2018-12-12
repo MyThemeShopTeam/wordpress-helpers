@@ -139,6 +139,8 @@ class Page {
 
 	/**
 	 * Init admin page when WordPress Initialises.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	public function init() {
 		$priority = $this->parent ? intval( $this->position ) : -1;
@@ -168,6 +170,8 @@ class Page {
 
 	/**
 	 * Register Admin Menu.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	public function register_menu() {
 		if ( ! $this->parent ) {
@@ -180,6 +184,8 @@ class Page {
 
 	/**
 	 * Enqueue styles and scripts.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	public function enqueue() {
 		$this->enqueue_styles();
@@ -188,6 +194,8 @@ class Page {
 
 	/**
 	 * Add classes to <body> of WordPress admin.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $classes Space-separated list of CSS classes.
 	 * @return string
@@ -198,6 +206,8 @@ class Page {
 
 	/**
 	 * Save anything you want using onsave function.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	public function save() {
 		call_user_func( $this->onsave, $this );
@@ -205,6 +215,8 @@ class Page {
 
 	/**
 	 * Contextual Help.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	public function contextual_help() {
 		$screen = get_current_screen();
@@ -218,6 +230,8 @@ class Page {
 
 	/**
 	 * Render admin page content using render function you passed in config.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	public function display() {
 		if ( is_null( $this->render ) ) {
@@ -247,6 +261,8 @@ class Page {
 
 	/**
 	 * Enqueue styles
+	 *
+	 * @codeCoverageIgnore
 	 */
 	private function enqueue_styles() {
 		if ( ! isset( $this->assets['styles'] ) || empty( $this->assets['styles'] ) ) {
@@ -260,6 +276,8 @@ class Page {
 
 	/**
 	 * Enqueue scripts.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	private function enqueue_scripts() {
 		if ( ! isset( $this->assets['scripts'] ) || empty( $this->assets['scripts'] ) ) {
@@ -273,6 +291,8 @@ class Page {
 
 	/**
 	 * Get tab content
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @param  array $tab Tab to get content for.
 	 * @return string
