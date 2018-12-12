@@ -33,10 +33,7 @@ trait Where {
 	 */
 	public function where( $column, $param1 = null, $param2 = null, $type = 'and' ) {
 
-		// Check if the where type is valid.
-		if ( ! in_array( $type, array( 'and', 'or', 'where' ) ) ) {
-			throw new \Exception( 'Invalid where type "' . $type . '"' );
-		}
+		$this->is_valid_type( $type );
 
 		$sub_type = is_null( $param1 ) ? $type : $param1;
 		if ( empty( $this->statements['wheres'] ) ) {
@@ -45,23 +42,33 @@ trait Where {
 
 		// When column is an array we assume to make a bulk and where.
 		if ( is_array( $column ) ) {
-			$subquery = array();
-			foreach ( $column as $value ) {
-				if ( ! isset( $value[2] ) ) {
-					$value[2] = $value[1];
-					$value[1] = '=';
-				}
-				$subquery[] = $this->generateWhere( $value[0], $value[1], $value[2], empty( $subquery ) ? '' : $sub_type );
-			}
-
-			$this->statements['wheres'][] = $type . ' ( ' . trim( join( ' ', $subquery ) ) . ' )';
-
+			$this->bulk_where( $column, $type, $sub_type );
 			return $this;
 		}
 
 		$this->statements['wheres'][] = $this->generateWhere( $column, $param1, $param2, $type );
 
 		return $this;
+	}
+
+	/**
+	 * Create bulk where statement.
+	 *
+	 * @param array  $wheres   Array of statments.
+	 * @param string $type     Statement type.
+	 * @param string $sub_type Statement sub-type.
+	 */
+	private function bulk_where( $wheres, $type, $sub_type ) {
+		$subquery = array();
+		foreach ( $wheres as $value ) {
+			if ( ! isset( $value[2] ) ) {
+				$value[2] = $value[1];
+				$value[1] = '=';
+			}
+			$subquery[] = $this->generateWhere( $value[0], $value[1], $value[2], empty( $subquery ) ? '' : $sub_type );
+		}
+
+		$this->statements['wheres'][] = $type . ' ( ' . trim( join( ' ', $subquery ) ) . ' )';
 	}
 
 	/**
@@ -370,5 +377,18 @@ trait Where {
 		}
 
 		return join( ' ', array( $type, $column, $param1, $param2 ) );
+	}
+
+	/**
+	 * Check if the where type is valid.
+	 *
+	 * @param string $type Value to check.
+	 *
+	 * @throws \Exception If not a valid type.
+	 */
+	private function is_valid_type( $type ) {
+		if ( ! in_array( $type, array( 'and', 'or', 'where' ) ) ) {
+			throw new \Exception( 'Invalid where type "' . $type . '"' );
+		}
 	}
 }
