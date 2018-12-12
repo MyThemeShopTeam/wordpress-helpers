@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'MyThemeShop\\Admin\\List_Table' => $baseDir . '/src/admin/class-list-table.php',
     'MyThemeShop\\Helpers\\Arr' => $baseDir . '/src/helpers/class-arr.php',
     'MyThemeShop\\Helpers\\Attachment' => $baseDir . '/src/helpers/class-attachment.php',
     'MyThemeShop\\Helpers\\Conditional' => $baseDir . '/src/helpers/class-conditional.php',

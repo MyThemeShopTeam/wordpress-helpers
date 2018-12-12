@@ -21,6 +21,7 @@ class ComposerStaticInit65a0993a63c917989297698ea08a315e
     );
 
     public static $classMap = array (
+        'MyThemeShop\\Admin\\List_Table' => __DIR__ . '/../..' . '/src/admin/class-list-table.php',
         'MyThemeShop\\Helpers\\Arr' => __DIR__ . '/../..' . '/src/helpers/class-arr.php',
         'MyThemeShop\\Helpers\\Attachment' => __DIR__ . '/../..' . '/src/helpers/class-attachment.php',
         'MyThemeShop\\Helpers\\Conditional' => __DIR__ . '/../..' . '/src/helpers/class-conditional.php',
