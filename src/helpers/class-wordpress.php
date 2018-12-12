@@ -11,6 +11,7 @@
 namespace MyThemeShop\Helpers;
 
 use MyThemeShop\Helpers\Str;
+use MyThemeShop\Helpers\Util;
 
 /**
  * WordPress class.
@@ -59,6 +60,94 @@ class WordPress {
 		}
 
 		return sanitize_key( $_REQUEST['action'] );
+	}
+
+	/**
+	 * Instantiates the WordPress filesystem for use.
+	 *
+	 * @return object
+	 */
+	public static function get_filesystem() {
+		global $wp_filesystem;
+
+		if ( ! defined( 'FS_METHOD' ) ) {
+			define( 'FS_METHOD', 'direct' );
+		}
+
+		if ( empty( $wp_filesystem ) ) {
+			require_once ABSPATH . '/wp-admin/includes/file.php';
+			WP_Filesystem();
+		}
+
+		return $wp_filesystem;
+	}
+
+	/**
+	 * Get current post type.
+	 *
+	 * This function has some fallback strategies to get the current screen post type.
+	 *
+	 * @return string|bool
+	 */
+	public static function get_post_type() {
+		global $pagenow;
+
+		$post_type = self::post_type_from_globals();
+		if ( false !== $post_type ) {
+			return $post_type;
+		}
+
+		$post_type = self::post_type_from_request();
+		if ( false !== $post_type ) {
+			return $post_type;
+		}
+
+		return 'post-new.php' === $pagenow ? 'post' : false;
+	}
+
+	/**
+	 * Get post type from global variables
+	 *
+	 * @return string|bool
+	 */
+	private static function post_type_from_globals() {
+		global $post, $typenow, $current_screen;
+
+		if ( $post && $post->post_type ) {
+			return $post->post_type;
+		}
+
+		if ( $typenow ) {
+			return $typenow;
+		}
+
+		if ( $current_screen && $current_screen->post_type ) {
+			return $current_screen->post_type;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get post type from request variables
+	 *
+	 * @return string|bool
+	 */
+	private static function post_type_from_request() {
+
+		if ( isset( $_REQUEST['post_type'] ) ) {
+			return sanitize_key( $_REQUEST['post_type'] );
+		}
+
+		if ( isset( $_REQUEST['post_ID'] ) ) {
+			return get_post_type( $_REQUEST['post_ID'] );
+		}
+
+		if ( isset( $_GET['post'] ) ) {
+			return get_post_type( $_GET['post'] );
+		}
+
+		return false;
 	}
 
 	/**
