@@ -21,46 +21,43 @@ trait Translate {
 	 * @return string
 	 */
 	private function translateSelect() { // @codingStandardsIgnoreLine
-		$build = array( 'select' );
+		$query = array( 'select' );
 
 		if ( $this->found_rows ) {
-			$build[] = 'SQL_CALC_FOUND_ROWS';
+			$query[] = 'SQL_CALC_FOUND_ROWS';
 		}
 		if ( $this->distinct ) {
-			$build[] = 'distinct';
+			$query[] = 'distinct';
 		}
 
 		// Build the selected fields.
-		$build[] = ! empty( $this->statements['select'] ) && is_array( $this->statements['select'] ) ? join( ', ', $this->statements['select'] ) : '*';
+		$query[] = ! empty( $this->statements['select'] ) && is_array( $this->statements['select'] ) ? join( ', ', $this->statements['select'] ) : '*';
 
 		// Append the table.
-		$build[] = 'from ' . $this->table;
+		$query[] = 'from ' . $this->table;
 
 		// Build the where statements.
 		if ( ! empty( $this->statements['wheres'] ) ) {
-			$build[] = join( ' ', $this->statements['wheres'] );
+			$query[] = join( ' ', $this->statements['wheres'] );
 		}
 
 		// Build the group by statements.
 		if ( ! empty( $this->statements['groups'] ) ) {
-			$build[] = 'group by ' . join( ', ', $this->statements['groups'] );
+			$query[] = 'group by ' . join( ', ', $this->statements['groups'] );
 
 			if ( ! empty( $this->statements['having'] ) ) {
-				$build[] = $this->statements['having'];
+				$query[] = $this->statements['having'];
 			}
 		}
 
 		// Build the order statement.
 		if ( ! empty( $this->statements['orders'] ) ) {
-			$build[] = $this->translateOrderBy();
+			$query[] = $this->translateOrderBy();
 		}
 
-		// Build offset and limit.
-		if ( ! empty( $this->limit ) ) {
-			$build[] = $this->limit;
-		}
+		$this->translateLimit( $query );
 
-		return join( ' ', $build );
+		return join( ' ', $query );
 	}
 
 	/**
@@ -69,7 +66,7 @@ trait Translate {
 	 * @return string
 	 */
 	private function translateUpdate() { // @codingStandardsIgnoreLine
-		$build = array( "update {$this->table} set" );
+		$query = array( "update {$this->table} set" );
 
 		// Add the values.
 		$values = array();
@@ -78,20 +75,17 @@ trait Translate {
 		}
 
 		if ( ! empty( $values ) ) {
-			$build[] = join( ', ', $values );
+			$query[] = join( ', ', $values );
 		}
 
 		// Build the where statements.
 		if ( ! empty( $this->statements['wheres'] ) ) {
-			$build[] = join( ' ', $this->statements['wheres'] );
+			$query[] = join( ' ', $this->statements['wheres'] );
 		}
 
-		// Build offset and limit.
-		if ( ! empty( $this->limit ) ) {
-			$build[] = $this->limit;
-		}
+		$this->translateLimit( $query );
 
-		return join( ' ', $build );
+		return join( ' ', $query );
 	}
 
 	/**
@@ -100,19 +94,16 @@ trait Translate {
 	 * @return string
 	 */
 	private function translateDelete() { // @codingStandardsIgnoreLine
-		$build = array( "delete from {$this->table}" );
+		$query = array( "delete from {$this->table}" );
 
 		// Build the where statements.
 		if ( ! empty( $this->statements['wheres'] ) ) {
-			$build[] = join( ' ', $this->statements['wheres'] );
+			$query[] = join( ' ', $this->statements['wheres'] );
 		}
 
-		// Build offset and limit.
-		if ( ! empty( $this->limit ) ) {
-			$build[] = $this->limit;
-		}
+		$this->translateLimit( $query );
 
-		return join( ' ', $build );
+		return join( ' ', $query );
 	}
 
 	/**
@@ -121,7 +112,7 @@ trait Translate {
 	 * @return string
 	 */
 	protected function translateOrderBy() { // @codingStandardsIgnoreLine
-		$build = array();
+		$query = array();
 
 		foreach ( $this->statements['orders'] as $column => $direction ) {
 
@@ -136,8 +127,19 @@ trait Translate {
 				$column .= ' ' . $direction;
 			}
 
-			$build[] = $column;
+			$query[] = $column;
 		}
-		return 'order by ' . join( ', ', $build );
+		return 'order by ' . join( ', ', $query );
+	}
+
+	/**
+	 * Build offset and limit.
+	 *
+	 * @param array $query Query holder.
+	 */
+	private function translateLimit( &$query ) { // @codingStandardsIgnoreLine
+		if ( ! empty( $this->limit ) ) {
+			$query[] = $this->limit;
+		}
 	}
 }
