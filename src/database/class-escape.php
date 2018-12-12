@@ -44,15 +44,13 @@ trait Escape {
 			return $wpdb->prepare( '%f', $value );
 		}
 
-		if ( is_string( $value ) ) {
-			return 'null' === $value ? $value : $wpdb->prepare( '%s', $value );
-		}
-
-		return $value;
+		return 'null' === $value ? $value : $wpdb->prepare( '%s', $value );
 	}
 
 	/**
 	 * Escape value for like statement
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $value  Value for like statement.
 	 * @param string $start  (Optional) The start of like query.
