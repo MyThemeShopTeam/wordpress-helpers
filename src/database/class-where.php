@@ -52,26 +52,6 @@ trait Where {
 	}
 
 	/**
-	 * Create bulk where statement.
-	 *
-	 * @param array  $wheres   Array of statments.
-	 * @param string $type     Statement type.
-	 * @param string $sub_type Statement sub-type.
-	 */
-	private function bulk_where( $wheres, $type, $sub_type ) {
-		$subquery = array();
-		foreach ( $wheres as $value ) {
-			if ( ! isset( $value[2] ) ) {
-				$value[2] = $value[1];
-				$value[1] = '=';
-			}
-			$subquery[] = $this->generateWhere( $value[0], $value[1], $value[2], empty( $subquery ) ? '' : $sub_type );
-		}
-
-		$this->statements['wheres'][] = $type . ' ( ' . trim( join( ' ', $subquery ) ) . ' )';
-	}
-
-	/**
 	 * Create an or where statement
 	 *
 	 * @param string $column The SQL column.
@@ -367,11 +347,7 @@ trait Where {
 		// have an "in" or "between" statement which has no need for duplicates.
 		if ( is_array( $param2 ) ) {
 			$param2 = $this->esc_array( array_unique( $param2 ) );
-			if ( in_array( $param1, array( 'between', 'not between' ) ) ) {
-				$param2 = join( ' and ', $param2 );
-			} else {
-				$param2 = '(' . join( ', ', $param2 ) . ')';
-			}
+			$param2 = in_array( $param1, array( 'between', 'not between' ) ) ? join( ' and ', $param2 ) : '(' . join( ', ', $param2 ) . ')';
 		} elseif ( is_scalar( $param2 ) ) {
 			$param2 = $this->esc_value( $param2 );
 		}
@@ -390,5 +366,25 @@ trait Where {
 		if ( ! in_array( $type, array( 'and', 'or', 'where' ) ) ) {
 			throw new \Exception( 'Invalid where type "' . $type . '"' );
 		}
+	}
+
+	/**
+	 * Create bulk where statement.
+	 *
+	 * @param array  $wheres   Array of statments.
+	 * @param string $type     Statement type.
+	 * @param string $sub_type Statement sub-type.
+	 */
+	private function bulk_where( $wheres, $type, $sub_type ) {
+		$subquery = array();
+		foreach ( $wheres as $value ) {
+			if ( ! isset( $value[2] ) ) {
+				$value[2] = $value[1];
+				$value[1] = '=';
+			}
+			$subquery[] = $this->generateWhere( $value[0], $value[1], $value[2], empty( $subquery ) ? '' : $sub_type );
+		}
+
+		$this->statements['wheres'][] = $type . ' ( ' . trim( join( ' ', $subquery ) ) . ' )';
 	}
 }
