@@ -41,15 +41,7 @@ trait Translate {
 			$query[] = join( ' ', $this->statements['wheres'] );
 		}
 
-		// Build the group by statements.
-		if ( ! empty( $this->statements['groups'] ) ) {
-			$query[] = 'group by ' . join( ', ', $this->statements['groups'] );
-
-			if ( ! empty( $this->statements['having'] ) ) {
-				$query[] = $this->statements['having'];
-			}
-		}
-
+		$this->translateGroupBy( $query );
 		$this->translateOrderBy( $query );
 		$this->translateLimit( $query );
 
@@ -130,6 +122,23 @@ trait Translate {
 		}
 
 		$query[] = 'order by ' . join( ', ', $orders );
+	}
+
+	/**
+	 * Build the group by statements.
+	 *
+	 * @param array $query Query holder.
+	 */
+	private function translateGroupBy( &$query ) { // @codingStandardsIgnoreLine
+		if ( empty( $this->statements['groups'] ) ) {
+			return;
+		}
+
+		$query[] = 'group by ' . join( ', ', $this->statements['groups'] );
+
+		if ( ! empty( $this->statements['having'] ) ) {
+			$query[] = $this->statements['having'];
+		}
 	}
 
 	/**
