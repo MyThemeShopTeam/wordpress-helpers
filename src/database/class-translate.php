@@ -50,11 +50,7 @@ trait Translate {
 			}
 		}
 
-		// Build the order statement.
-		if ( ! empty( $this->statements['orders'] ) ) {
-			$query[] = $this->translateOrderBy();
-		}
-
+		$this->translateOrderBy( $query );
 		$this->translateLimit( $query );
 
 		return join( ' ', $query );
@@ -109,11 +105,14 @@ trait Translate {
 	/**
 	 * Build the order by statement
 	 *
-	 * @return string
+	 * @param array $query Query holder.
 	 */
-	protected function translateOrderBy() { // @codingStandardsIgnoreLine
-		$query = array();
+	protected function translateOrderBy( &$query ) { // @codingStandardsIgnoreLine
+		if ( empty( $this->statements['orders'] ) ) {
+			return;
+		}
 
+		$orders = array();
 		foreach ( $this->statements['orders'] as $column => $direction ) {
 
 			// in case a raw value is given we had to
@@ -127,9 +126,10 @@ trait Translate {
 				$column .= ' ' . $direction;
 			}
 
-			$query[] = $column;
+			$orders[] = $column;
 		}
-		return 'order by ' . join( ', ', $query );
+
+		$query[] = 'order by ' . join( ', ', $orders );
 	}
 
 	/**
