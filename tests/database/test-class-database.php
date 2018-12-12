@@ -176,6 +176,24 @@ class TestDatabase extends UnitTestCase {
 			}
 		);
 
+		// Float.
+		$this->assertQueryTranslation(
+			'select * from phpunit where id = 2.500000',
+			'Select',
+			function( $table ) {
+				$table->where( 'id', 2.5 );
+			}
+		);
+
+		// String.
+		$this->assertQueryTranslation(
+			'select * from phpunit where username = \'meshakeeb\'',
+			'Select',
+			function( $table ) {
+				$table->where( 'username', 'meshakeeb' );
+			}
+		);
+
 		// Diffrent expression.
 		$this->assertQueryTranslation(
 			'select * from phpunit where id != 42',
