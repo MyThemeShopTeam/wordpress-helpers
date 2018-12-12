@@ -33,11 +33,7 @@ trait Select {
 		}
 
 		foreach ( $fields as $key => $field ) {
-			if ( is_string( $key ) ) {
-				$this->statements['select'][] = "$key as $field";
-			} else {
-				$this->statements['select'][] = $field;
-			}
+			$this->statements['select'][] = is_string( $key ) ? "$key as $field" : $field;
 		}
 
 		return $this;
