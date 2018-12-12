@@ -63,6 +63,8 @@ class List_Table extends WP_List_Table {
 
 	/**
 	 * Set column headers.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	protected function set_column_headers() {
 		$this->_column_headers = array(

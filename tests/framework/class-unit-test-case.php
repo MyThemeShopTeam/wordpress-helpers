@@ -17,4 +17,14 @@ abstract class UnitTestCase extends WP_UnitTestCase {
 		$get = \Closure::bind( $getter, $obj, get_class( $obj ) );
 		return $get();
 	}
+
+	/**
+	 * Invoke private and protected methods.
+	 */
+	public function invokeMethod( &$object, $method, $parameters = array() ) {
+		$reflection = new \ReflectionClass( get_class( $object ) );
+		$method     = $reflection->getMethod( $method );
+		$method->setAccessible( true );
+		return $method->invokeArgs( $object, $parameters );
+	}
 }
