@@ -30,9 +30,4 @@ plugins:
 exclude_patterns:
 - tests/*
 - vendor/*
-- assets/admin/css/*
-- assets/admin/js/*
-- assets/front/css/*
-- assets/front/js/*
-- assets/vendor/*
-- includes/**/index.php
+- src/**/index.php
