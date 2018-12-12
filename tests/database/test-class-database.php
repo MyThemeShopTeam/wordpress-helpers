@@ -40,6 +40,14 @@ class TestDatabase extends UnitTestCase {
 		);
 
 		$this->assertQueryTranslation(
+			'select * from phpunit',
+			'Select',
+			function( $table ) {
+				$table->select();
+			}
+		);
+
+		$this->assertQueryTranslation(
 			'select distinct * from phpunit',
 			'Select',
 			function( $table ) {

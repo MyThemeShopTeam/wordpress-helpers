@@ -27,4 +27,11 @@ class TestDB extends UnitTestCase {
 		$this->assertTrue( DB::check_table_exists( 'options' ) );
 		$this->assertTrue( DB::check_table_exists( 'users' ) );
 	}
+
+	/**
+	 * Retrieve a Database instance by table name.
+	 */
+	public function test_query_builder() {
+		$this->assertInstanceOf( '\MyThemeShop\Database\Query_Builder', DB::query_builder( 'phpunit' ) );
+	}
 }
