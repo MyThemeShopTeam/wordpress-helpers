@@ -40,9 +40,10 @@ trait OrderBy {
 		foreach ( $columns as $key => $column ) {
 			if ( is_numeric( $key ) ) {
 				$this->statements['orders'][ $column ] = $direction;
-			} else {
-				$this->statements['orders'][ $key ] = $column;
+				continue;
 			}
+
+			$this->statements['orders'][ $key ] = $column;
 		}
 
 		return $this;
