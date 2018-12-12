@@ -181,6 +181,8 @@ trait Where {
 	 *
 	 *     ->whereLike('id', 'value')
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $column The SQL column.
 	 * @param string $value  Value for like statement.
 	 * @param string $start  (Optional) The start of like query.
@@ -196,6 +198,8 @@ trait Where {
 	 * Creates a where like statement
 	 *
 	 *     ->orWhereLike('id', 'value')
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $column The SQL column.
 	 * @param string $value  Value for like statement.
@@ -213,6 +217,8 @@ trait Where {
 	 *
 	 *     ->whereNotLike('id', 'value' )
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $column The SQL column.
 	 * @param mixed  $value  Value for like statement.
 	 * @param string $start  (Optional) The start of like query.
@@ -228,6 +234,8 @@ trait Where {
 	 * Creates a where not like statement
 	 *
 	 *     ->orWhereNotLike('id', 'value' )
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $column The SQL column.
 	 * @param mixed  $value  Value for like statement.

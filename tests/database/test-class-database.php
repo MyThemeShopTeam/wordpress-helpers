@@ -329,6 +329,15 @@ class TestDatabase extends UnitTestCase {
 			}
 		);
 
+		$this->assertQueryTranslation(
+			'select * from phpunit where username = \'meshakeeb\' or id not in (23, 25, 30)',
+			'Select',
+			function( $table ) {
+				$table->where( 'username', 'meshakeeb' )
+					->orWhereNotIn( 'id', array( 23, 25, 30 ) );
+			}
+		);
+
 		// Where between / not between.
 		$this->assertQueryTranslation(
 			'select * from phpunit where id between 10 and 100',
@@ -347,10 +356,28 @@ class TestDatabase extends UnitTestCase {
 		);
 
 		$this->assertQueryTranslation(
+			'select * from phpunit where username = \'meshakeeb\' or id between 10 and 100',
+			'Select',
+			function( $table ) {
+				$table->where( 'username', 'meshakeeb' )
+					->orWhereBetween( 'id', array( 10, 100 ) );
+			}
+		);
+
+		$this->assertQueryTranslation(
 			'select * from phpunit where id not between 10 and 100',
 			'Select',
 			function( $table ) {
 				$table->whereNotBetween( 'id', array( 10, 100 ) );
+			}
+		);
+
+		$this->assertQueryTranslation(
+			'select * from phpunit where username = \'meshakeeb\' or id not between 10 and 100',
+			'Select',
+			function( $table ) {
+				$table->where( 'username', 'meshakeeb' )
+					->orWhereNotBetween( 'id', array( 10, 100 ) );
 			}
 		);
 
@@ -360,6 +387,48 @@ class TestDatabase extends UnitTestCase {
 			'Select',
 			function( $table ) {
 				$table->whereNull( 'name' );
+			}
+		);
+
+		$this->assertQueryTranslation(
+			'select * from phpunit where username = \'meshakeeb\' or name is null',
+			'Select',
+			function( $table ) {
+				$table->where( 'username', 'meshakeeb' )
+					->orWhereNull( 'name' );
+			}
+		);
+
+		$this->assertQueryTranslation(
+			'select * from phpunit where name is not null',
+			'Select',
+			function( $table ) {
+				$table->whereNotNull( 'name' );
+			}
+		);
+
+		$this->assertQueryTranslation(
+			'select * from phpunit where username = \'meshakeeb\' or name is not null',
+			'Select',
+			function( $table ) {
+				$table->where( 'username', 'meshakeeb' )
+					->orWhereNotNull( 'name' );
+			}
+		);
+	}
+
+	/**
+	 * Test where invalid type.
+	 */
+	public function test_where_invalid_type() {
+		$this->expectException( 'Exception' );
+
+		$this->assertQueryTranslation(
+			'select * from phpunit where username = \'meshakeeb\' or name is not null',
+			'Select',
+			function( $table ) {
+				$table->where( 'username', 'meshakeeb' )
+					->where( 'username', 'mekhan', null, 'something' );
 			}
 		);
 	}
