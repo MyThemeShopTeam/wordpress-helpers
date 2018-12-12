@@ -36,5 +36,11 @@ class TestUtil extends UnitTestCase {
 		$this->assertEquals( Util::param_post( 'dummy', 'default-dummy' ), 'default-dummy' );
 		$_POST['dummy'] = 'test-string';
 		$this->assertEquals( Util::param_post( 'dummy' ), 'test-string' );
+
+		// Param Request.
+		$this->assertFalse( Util::param_request( 'dummy' ) );
+		$this->assertEquals( Util::param_request( 'dummy', 'default-dummy' ), 'default-dummy' );
+		$_REQUEST['dummy'] = 'test-string';
+		$this->assertEquals( Util::param_request( 'dummy' ), 'test-string' );
 	}
 }

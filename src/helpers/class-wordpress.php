@@ -45,6 +45,23 @@ class WordPress {
 	}
 
 	/**
+	 * Get action from request.
+	 *
+	 * @return bool|string
+	 */
+	public static function get_request_action() {
+		if ( empty( $_REQUEST['action'] ) ) {
+			return false;
+		}
+
+		if ( '-1' === $_REQUEST['action'] && ! empty( $_REQUEST['action2'] ) ) {
+			$_REQUEST['action'] = $_REQUEST['action2'];
+		}
+
+		return sanitize_key( $_REQUEST['action'] );
+	}
+
+	/**
 	 * Strip all shortcodes active or orphan.
 	 *
 	 * @param  string $content Content to remove shortcodes from.

@@ -67,4 +67,15 @@ class Util {
 	public static function param_post( $id, $default = false ) {
 		return isset( $_POST[ $id ] ) ? $_POST[ $id ] : $default;
 	}
+
+	/**
+	 * Get field from request.
+	 *
+	 * @param  string $id      Field id to get.
+	 * @param  mixed  $default Default value to return if field is not found.
+	 * @return mixed
+	 */
+	public static function param_request( $id, $default = false ) {
+		return isset( $_REQUEST[ $id ] ) ? $_REQUEST[ $id ] : $default;
+	}
 }

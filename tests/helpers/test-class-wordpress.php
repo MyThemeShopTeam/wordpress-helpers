@@ -26,9 +26,23 @@ class TestWordPress extends UnitTestCase {
 	}
 
 	/**
+	 * Get action from request.
+	 */
+	public function test_get_request_action() {
+
+		$this->assertFalse( WordPress::get_request_action() );
+		$_REQUEST['action'] = 'add';
+		$this->assertEquals( WordPress::get_request_action(), 'add' );
+		$_REQUEST['action'] = '-1';
+
+		$_REQUEST['action2'] = 'delete';
+		$this->assertEquals( WordPress::get_request_action(), 'delete' );
+	}
+
+	/**
 	 * Strip all shortcodes active or orphan.
 	 */
-	public function test_remove_all_shortcodes() {
+	public function test_strip_shortcodes() {
 		$this->assertEquals( 'Shakeeb Ahmed', WordPress::strip_shortcodes( '[dummy]Shakeeb Ahmed[/dummy]' ) );
 		$this->assertEquals( 'Shakeeb Ahmed', WordPress::strip_shortcodes( '[dummy]Shakeeb Ahmed' ) );
 		$this->assertEquals( 'Shakeeb Ahmed', WordPress::strip_shortcodes( 'Shakeeb Ahmed[/dummy]' ) );
