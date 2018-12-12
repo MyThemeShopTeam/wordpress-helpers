@@ -51,4 +51,8 @@ class TestPage extends UnitTestCase {
 		$this->expectException( 'WPDieException' );
 		new Page( 'test-page', '' );
 	}
+
+	public function test_is_current_page() {
+		$this->assertFalse( $this->page->is_current_page() );
+	}
 }
