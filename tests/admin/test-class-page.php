@@ -41,4 +41,14 @@ class TestPage extends UnitTestCase {
 	public function test_page() {
 		$this->assertInstanceOf( 'MyThemeShop\Admin\Page', $this->page );
 	}
+
+	public function test_no_id() {
+		$this->expectException( 'WPDieException' );
+		new Page( '', 'Test Page' );
+	}
+
+	public function test_no_title() {
+		$this->expectException( 'WPDieException' );
+		new Page( 'test-page', '' );
+	}
 }
