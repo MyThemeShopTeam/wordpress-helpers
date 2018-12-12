@@ -313,10 +313,11 @@ class TestDatabase extends UnitTestCase {
 		);
 
 		$this->assertQueryTranslation(
-			'select * from phpunit where skills in (\'php\', \'javascript\', \'ruby\')',
+			'select * from phpunit where username = \'meshakeeb\' or skills in (\'php\', \'javascript\', \'ruby\')',
 			'Select',
 			function( $table ) {
-				$table->whereIn( 'skills', array( 'php', 'javascript', 'ruby' ) );
+				$table->where( 'username', 'meshakeeb' )
+					->orWhereIn( 'skills', array( 'php', 'javascript', 'ruby' ) );
 			}
 		);
 

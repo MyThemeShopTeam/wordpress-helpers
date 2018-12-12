@@ -74,11 +74,7 @@ trait Where {
 	 *
 	 * @return self The current query builder.
 	 */
-	public function whereIn( $column, $options = array() ) { // @codingStandardsIgnoreLine
-		if ( empty( $options ) ) {
-			return $this;
-		}
-
+	public function whereIn( $column, $options ) { // @codingStandardsIgnoreLine
 		return $this->where( $column, 'in', $options );
 	}
 
@@ -92,11 +88,7 @@ trait Where {
 	 *
 	 * @return self The current query builder.
 	 */
-	public function orWhereIn( $column, $options = array() ) { // @codingStandardsIgnoreLine
-		if ( empty( $options ) ) {
-			return $this;
-		}
-
+	public function orWhereIn( $column, $options ) { // @codingStandardsIgnoreLine
 		return $this->where( $column, 'in', $options, 'or' );
 	}
 
@@ -110,11 +102,7 @@ trait Where {
 	 *
 	 * @return self The current query builder.
 	 */
-	public function whereNotIn( $column, $options = array() ) { // @codingStandardsIgnoreLine
-		if ( empty( $options ) ) {
-			return $this;
-		}
-
+	public function whereNotIn( $column, $options ) { // @codingStandardsIgnoreLine
 		return $this->where( $column, 'not in', $options );
 	}
 
@@ -128,11 +116,7 @@ trait Where {
 	 *
 	 * @return self The current query builder.
 	 */
-	public function orWhereNotIn( $column, $options = array() ) { // @codingStandardsIgnoreLine
-		if ( empty( $options ) ) {
-			return $this;
-		}
-
+	public function orWhereNotIn( $column, $options ) { // @codingStandardsIgnoreLine
 		return $this->where( $column, 'not in', $options, 'or' );
 	}
 
@@ -146,11 +130,7 @@ trait Where {
 	 *
 	 * @return self The current query builder.
 	 */
-	public function whereBetween( $column, $options = array() ) { // @codingStandardsIgnoreLine
-		if ( empty( $options ) ) {
-			return $this;
-		}
-
+	public function whereBetween( $column, $options ) { // @codingStandardsIgnoreLine
 		return $this->where( $column, 'between', $options );
 	}
 
@@ -164,11 +144,7 @@ trait Where {
 	 *
 	 * @return self The current query builder.
 	 */
-	public function orWhereBetween( $column, $options = array() ) { // @codingStandardsIgnoreLine
-		if ( empty( $options ) ) {
-			return $this;
-		}
-
+	public function orWhereBetween( $column, $options ) { // @codingStandardsIgnoreLine
 		return $this->where( $column, 'between', $options, 'or' );
 	}
 
@@ -182,11 +158,7 @@ trait Where {
 	 *
 	 * @return self The current query builder.
 	 */
-	public function whereNotBetween( $column, $options = array() ) { // @codingStandardsIgnoreLine
-		if ( empty( $options ) ) {
-			return $this;
-		}
-
+	public function whereNotBetween( $column, $options ) { // @codingStandardsIgnoreLine
 		return $this->where( $column, 'not between', $options );
 	}
 
@@ -200,11 +172,7 @@ trait Where {
 	 *
 	 * @return self The current query builder.
 	 */
-	public function orWhereNotBetween( $column, $options = array() ) { // @codingStandardsIgnoreLine
-		if ( empty( $options ) ) {
-			return $this;
-		}
-
+	public function orWhereNotBetween( $column, $options ) { // @codingStandardsIgnoreLine
 		return $this->where( $column, 'not between', $options, 'or' );
 	}
 
