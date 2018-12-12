@@ -264,15 +264,16 @@ class TestDatabase extends UnitTestCase {
 
 		$this->assertQueryTranslation(
 			'select * from phpunit where is_active = 1 and ( options like \'a\' or options like \'b\' )',
-			'Select', function( $table ) {
-			$table->where( 'is_active', 1 )
-				->where(
-					array(
-						array( 'options', 'like', 'a' ),
-						array( 'options', 'like', 'b' ),
-					),
-					'or'
-				);
+			'Select',
+			function( $table ) {
+				$table->where( 'is_active', 1 )
+					->where(
+						array(
+							array( 'options', 'like', 'a' ),
+							array( 'options', 'like', 'b' ),
+						),
+						'or'
+					);
 			}
 		);
 
