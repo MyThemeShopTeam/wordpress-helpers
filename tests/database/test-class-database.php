@@ -36,8 +36,8 @@ class TestDatabase extends UnitTestCase {
 		$this->factory()->post->create( array( 'post_type' => 'post' ) );
 
 		// Get.
-		$ids = wp_list_pluck( $table->select( 'ID' )->get(), 'ID' );
-		$this->assertEquals( $ids, array( 4, 5 ) );
+		$ids = $table->select( 'ID' )->get( \ARRAY_A );
+		$this->assertArrayHasKey( 'ID', $ids[0] );
 
 		// One.
 		$this->assertEquals( $table->select( 'ID' )->one(), (object) array( 'ID' => 4 ) );
