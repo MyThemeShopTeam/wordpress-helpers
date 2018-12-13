@@ -40,7 +40,7 @@ class TestDatabase extends UnitTestCase {
 		$this->assertArrayHasKey( 'ID', $ids[0] );
 
 		// One.
-		$this->assertEquals( $table->select( 'ID' )->one(), (object) array( 'ID' => 4 ) );
+		$this->assertArrayHasKey( 'ID', $table->select( 'ID' )->one( \ARRAY_A ) );
 
 		// Get Var.
 		$this->assertEquals( $table->select( 'ID' )->getVar(), 4 );
