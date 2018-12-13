@@ -44,6 +44,10 @@ class TestDatabase extends UnitTestCase {
 
 		// Get Var.
 		$this->assertEquals( $table->select( 'ID' )->getVar(), 4 );
+
+		// Get found Rows.
+		$table->select( 'ID' )->found_rows()->get();
+		$this->assertEquals( $table->get_found_rows(), 2 );
 	}
 
 	/**
