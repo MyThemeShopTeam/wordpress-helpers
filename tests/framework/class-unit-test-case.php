@@ -10,6 +10,9 @@
 
 abstract class UnitTestCase extends WP_UnitTestCase {
 
+	/**
+	 * Get private variable value.
+	 */
 	public function getPrivate( $obj, $attribute ) {
 		$getter = function() use ( $attribute ) {
 			return $this->$attribute;
@@ -26,5 +29,12 @@ abstract class UnitTestCase extends WP_UnitTestCase {
 		$method     = $reflection->getMethod( $method );
 		$method->setAccessible( true );
 		return $method->invokeArgs( $object, $parameters );
+	}
+
+	/**
+	 * Assert 2 arrays are equal.
+	 */
+	public function assertArrayEquals( $array1, $array2 ) {
+		$this->assertEquals( json_encode( $array1 ), json_encode( $array2 ) );
 	}
 }

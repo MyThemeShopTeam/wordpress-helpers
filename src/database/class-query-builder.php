@@ -121,6 +121,7 @@ class Query_Builder {
 	/**
 	 * Insert a row into a table
 	 *
+	 * @codeCoverageIgnore
 	 * @see wpdb::insert()
 	 *
 	 * @param array $data   Data to insert (in column => value pairs). Both $data columns and $data values should be "raw" (neither should be SQL escaped).
@@ -139,6 +140,8 @@ class Query_Builder {
 	/**
 	 * Update a row into a table
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return mixed
 	 */
 	public function update() {
@@ -152,6 +155,8 @@ class Query_Builder {
 	/**
 	 * Delete data from table
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return mixed
 	 */
 	public function delete() {
@@ -164,6 +169,8 @@ class Query_Builder {
 
 	/**
 	 * Truncate table.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @return mixed
 	 */
@@ -184,6 +191,8 @@ class Query_Builder {
 
 	/**
 	 * Perform a MySQL database query, using current database connection.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @see wpdb::query
 	 *

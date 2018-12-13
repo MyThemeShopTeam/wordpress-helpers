@@ -11,6 +11,7 @@
 namespace MyThemeShop\Tests\Database;
 
 use UnitTestCase;
+use MyThemeShop\Helpers\DB;
 use MyThemeShop\Database\Database;
 
 /**
@@ -24,6 +25,25 @@ class TestDatabase extends UnitTestCase {
 	public function test_instance() {
 		$table = $this->create_builder();
 		$this->assertInstanceOf( '\MyThemeShop\Database\Query_Builder', $table );
+	}
+
+	/**
+	 * Test getter functions.
+	 */
+	public function test_getter() {
+		$table = DB::query_builder( 'posts' );
+		$this->factory()->post->create( array( 'post_type' => 'page' ) );
+		$this->factory()->post->create( array( 'post_type' => 'post' ) );
+
+		// Get.
+		$ids = wp_list_pluck( $table->select( 'ID' )->get(), 'ID' );
+		$this->assertEquals( $ids, array( 4, 5 ) );
+
+		// One.
+		$this->assertEquals( $table->select( 'ID' )->one(), (object) array( 'ID' => 4 ) );
+
+		// Get Var.
+		$this->assertEquals( $table->select( 'ID' )->getVar(), 4 );
 	}
 
 	/**
