@@ -160,7 +160,7 @@ class Page {
 		}
 
 		if ( ! empty( $this->help ) ) {
-			$this->filter( 'contextual_help', 'contextual_help' );
+			add_filter( 'contextual_help', array( $this, 'contextual_help' ) );
 		}
 
 		if ( ! empty( $this->classes ) ) {
