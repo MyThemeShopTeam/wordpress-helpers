@@ -61,6 +61,6 @@ trait OrderBy {
 			return array_map( 'trim', explode( ',', $argument ) );
 		}
 
-		return array( $argument );
+		return [ $argument ];
 	}
 }

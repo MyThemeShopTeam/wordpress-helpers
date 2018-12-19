@@ -25,7 +25,7 @@ class HTML {
 		$regex = '#([^\s=]+)\s*=\s*(\'[^<\']*\'|"[^<"]*")#';
 		preg_match_all( $regex, $elem, $attributes, PREG_SET_ORDER );
 
-		$new = array();
+		$new = [];
 		foreach ( $attributes as $attribute ) {
 			$new[ $attribute[1] ] = substr( $attribute[2], 1, -1 );
 		}
@@ -40,7 +40,7 @@ class HTML {
 	 * @param  string $prefix     If you want to append a prefic before every key.
 	 * @return string
 	 */
-	public static function attributes_to_string( $attributes = array(), $prefix = '' ) {
+	public static function attributes_to_string( $attributes = [], $prefix = '' ) {
 
 		// Early Bail!
 		if ( empty( $attributes ) ) {

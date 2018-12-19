@@ -22,7 +22,7 @@ class List_Table extends WP_List_Table {
 	 *
 	 * @param array $args Array of arguments.
 	 */
-	public function __construct( $args = array() ) {
+	public function __construct( $args = [] ) {
 		parent::__construct( $args );
 	}
 
@@ -39,7 +39,7 @@ class List_Table extends WP_List_Table {
 	 * @return string
 	 */
 	protected function get_order() {
-		return ! empty( $_REQUEST['order'] ) && in_array( $_REQUEST['order'], array( 'desc', 'asc' ) ) ? strtoupper( $_REQUEST['order'] ) : 'DESC';
+		return ! empty( $_REQUEST['order'] ) && in_array( $_REQUEST['order'], [ 'desc', 'asc' ] ) ? strtoupper( $_REQUEST['order'] ) : 'DESC';
 	}
 
 	/**
@@ -67,10 +67,10 @@ class List_Table extends WP_List_Table {
 	 * @codeCoverageIgnore
 	 */
 	protected function set_column_headers() {
-		$this->_column_headers = array(
+		$this->_column_headers = [
 			$this->get_columns(),
-			array(),
+			[],
 			$this->get_sortable_columns(),
-		);
+		];
 	}
 }

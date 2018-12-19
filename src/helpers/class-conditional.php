@@ -59,7 +59,7 @@ class Conditional {
 
 		// (#3)
 		$rest_url    = wp_parse_url( site_url( $prefix ) );
-		$current_url = wp_parse_url( add_query_arg( array() ) );
+		$current_url = wp_parse_url( add_query_arg( [] ) );
 
 		return 0 === strpos( $current_url['path'], $rest_url['path'], 0 );
 	}

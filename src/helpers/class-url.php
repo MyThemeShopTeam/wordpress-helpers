@@ -114,7 +114,7 @@ class Url {
 	 * @return string
 	 */
 	public static function get_port() {
-		$has_port = isset( $_SERVER['SERVER_PORT'] ) && $_SERVER['SERVER_PORT'] && ! in_array( $_SERVER['SERVER_PORT'], array( '80', '443' ) );
+		$has_port = isset( $_SERVER['SERVER_PORT'] ) && $_SERVER['SERVER_PORT'] && ! in_array( $_SERVER['SERVER_PORT'], [ '80', '443' ] );
 		return $has_port ? ':' . $_SERVER['SERVER_PORT'] : '';
 	}
 

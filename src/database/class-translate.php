@@ -21,7 +21,7 @@ trait Translate {
 	 * @return string
 	 */
 	private function translateSelect() { // @codingStandardsIgnoreLine
-		$query = array( 'select' );
+		$query = [ 'select' ];
 
 		if ( $this->found_rows ) {
 			$query[] = 'SQL_CALC_FOUND_ROWS';
@@ -54,10 +54,10 @@ trait Translate {
 	 * @return string
 	 */
 	private function translateUpdate() { // @codingStandardsIgnoreLine
-		$query = array( "update {$this->table} set" );
+		$query = [ "update {$this->table} set" ];
 
 		// Add the values.
-		$values = array();
+		$values = [];
 		foreach ( $this->statements['values'] as $key => $value ) {
 			$values[] = $key . ' = ' . $this->esc_value( $value );
 		}
@@ -82,7 +82,7 @@ trait Translate {
 	 * @return string
 	 */
 	private function translateDelete() { // @codingStandardsIgnoreLine
-		$query = array( "delete from {$this->table}" );
+		$query = [ "delete from {$this->table}" ];
 
 		// Build the where statements.
 		if ( ! empty( $this->statements['wheres'] ) ) {
@@ -104,7 +104,7 @@ trait Translate {
 			return;
 		}
 
-		$orders = array();
+		$orders = [];
 		foreach ( $this->statements['orders'] as $column => $direction ) {
 
 			if ( ! is_null( $direction ) ) {

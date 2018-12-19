@@ -113,7 +113,7 @@ class Page {
 	 * @param string $title  Title of the admin page.
 	 * @param array  $config Optional. Override page settings.
 	 */
-	public function __construct( $id, $title, $config = array() ) {
+	public function __construct( $id, $title, $config = [] ) {
 
 		// Early bail!
 		if ( ! $id ) {
@@ -134,7 +134,7 @@ class Page {
 			$this->menu_title = $title;
 		}
 
-		add_action( 'init', array( $this, 'init' ), 25 );
+		add_action( 'init', [ $this, 'init' ], 25 );
 	}
 
 	/**
@@ -144,7 +144,7 @@ class Page {
 	 */
 	public function init() {
 		$priority = $this->parent ? intval( $this->position ) : -1;
-		add_action( $this->is_network ? 'network_admin_menu' : 'admin_menu', array( $this, 'register_menu' ), $priority );
+		add_action( $this->is_network ? 'network_admin_menu' : 'admin_menu', [ $this, 'register_menu' ], $priority );
 
 		// If not the page is not this page stop here.
 		if ( ! $this->is_current_page() ) {
@@ -152,19 +152,19 @@ class Page {
 		}
 
 		if ( ! is_null( $this->onsave ) && is_callable( $this->onsave ) ) {
-			add_action( 'admin_init', array( $this, 'save' ) );
+			add_action( 'admin_init', [ $this, 'save' ] );
 		}
 
 		if ( ! empty( $this->assets ) ) {
-			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
+			add_action( 'admin_enqueue_scripts', [ $this, 'enqueue' ] );
 		}
 
 		if ( ! empty( $this->help ) ) {
-			add_filter( 'contextual_help', array( $this, 'contextual_help' ) );
+			add_filter( 'contextual_help', [ $this, 'contextual_help' ] );
 		}
 
 		if ( ! empty( $this->classes ) ) {
-			add_action( 'admin_body_class', array( $this, 'body_class' ) );
+			add_action( 'admin_body_class', [ $this, 'body_class' ] );
 		}
 	}
 
@@ -175,11 +175,11 @@ class Page {
 	 */
 	public function register_menu() {
 		if ( ! $this->parent ) {
-			add_menu_page( $this->title, $this->menu_title, $this->capability, $this->id, array( $this, 'display' ), $this->icon, $this->position );
+			add_menu_page( $this->title, $this->menu_title, $this->capability, $this->id, [ $this, 'display' ], $this->icon, $this->position );
 			return;
 		}
 
-		add_submenu_page( $this->parent, $this->title, $this->menu_title, $this->capability, $this->id, array( $this, 'display' ) );
+		add_submenu_page( $this->parent, $this->title, $this->menu_title, $this->capability, $this->id, [ $this, 'display' ] );
 	}
 
 	/**
