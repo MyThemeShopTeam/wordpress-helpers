@@ -40,6 +40,9 @@ class ComposerStaticInit65a0993a63c917989297698ea08a315e
         'MyThemeShop\\Helpers\\Url' => __DIR__ . '/../..' . '/src/helpers/class-url.php',
         'MyThemeShop\\Helpers\\Util' => __DIR__ . '/../..' . '/src/helpers/class-util.php',
         'MyThemeShop\\Helpers\\WordPress' => __DIR__ . '/../..' . '/src/helpers/class-wordpress.php',
+        'MyThemeShop\\Json_Manager' => __DIR__ . '/../..' . '/src/class-json-manager.php',
+        'MyThemeShop\\Notification' => __DIR__ . '/../..' . '/src/class-notification.php',
+        'MyThemeShop\\Notification_Center' => __DIR__ . '/../..' . '/src/class-notification-center.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

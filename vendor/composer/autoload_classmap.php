@@ -25,4 +25,7 @@ return array(
     'MyThemeShop\\Helpers\\Url' => $baseDir . '/src/helpers/class-url.php',
     'MyThemeShop\\Helpers\\Util' => $baseDir . '/src/helpers/class-util.php',
     'MyThemeShop\\Helpers\\WordPress' => $baseDir . '/src/helpers/class-wordpress.php',
+    'MyThemeShop\\Json_Manager' => $baseDir . '/src/class-json-manager.php',
+    'MyThemeShop\\Notification' => $baseDir . '/src/class-notification.php',
+    'MyThemeShop\\Notification_Center' => $baseDir . '/src/class-notification-center.php',
 );
