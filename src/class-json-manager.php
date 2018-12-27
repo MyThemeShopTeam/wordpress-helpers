@@ -31,34 +31,6 @@ class Json_Manager {
 	}
 
 	/**
-	 * Print data.
-	 */
-	public function print() {
-		$script = '';
-		foreach ( $this->data as $object_name => $l10n ) {
-			foreach ( (array) $l10n as $key => $value ) {
-				if ( ! is_scalar( $value ) ) {
-					continue;
-				}
-
-				$l10n[ $key ] = html_entity_decode( (string) $value, ENT_QUOTES, 'UTF-8' );
-			}
-
-			$script .= "var $object_name = " . wp_json_encode( $l10n ) . ';' . PHP_EOL;
-		}
-
-		if ( ! $script ) {
-			return;
-		}
-
-		echo "<script type='text/javascript'>\n"; // CDATA and type='text/javascript' is not needed for HTML 5.
-		echo "/* <![CDATA[ */\n";
-		echo "$script\n";
-		echo "/* ]]> */\n";
-		echo "</script>\n";
-	}
-
-	/**
 	 * Add something to JSON object.
 	 *
 	 * @param string $key         Unique identifier.
@@ -99,5 +71,58 @@ class Json_Manager {
 		if ( isset( $this->data[ $object_name ][ $key ] ) ) {
 			unset( $this->data[ $object_name ][ $key ] );
 		}
+	}
+
+	/**
+	 * Print data.
+	 */
+	public function print() {
+		$script = $this->encode();
+		if ( ! $script ) {
+			return;
+		}
+
+		echo "<script type='text/javascript'>\n"; // CDATA and type='text/javascript' is not needed for HTML 5.
+		echo "/* <![CDATA[ */\n";
+		echo "$script\n";
+		echo "/* ]]> */\n";
+		echo "</script>\n";
+	}
+
+	/**
+	 * Get encoded string.
+	 *
+	 * @return string
+	 */
+	private function encode() {
+		$script = '';
+		foreach ( $this->data as $object_name => $object_data ) {
+			$script .= $this->single_object( $object_name, $object_data );
+		}
+
+		return $script;
+	}
+
+	/**
+	 * Encode single object.
+	 *
+	 * @param  string $object_name Object name to use as JS variable.
+	 * @param  array  $object_data Object data to json encode.
+	 * @return array
+	 */
+	private function single_object( $object_name, $object_data ) {
+		if ( empty( $object_data ) || ! is_array( $object_data ) ) {
+			return '';
+		}
+
+		foreach ( $object_data as $key => $value ) {
+			if ( ! is_scalar( $value ) ) {
+				continue;
+			}
+
+			$object_data[ $key ] = html_entity_decode( (string) $value, ENT_QUOTES, 'UTF-8' );
+		}
+
+		return "var $object_name = " . wp_json_encode( $object_data ) . ';' . PHP_EOL;
 	}
 }

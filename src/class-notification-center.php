@@ -94,11 +94,9 @@ class Notification_Center {
 		}
 
 		foreach ( $notifications as $notification ) {
-			if ( ! $notification->can_display() ) {
-				continue;
+			if ( $notification->can_display() ) {
+				echo $notification;
 			}
-
-			echo $notification;
 		}
 	}
 
@@ -220,17 +218,17 @@ class Notification_Center {
 	/**
 	 * Sort on type then priority
 	 *
-	 * @param  Notification $a Compare with B.
-	 * @param  Notification $b Compare with A.
+	 * @param  Notification $first  Compare with B.
+	 * @param  Notification $second Compare with A.
 	 * @return int 1, 0 or -1 for sorting offset.
 	 */
-	private function sort_notifications( Notification $a, Notification $b ) {
+	private function sort_notifications( Notification $first, Notification $second ) {
 
-		if ( 'error' === $a->args( 'type' ) ) {
+		if ( 'error' === $first->args( 'type' ) ) {
 			return -1;
 		}
 
-		if ( 'error' === $b->args( 'type' ) ) {
+		if ( 'error' === $second->args( 'type' ) ) {
 			return 1;
 		}
 
