@@ -30,7 +30,7 @@ class Str {
 	 *
 	 * @param  string $needle   The sub-string to search for.
 	 * @param  string $haystack The string to search.
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function contains( $needle, $haystack ) {
 		return strpos( $haystack, $needle ) !== false;
@@ -41,7 +41,7 @@ class Str {
 	 *
 	 * @param  string $needle   The sub-string to search for.
 	 * @param  string $haystack The string to search.
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function starts_with( $needle, $haystack ) {
 		return '' === $needle || substr( $haystack, 0, strlen( $needle ) ) === (string) $needle;
@@ -52,7 +52,7 @@ class Str {
 	 *
 	 * @param  string $needle   The sub-string to search for.
 	 * @param  string $haystack The string to search.
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function ends_with( $needle, $haystack ) {
 		return '' === $needle || substr( $haystack, -strlen( $needle ) ) === (string) $needle;
@@ -64,7 +64,7 @@ class Str {
 	 * @param  string $needle     The sub-string to search for.
 	 * @param  string $haystack   The string to search.
 	 * @param  string $comparison The type of comparison.
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function comparison( $needle, $haystack, $comparison = '' ) {
 
@@ -88,7 +88,7 @@ class Str {
 	 *
 	 * @param  string $str String to convert.
 	 * @param  string $sep Seprator.
-	 * @return boolean|array
+	 * @return bool|array
 	 */
 	public static function to_arr( $str, $sep = ',' ) {
 		$parts = explode( $sep, trim( $str ) );

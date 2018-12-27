@@ -111,11 +111,11 @@ class Json_Manager {
 	 * @return array
 	 */
 	private function single_object( $object_name, $object_data ) {
-		if ( empty( $object_data ) || ! is_array( $object_data ) ) {
+		if ( empty( $object_data ) ) {
 			return '';
 		}
 
-		foreach ( $object_data as $key => $value ) {
+		foreach ( (array) $object_data as $key => $value ) {
 			if ( ! is_scalar( $value ) ) {
 				continue;
 			}

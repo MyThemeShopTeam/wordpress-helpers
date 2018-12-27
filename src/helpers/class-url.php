@@ -47,7 +47,7 @@ class Url {
 	 * Check whether a url is relative.
 	 *
 	 * @param  string $url URL string to check.
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function is_relative( $url ) {
 		return ( 0 !== strpos( $url, 'http' ) && 0 !== strpos( $url, '//' ) );

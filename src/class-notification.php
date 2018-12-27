@@ -68,7 +68,7 @@ class Notification {
 	/**
 	 * Internal flag for whether notifications has been displayed.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	private $displayed = false;
 
@@ -113,7 +113,7 @@ class Notification {
 	/**
 	 * Is this Notification persistent.
 	 *
-	 * @return boolean True if persistent, False if fire and forget.
+	 * @return bool True if persistent, False if fire and forget.
 	 */
 	public function is_persistent() {
 		return ! empty( $this->args( 'id' ) );
@@ -122,7 +122,7 @@ class Notification {
 	/**
 	 * Is this notification displayed.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function is_displayed() {
 		return $this->displayed;
@@ -131,7 +131,7 @@ class Notification {
 	/**
 	 * Can display on current screen.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function can_display() {
 		$screen = get_current_screen();

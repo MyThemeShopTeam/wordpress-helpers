@@ -32,7 +32,7 @@ class Notification_Center {
 	/**
 	 * Internal flag for whether notifications have been retrieved from storage.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	private $retrieved = false;
 
@@ -84,7 +84,7 @@ class Notification_Center {
 	public function display() {
 
 		// Never display notifications for network admin.
-		if ( function_exists( 'is_network_admin' ) && is_network_admin() ) {
+		if ( $this->is_network_admin() ) {
 			return;
 		}
 
@@ -243,5 +243,14 @@ class Notification_Center {
 	 */
 	private function notification_to_array( Notification $notification ) {
 		return $notification->to_array();
+	}
+
+	/**
+	 * Check if is network admin.
+	 *
+	 * @return bool
+	 */
+	private function is_network_admin() {
+		return function_exists( 'is_network_admin' ) && is_network_admin();
 	}
 }

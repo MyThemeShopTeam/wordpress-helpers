@@ -67,7 +67,7 @@ class Conditional {
 	/**
 	 * Check if the request is heartbeat.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function is_heartbeat() {
 		if ( isset( $_POST ) && isset( $_POST['action'] ) && 'heartbeat' === $_POST['action'] ) {
