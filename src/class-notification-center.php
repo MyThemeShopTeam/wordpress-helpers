@@ -53,6 +53,8 @@ class Notification_Center {
 	/**
 	 * Retrieve the notifications from storage
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return array Notification[] Notifications
 	 */
 	public function get_from_storage() {
@@ -80,6 +82,8 @@ class Notification_Center {
 
 	/**
 	 * Display the notifications.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	public function display() {
 
@@ -104,6 +108,8 @@ class Notification_Center {
 	 * Save persistent or transactional notifications to storage.
 	 *
 	 * We need to be able to retrieve these so they can be dismissed at any time during the execution.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	public function update_storage() {
 		$notifications = $this->get_notifications();
@@ -131,6 +137,8 @@ class Notification_Center {
 
 	/**
 	 * Dismiss persistent notice.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	public function notice_dismissible() {
 		$notification_id  = filter_input( INPUT_POST, 'notificationId' );
@@ -159,6 +167,8 @@ class Notification_Center {
 
 	/**
 	 * Remove notification after it has been displayed.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @param Notification $notification Notification to remove.
 	 */
