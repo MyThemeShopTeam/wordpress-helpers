@@ -31,6 +31,11 @@ class TestNotificationCenter extends UnitTestCase {
 		$this->assertNull( $this->manager->get_notification_by_id( 'test' ) );
 		$this->manager->add( 'Test message.', [ 'id' => 'test' ] );
 		$this->assertNotNull( $this->manager->get_notification_by_id( 'test' ) );
+
+		$this->assertArrayEquals(
+			$this->manager->get_notifications(),
+			[ [ 'message' => 'Test message.' ] ]
+		);
 	}
 
 	/**

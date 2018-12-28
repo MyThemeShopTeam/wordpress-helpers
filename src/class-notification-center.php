@@ -179,25 +179,8 @@ class Notification_Center {
 	 *
 	 * @return array|Notification[] Registered notifications.
 	 */
-	private function get_notifications() {
+	public function get_notifications() {
 		return $this->notifications;
-	}
-
-	/**
-	 * Return the notifications sorted on type and priority
-	 *
-	 * @return array|Notification[] Sorted Notifications
-	 */
-	private function get_sorted_notifications() {
-		$notifications = $this->get_notifications();
-		if ( empty( $notifications ) ) {
-			return [];
-		}
-
-		// Sort by severity, error first.
-		usort( $notifications, [ $this, 'sort_notifications' ] );
-
-		return $notifications;
 	}
 
 	/**
@@ -213,6 +196,25 @@ class Notification_Center {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Return the notifications sorted on type and priority
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return array|Notification[] Sorted Notifications
+	 */
+	private function get_sorted_notifications() {
+		$notifications = $this->get_notifications();
+		if ( empty( $notifications ) ) {
+			return [];
+		}
+
+		// Sort by severity, error first.
+		usort( $notifications, [ $this, 'sort_notifications' ] );
+
+		return $notifications;
 	}
 
 	/**
