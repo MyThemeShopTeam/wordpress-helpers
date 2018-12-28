@@ -4,50 +4,33 @@
  *
  * @since      1.0.0
  * @package    MyThemeShop
- * @subpackage MyThemeShop
+ * @subpackage MyThemeShop\Tests
  * @author     MyThemeShop <admin@mythemeshop.com>
  */
 
-namespace MyThemeShop;
+namespace MyThemeShop\Tests;
+
+use UnitTestCase;
 
 /**
- * Notification_Center class.
+ * TestNotificationCenter class.
  */
-class Notification_Center {
+class TestNotificationCenter extends UnitTestCase {
+
+	private $manager;
+
+	public function setUp() {
+		parent::setUp();
+		$this->manager = new \MyThemeShop\Notification_Center;
+	}
 
 	/**
-	 * Option name to store notifications in.
-	 *
-	 * @var string
+	 * Add notification
 	 */
-	private $storage_key = '';
-
-	/**
-	 * Notifications.
-	 *
-	 * @var array
-	 */
-	private $notifications = [];
-
-	/**
-	 * Internal flag for whether notifications have been retrieved from storage.
-	 *
-	 * @var bool
-	 */
-	private $retrieved = false;
-
-	/**
-	 * Construct
-	 *
-	 * @param string $storage_key Option name to store notification in.
-	 */
-	public function __construct( $storage_key = 'mythemeshop_notifications' ) {
-		$this->storage_key = $storage_key;
-		add_action( 'init', 'get_from_storage' );
-		add_action( 'all_admin_notices', 'display' );
-		add_action( 'shutdown', 'update_storage' );
-
-		add_action( 'wp_ajax_wp_helpers_notice_dismissible', 'notice_dismissible' );
+	public function test_add() {
+		$this->assertNull( $this->manager->get_notification_by_id( 'test' ) );
+		$this->manager->add( 'Test message.', [ 'id' => 'test' ] );
+		$this->assertNotNull( $this->manager->get_notification_by_id( 'test' ) );
 	}
 
 	/**
@@ -145,19 +128,6 @@ class Notification_Center {
 	}
 
 	/**
-	 * Add notification
-	 *
-	 * @param string $message Message string.
-	 * @param array  $options Set of options.
-	 */
-	public function add( $message, $options = [] ) {
-		$this->notifications[] = new Notification(
-			$message,
-			$options
-		);
-	}
-
-	/**
 	 * Remove notification after it has been displayed.
 	 *
 	 * @param Notification $notification Notification to remove.
@@ -206,7 +176,7 @@ class Notification_Center {
 	 * @param  string $notification_id The ID of the notification to search for.
 	 * @return null|Notification
 	 */
-	public function get_notification_by_id( $notification_id ) {
+	private function get_notification_by_id( $notification_id ) {
 		foreach ( $this->notifications as &$notification ) {
 			if ( $notification_id === $notification->args( 'id' ) ) {
 				return $notification;
@@ -217,8 +187,6 @@ class Notification_Center {
 
 	/**
 	 * Sort on type then priority
-	 *
-	 * @codeCoverageIgnore
 	 *
 	 * @param  Notification $first  Compare with B.
 	 * @param  Notification $second Compare with A.
@@ -240,8 +208,6 @@ class Notification_Center {
 	/**
 	 * Convert Notification to array representation
 	 *
-	 * @codeCoverageIgnore
-	 *
 	 * @param  Notification $notification Notification to convert.
 	 * @return array
 	 */
@@ -251,8 +217,6 @@ class Notification_Center {
 
 	/**
 	 * Check if is network admin.
-	 *
-	 * @codeCoverageIgnore
 	 *
 	 * @return bool
 	 */
