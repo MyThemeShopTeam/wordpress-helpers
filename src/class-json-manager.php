@@ -116,7 +116,7 @@ class Json_Manager {
 		}
 
 		foreach ( (array) $object_data as $key => $value ) {
-			if ( ! is_scalar( $value ) ) {
+			if ( ! is_string( $value ) ) {
 				continue;
 			}
 

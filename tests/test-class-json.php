@@ -92,14 +92,34 @@ class TestJsonManager extends UnitTestCase {
 	 */
 	public function test_output() {
 		$this->manager->add( 'name', 'shakeeb', 'mythemeshop' );
+		$this->manager->add( 'count', 10, 'mythemeshop' );
+		$this->manager->add( 'isRegistered', true, 'mythemeshop' );
 		$script  = '';
 		$script .= "<script type='text/javascript'>\n";
 		$script .= "/* <![CDATA[ */\n";
-		$script .= "var mythemeshop = {\"name\":\"shakeeb\"};\n\n";
+		$script .= "var mythemeshop = {\"name\":\"shakeeb\",\"count\":10,\"isRegistered\":true};\n\n";
 		$script .= "/* ]]> */\n";
 		$script .= "</script>\n";
 
 		$this->expectOutputString( $script );
+		$this->manager->output();
+	}
+
+	/**
+	 * Empty output.
+	 */
+	public function test_empty_output() {
+		$this->expectOutputString( '' );
+		$this->manager->output();
+	}
+
+	/**
+	 * Empty object.
+	 */
+	public function test_empty_object() {
+		$this->manager->add( 'name', 'shakeeb', 'mythemeshop' );
+		$this->manager->remove( 'name', 'mythemeshop' );
+		$this->expectOutputString( '' );
 		$this->manager->output();
 	}
 }
