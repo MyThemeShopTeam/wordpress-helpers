@@ -27,7 +27,7 @@ class Json_Manager {
 	 */
 	public function __construct() {
 		$hook = is_admin() ? 'admin_footer' : 'wp_footer';
-		add_action( $hook, [ $this, 'print' ], 0 );
+		add_action( $hook, [ $this, 'output' ], 0 );
 	}
 
 	/**
@@ -76,7 +76,7 @@ class Json_Manager {
 	/**
 	 * Print data.
 	 */
-	public function print() {
+	public function output() {
 		$script = $this->encode();
 		if ( ! $script ) {
 			return;
