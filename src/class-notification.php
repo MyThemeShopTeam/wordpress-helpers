@@ -94,6 +94,8 @@ class Notification {
 	/**
 	 * Adds string (view) behaviour to the Notification.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return string
 	 */
 	public function __toString() {
@@ -113,6 +115,8 @@ class Notification {
 	/**
 	 * Is this Notification persistent.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool True if persistent, False if fire and forget.
 	 */
 	public function is_persistent() {
@@ -122,6 +126,8 @@ class Notification {
 	/**
 	 * Is this notification displayed.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool
 	 */
 	public function is_displayed() {
@@ -130,6 +136,8 @@ class Notification {
 
 	/**
 	 * Can display on current screen.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @return bool
 	 */
@@ -144,6 +152,8 @@ class Notification {
 
 	/**
 	 * Dismiss persisten notification.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	public function dismiss() {
 		$this->displayed     = true;
@@ -152,6 +162,8 @@ class Notification {
 
 	/**
 	 * Return the object properties as an array.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @return array
 	 */
@@ -164,6 +176,8 @@ class Notification {
 
 	/**
 	 * Renders the notification as a string.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @return string The rendered notification.
 	 */
