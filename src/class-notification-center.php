@@ -43,11 +43,13 @@ class Notification_Center {
 	 */
 	public function __construct( $storage_key = 'mythemeshop_notifications' ) {
 		$this->storage_key = $storage_key;
-		add_action( 'init', 'get_from_storage' );
-		add_action( 'all_admin_notices', 'display' );
-		add_action( 'shutdown', 'update_storage' );
+		add_action( 'init', array( $this, 'get_from_storage' ) );
+		add_action( 'all_admin_notices', array( $this, 'display' ) );
+		add_action( 'shutdown', array( $this, 'update_storage' ) );
+		add_action( 'wp_footer', array( $this, 'print_javascript' ) );
+		add_action( 'admin_footer', array( $this, 'print_javascript' ) );
 
-		add_action( 'wp_ajax_wp_helpers_notice_dismissible', 'notice_dismissible' );
+		add_action( 'wp_ajax_wp_helpers_notice_dismissible', array( $this, 'notice_dismissible' ) );
 	}
 
 	/**
@@ -105,6 +107,38 @@ class Notification_Center {
 	}
 
 	/**
+	 * Print JS for dismissile.
+	 *
+	 * @codeCoverageIgnore
+	 */
+	public function print_javascript() {
+		?>
+		<script>
+			;(function($) {
+				$( '.is-dismissible' ).on( 'click', '.notice-dismiss', function() {
+					var notice = $( this ).parent()
+
+					if ( false == data ) {
+						return
+					}
+
+					$.ajax({
+						url: ajaxurl,
+						type: 'POST',
+						dataType: 'json',
+						data: {
+							action: 'wp_helpers_notice_dismissible',
+							security: notice.data( 'security' ),
+							notificationId: notice.attr( 'id' )
+						}
+					});
+				});
+			})(jQuery);
+		</script>
+		<?php
+	}
+
+	/**
 	 * Save persistent or transactional notifications to storage.
 	 *
 	 * We need to be able to retrieve these so they can be dismissed at any time during the execution.
@@ -125,7 +159,6 @@ class Notification_Center {
 		// No notifications to store, clear storage.
 		if ( empty( $notifications ) ) {
 			delete_option( $this->storage_key );
-
 			return;
 		}
 
@@ -141,15 +174,20 @@ class Notification_Center {
 	 * @codeCoverageIgnore
 	 */
 	public function notice_dismissible() {
-		$notification_id  = filter_input( INPUT_POST, 'notificationId' );
-		$notification_key = filter_input( INPUT_POST, 'notificationKey' );
-
-		$this->verify_nonce( $notification_id );
+		$notification_id = filter_input( INPUT_POST, 'notificationId' );
+		check_ajax_referer( $notification_id, 'security' );
 
 		$notification = $this->get_notification_by_id( $notification_id );
 		if ( ! is_null( $notification ) ) {
 			$notification->dismiss();
 		}
+
+		/**
+		 * Filter: 'wp_helpers_notification_dismissed' - Allows developer to perform action after dismissed.
+		 *
+		 * @param Notification[] $notifications
+		 */
+		do_action( 'wp_helpers_notification_dismissed', $notification_id, $notification );
 	}
 
 	/**
