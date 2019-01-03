@@ -118,10 +118,6 @@ class Notification_Center {
 				$( '.is-dismissible' ).on( 'click', '.notice-dismiss', function() {
 					var notice = $( this ).parent()
 
-					if ( false == data ) {
-						return
-					}
-
 					$.ajax({
 						url: ajaxurl,
 						type: 'POST',
