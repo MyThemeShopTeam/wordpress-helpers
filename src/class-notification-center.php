@@ -173,7 +173,7 @@ class Notification_Center {
 		$notification_id = filter_input( INPUT_POST, 'notificationId' );
 		check_ajax_referer( $notification_id, 'security' );
 
-		$this->remove_by_id( $notification_id );
+		$notification = $this->remove_by_id( $notification_id );
 
 		/**
 		 * Filter: 'wp_helpers_notification_dismissed' - Allows developer to perform action after dismissed.
@@ -230,12 +230,15 @@ class Notification_Center {
 	 * @codeCoverageIgnore
 	 *
 	 * @param string $notification_id The ID of the notification to search for.
+	 * @return Notification Instance of delete notification.
 	 */
 	public function remove_by_id( $notification_id ) {
 		$notification = $this->get_notification_by_id( $notification_id );
 		if ( ! is_null( $notification ) ) {
 			$notification->dismiss();
 		}
+
+		return $notification;
 	}
 
 	/**

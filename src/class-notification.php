@@ -142,6 +142,11 @@ class Notification {
 	 * @return bool
 	 */
 	public function can_display() {
+		// Removed.
+		if ( $this->displayed ) {
+			return false;
+		}
+
 		$screen = get_current_screen();
 		if ( self::SCREEN_ANY == $this->args( 'screen' ) || Str::contains( $this->args( 'screen' ), $screen->id ) ) {
 			$this->displayed = true;
