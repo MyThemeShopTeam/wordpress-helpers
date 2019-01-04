@@ -227,6 +227,8 @@ class Notification_Center {
 	/**
 	 * Remove the notification by ID
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $notification_id The ID of the notification to search for.
 	 */
 	public function remove_by_id( $notification_id ) {
