@@ -173,10 +173,7 @@ class Notification_Center {
 		$notification_id = filter_input( INPUT_POST, 'notificationId' );
 		check_ajax_referer( $notification_id, 'security' );
 
-		$notification = $this->get_notification_by_id( $notification_id );
-		if ( ! is_null( $notification ) ) {
-			$notification->dismiss();
-		}
+		$this->remove_by_id( $notification_id );
 
 		/**
 		 * Filter: 'wp_helpers_notification_dismissed' - Allows developer to perform action after dismissed.
@@ -193,10 +190,50 @@ class Notification_Center {
 	 * @param array  $options Set of options.
 	 */
 	public function add( $message, $options = [] ) {
+		if ( isset( $options['id'] ) && ! is_null( $this->get_notification_by_id( $options['id'] ) ) ) {
+			return;
+		}
+
 		$this->notifications[] = new Notification(
 			$message,
 			$options
 		);
+	}
+
+	/**
+	 * Provide a way to verify present notifications
+	 *
+	 * @return array|Notification[] Registered notifications.
+	 */
+	public function get_notifications() {
+		return $this->notifications;
+	}
+
+	/**
+	 * Get the notification by ID
+	 *
+	 * @param  string $notification_id The ID of the notification to search for.
+	 * @return null|Notification
+	 */
+	public function get_notification_by_id( $notification_id ) {
+		foreach ( $this->notifications as $notification ) {
+			if ( $notification_id === $notification->args( 'id' ) ) {
+				return $notification;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Remove the notification by ID
+	 *
+	 * @param string $notification_id The ID of the notification to search for.
+	 */
+	public function remove_by_id( $notification_id ) {
+		$notification = $this->get_notification_by_id( $notification_id );
+		if ( ! is_null( $notification ) ) {
+			$notification->dismiss();
+		}
 	}
 
 	/**
@@ -216,30 +253,6 @@ class Notification_Center {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Provide a way to verify present notifications
-	 *
-	 * @return array|Notification[] Registered notifications.
-	 */
-	public function get_notifications() {
-		return $this->notifications;
-	}
-
-	/**
-	 * Get the notification by ID
-	 *
-	 * @param  string $notification_id The ID of the notification to search for.
-	 * @return null|Notification
-	 */
-	public function get_notification_by_id( $notification_id ) {
-		foreach ( $this->notifications as &$notification ) {
-			if ( $notification_id === $notification->args( 'id' ) ) {
-				return $notification;
-			}
-		}
-		return null;
 	}
 
 	/**
