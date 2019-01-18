@@ -161,6 +161,6 @@ class WordPress {
 			return $content;
 		}
 
-		return preg_replace( '~(?:\[/?)[^/\]]+/?\]~s', '', $content );
+		return do_shortcode( $content );
 	}
 }
