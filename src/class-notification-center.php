@@ -46,7 +46,6 @@ class Notification_Center {
 		add_action( 'init', array( $this, 'get_from_storage' ) );
 		add_action( 'all_admin_notices', array( $this, 'display' ) );
 		add_action( 'shutdown', array( $this, 'update_storage' ) );
-		add_action( 'wp_footer', array( $this, 'print_javascript' ) );
 		add_action( 'admin_footer', array( $this, 'print_javascript' ) );
 
 		add_action( 'wp_ajax_wp_helpers_notice_dismissible', array( $this, 'notice_dismissible' ) );
