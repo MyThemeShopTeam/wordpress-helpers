@@ -16,37 +16,6 @@ namespace MyThemeShop\Helpers;
 class Util {
 
 	/**
-	 * Dumps the content of the given variable and exits the script.
-	 *
-	 * @codeCoverageIgnore
-	 */
-	public static function dd() {
-		array_map(
-			function ( $item ) {
-				self::dump( $item );
-				echo "\n";
-			},
-			func_get_args()
-		);
-		die();
-	}
-
-	/**
-	 * Dumps the content of the given variable. Script does NOT stop after call.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @param mixed $var The variable to dump.
-	 */
-	public static function dump( $var ) {
-		if ( is_bool( $var ) ) {
-			$var = 'bool(' . ( $var ? 'true' : 'false' ) . ')';
-		}
-
-		highlight_string( "<?php\n" . var_export( $var, true ) );
-	}
-
-	/**
 	 * Get field from query string.
 	 *
 	 * @param  string $id      Field id to get.

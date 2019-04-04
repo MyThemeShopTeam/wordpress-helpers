@@ -67,9 +67,10 @@ class Arr {
 	public static function prepend( &$array, $value, $key = null ) {
 		if ( is_null( $key ) ) {
 			array_unshift( $array, $value );
-		} else {
-			$array = [ $key => $value ] + $array;
+			return;
 		}
+
+		$array = [ $key => $value ] + $array;
 	}
 
 	/**
