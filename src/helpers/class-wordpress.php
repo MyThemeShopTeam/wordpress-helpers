@@ -135,16 +135,16 @@ class WordPress {
 	 */
 	private static function post_type_from_request() {
 
-		if ( isset( $_REQUEST['post_type'] ) ) {
-			return sanitize_key( Param::request( 'post_type' ) );
+		if ( $post_type = Param::request( 'post_type' ) ) { // phpcs:ignore
+			return sanitize_key( $post_type );
 		}
 
-		if ( isset( $_REQUEST['post_ID'] ) ) {
-			return get_post_type( Param::request( 'post_ID' ) );
+		if ( $post_id = Param::request( 'post_ID' ) ) { // phpcs:ignore
+			return get_post_type( $post_id );
 		}
 
-		if ( filter_has_var( INPUT_GET, 'post' ) ) {
-			return get_post_type( Param::get( 'post' ) );
+		if ( $post = Param::get( 'post' ) ) { // phpcs:ignore
+			return get_post_type( $post );
 		}
 
 		return false;
