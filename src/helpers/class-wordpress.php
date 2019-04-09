@@ -11,6 +11,7 @@
 namespace MyThemeShop\Helpers;
 
 use MyThemeShop\Helpers\Str;
+use MyThemeShop\Helpers\Param;
 
 /**
  * WordPress class.
@@ -135,15 +136,15 @@ class WordPress {
 	private static function post_type_from_request() {
 
 		if ( isset( $_REQUEST['post_type'] ) ) {
-			return sanitize_key( $_REQUEST['post_type'] );
+			return sanitize_key( Param::request( 'post_type' ) );
 		}
 
 		if ( isset( $_REQUEST['post_ID'] ) ) {
-			return get_post_type( $_REQUEST['post_ID'] );
+			return get_post_type( Param::request( 'post_ID' ) );
 		}
 
-		if ( isset( $_GET['post'] ) ) {
-			return get_post_type( $_GET['post'] );
+		if ( filter_has_var( INPUT_GET, 'post' ) ) {
+			return get_post_type( Param::get( 'post' ) );
 		}
 
 		return false;
