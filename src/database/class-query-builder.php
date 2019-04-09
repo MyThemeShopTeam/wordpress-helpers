@@ -87,7 +87,7 @@ class Query_Builder {
 		$this->last_query = $this->translateSelect();
 		$this->reset();
 
-		return $wpdb->get_results( $this->last_query, $output ); // WPCS: unprepared SQL ok.
+		return $wpdb->get_results( $this->last_query, $output ); // phpcs:ignore
 	}
 
 	/**
@@ -104,7 +104,7 @@ class Query_Builder {
 		$this->last_query = $this->translateSelect();
 		$this->reset();
 
-		return $wpdb->get_row( $this->last_query, $output ); // WPCS: unprepared SQL ok.
+		return $wpdb->get_row( $this->last_query, $output ); // phpcs:ignore
 	}
 
 	/**
@@ -204,7 +204,7 @@ class Query_Builder {
 		global $wpdb;
 		$this->last_query = $query;
 
-		return $wpdb->query( $query ); // WPCS: unprepared SQL ok.
+		return $wpdb->query( $query ); // phpcs:ignore
 	}
 
 	/**

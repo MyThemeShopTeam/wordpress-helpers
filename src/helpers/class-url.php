@@ -11,6 +11,7 @@
 namespace MyThemeShop\Helpers;
 
 use MyThemeShop\Helpers\Str;
+use MyThemeShop\Helpers\Param;
 
 /**
  * Url class.
@@ -79,7 +80,7 @@ class Url {
 	 * @return string
 	 */
 	public static function get_current_url() {
-		return self::get_scheme() . '://' . self::get_host() . self::get_port() . $_SERVER['REQUEST_URI'];
+		return self::get_scheme() . '://' . self::get_host() . self::get_port() . Param::server( 'REQUEST_URI' );
 	}
 
 	/**
@@ -99,12 +100,16 @@ class Url {
 	 * @return string the HTTP_HOST or SERVER_NAME
 	 */
 	public static function get_host() {
-		if ( isset( $_SERVER['HTTP_HOST'] ) && $_SERVER['HTTP_HOST'] ) {
-			return $_SERVER['HTTP_HOST'];
+		$host = Param::server( 'HTTP_HOST' );
+		if ( false !== $host ) {
+			return $host;
 		}
-		if ( isset( $_SERVER['SERVER_NAME'] ) && $_SERVER['SERVER_NAME'] ) {
-			return $_SERVER['SERVER_NAME'];
+
+		$name = Param::server( 'SERVER_NAME' );
+		if ( false !== $name ) {
+			return $name;
 		}
+
 		return '';
 	}
 
@@ -114,8 +119,9 @@ class Url {
 	 * @return string
 	 */
 	public static function get_port() {
-		$has_port = isset( $_SERVER['SERVER_PORT'] ) && $_SERVER['SERVER_PORT'] && ! in_array( $_SERVER['SERVER_PORT'], [ '80', '443' ] );
-		return $has_port ? ':' . $_SERVER['SERVER_PORT'] : '';
+		$port     = Param::server( 'SERVER_PORT' );
+		$has_port = $port && ! in_array( $port, [ '80', '443' ], true );
+		return $has_port ? ':' . $port : '';
 	}
 
 	/**

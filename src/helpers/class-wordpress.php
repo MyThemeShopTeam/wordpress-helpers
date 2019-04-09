@@ -11,7 +11,6 @@
 namespace MyThemeShop\Helpers;
 
 use MyThemeShop\Helpers\Str;
-use MyThemeShop\Helpers\Util;
 
 /**
  * WordPress class.

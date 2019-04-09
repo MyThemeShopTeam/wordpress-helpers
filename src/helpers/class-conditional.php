@@ -10,6 +10,8 @@
 
 namespace MyThemeShop\Helpers;
 
+use MyThemeShop\Helpers\Param;
+
 /**
  * Conditional class.
  */
@@ -70,11 +72,7 @@ class Conditional {
 	 * @return bool
 	 */
 	public static function is_heartbeat() {
-		if ( isset( $_POST ) && isset( $_POST['action'] ) && 'heartbeat' === $_POST['action'] ) {
-			return true;
-		}
-
-		return false;
+		return 'heartbeat' === Param::post( 'action' );
 	}
 
 	/**

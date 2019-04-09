@@ -10,6 +10,8 @@
 
 namespace MyThemeShop\Admin;
 
+use MyThemeShop\Helpers\Param;
+
 /**
  * Page class.
  */
@@ -263,9 +265,7 @@ class Page {
 	 * @return bool
 	 */
 	public function is_current_page() {
-
-		$page = isset( $_GET['page'] ) && ! empty( $_GET['page'] ) ? filter_input( INPUT_GET, 'page' ) : false;
-		return $page === $this->id;
+		return Param::get( 'page' ) === $this->id;
 	}
 
 	/**

@@ -323,7 +323,7 @@ trait Where {
 		// have an "in" or "between" statement which has no need for duplicates.
 		if ( is_array( $param2 ) ) {
 			$param2 = $this->esc_array( array_unique( $param2 ) );
-			$param2 = in_array( $param1, [ 'between', 'not between' ] ) ? join( ' and ', $param2 ) : '(' . join( ', ', $param2 ) . ')';
+			$param2 = in_array( $param1, [ 'between', 'not between' ], true ) ? join( ' and ', $param2 ) : '(' . join( ', ', $param2 ) . ')';
 		} elseif ( is_scalar( $param2 ) ) {
 			$param2 = $this->esc_value( $param2 );
 		}
@@ -339,7 +339,7 @@ trait Where {
 	 * @throws \Exception If not a valid type.
 	 */
 	private function is_valid_type( $type ) {
-		if ( ! in_array( $type, [ 'and', 'or', 'where' ] ) ) {
+		if ( ! in_array( $type, [ 'and', 'or', 'where' ], true ) ) {
 			throw new \Exception( 'Invalid where type "' . $type . '"' );
 		}
 	}
