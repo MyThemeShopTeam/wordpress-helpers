@@ -20,7 +20,8 @@ class DB {
 	/**
 	 * Retrieve a Database instance by table name.
 	 *
-	 * @param  string $table_name A Database instance id.
+	 * @param string $table_name A Database instance id.
+	 *
 	 * @return Database Database object instance.
 	 */
 	public static function query_builder( $table_name ) {
@@ -30,7 +31,8 @@ class DB {
 	/**
 	 * Check if table exists in db or not.
 	 *
-	 * @param  string $table_name Table name to check for existance.
+	 * @param string $table_name Table name to check for existance.
+	 *
 	 * @return bool
 	 */
 	public static function check_table_exists( $table_name ) {

@@ -25,7 +25,8 @@ class Database {
 	/**
 	 * Retrieve a Database instance by table name.
 	 *
-	 * @param  string $table_name A Database instance id.
+	 * @param string $table_name A Database instance id.
+	 *
 	 * @return Database Database object instance.
 	 */
 	public static function table( $table_name ) {

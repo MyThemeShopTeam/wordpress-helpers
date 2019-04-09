@@ -22,7 +22,8 @@ class Url {
 	 * Simple check for validating a URL, it must start with http:// or https://.
 	 * and pass FILTER_VALIDATE_URL validation.
 	 *
-	 * @param  string $url to check.
+	 * @param string $url to check.
+	 *
 	 * @return bool
 	 */
 	public static function is_url( $url ) {
@@ -47,7 +48,8 @@ class Url {
 	/**
 	 * Check whether a url is relative.
 	 *
-	 * @param  string $url URL string to check.
+	 * @param string $url URL string to check.
+	 *
 	 * @return bool
 	 */
 	public static function is_relative( $url ) {
@@ -59,6 +61,7 @@ class Url {
 	 *
 	 * @param string $url    URL string to check. This should be a absolute URL.
 	 * @param string $domain If wants to use some other domain not home_url().
+	 *
 	 * @return bool
 	 */
 	public static function is_external( $url, $domain = false ) {
@@ -76,6 +79,8 @@ class Url {
 
 	/**
 	 * Get current url.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @return string
 	 */
@@ -96,6 +101,8 @@ class Url {
 	 * Some setups like HTTP_HOST, some like SERVER_NAME, it's complicated.
 	 *
 	 * @link http://stackoverflow.com/questions/2297403/http-host-vs-server-name
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @return string the HTTP_HOST or SERVER_NAME
 	 */
@@ -127,7 +134,8 @@ class Url {
 	/**
 	 * Get parent domain
 	 *
-	 * @param  string $url Url to parse.
+	 * @param string $url Url to parse.
+	 *
 	 * @return string
 	 */
 	public static function get_domain( $url ) {

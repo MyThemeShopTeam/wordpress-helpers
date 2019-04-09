@@ -48,6 +48,7 @@ class List_Table extends WP_List_Table {
 	 * Get orderby setting.
 	 *
 	 * @param string $default (Optional) Extract order by from request.
+	 *
 	 * @return string
 	 */
 	protected function get_orderby( $default = 'create_date' ) {

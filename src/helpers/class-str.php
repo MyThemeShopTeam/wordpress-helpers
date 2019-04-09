@@ -19,6 +19,7 @@ class Str {
 	 * Validates whether the passed variable is a non-empty string.
 	 *
 	 * @param mixed $variable The variable to validate.
+	 *
 	 * @return bool Whether or not the passed value is a non-empty string.
 	 */
 	public static function is_non_empty( $variable ) {
@@ -28,8 +29,9 @@ class Str {
 	/**
 	 * Check if the string contains the given value.
 	 *
-	 * @param  string $needle   The sub-string to search for.
-	 * @param  string $haystack The string to search.
+	 * @param string $needle   The sub-string to search for.
+	 * @param string $haystack The string to search.
+	 *
 	 * @return bool
 	 */
 	public static function contains( $needle, $haystack ) {
@@ -39,8 +41,9 @@ class Str {
 	/**
 	 * Check if the string begins with the given value.
 	 *
-	 * @param  string $needle   The sub-string to search for.
-	 * @param  string $haystack The string to search.
+	 * @param string $needle   The sub-string to search for.
+	 * @param string $haystack The string to search.
+	 *
 	 * @return bool
 	 */
 	public static function starts_with( $needle, $haystack ) {
@@ -50,8 +53,9 @@ class Str {
 	/**
 	 * Check if the string end with the given value.
 	 *
-	 * @param  string $needle   The sub-string to search for.
-	 * @param  string $haystack The string to search.
+	 * @param string $needle   The sub-string to search for.
+	 * @param string $haystack The string to search.
+	 *
 	 * @return bool
 	 */
 	public static function ends_with( $needle, $haystack ) {
@@ -61,9 +65,10 @@ class Str {
 	/**
 	 * Check the string for desired comparison.
 	 *
-	 * @param  string $needle     The sub-string to search for.
-	 * @param  string $haystack   The string to search.
-	 * @param  string $comparison The type of comparison.
+	 * @param string $needle     The sub-string to search for.
+	 * @param string $haystack   The string to search.
+	 * @param string $comparison The type of comparison.
+	 *
 	 * @return bool
 	 */
 	public static function comparison( $needle, $haystack, $comparison = '' ) {
@@ -86,8 +91,9 @@ class Str {
 	/**
 	 * Convert string to array with defined seprator.
 	 *
-	 * @param  string $str String to convert.
-	 * @param  string $sep Seprator.
+	 * @param string $str String to convert.
+	 * @param string $sep Seprator.
+	 *
 	 * @return bool|array
 	 */
 	public static function to_arr( $str, $sep = ',' ) {
@@ -101,6 +107,7 @@ class Str {
 	 *
 	 * @param string $str         User-defined list.
 	 * @param string $sep_pattern Separator pattern for regex.
+	 *
 	 * @return array
 	 */
 	public static function to_arr_no_empty( $str, $sep_pattern = '\r\n|[\r\n]' ) {
@@ -113,7 +120,8 @@ class Str {
 	/**
 	 * This function transforms the php.ini notation for numbers (like '2M') to an integer.
 	 *
-	 * @param  string $size The size.
+	 * @param string $size The size.
+	 *
 	 * @return int
 	 */
 	public static function let_to_num( $size ) {
@@ -141,7 +149,8 @@ class Str {
 	/**
 	 * Convert a number to K, M, B, etc.
 	 *
-	 * @param  int|double $number Number which to convert to pretty string.
+	 * @param int|double $number Number which to convert to pretty string.
+	 *
 	 * @return string
 	 */
 	public static function human_number( $number ) {

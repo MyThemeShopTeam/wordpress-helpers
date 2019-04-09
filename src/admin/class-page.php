@@ -209,6 +209,7 @@ class Page {
 	 * @codeCoverageIgnore
 	 *
 	 * @param string $classes Space-separated list of CSS classes.
+	 *
 	 * @return string
 	 */
 	public function body_class( $classes = '' ) {
@@ -303,7 +304,8 @@ class Page {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param  array $tab Tab to get content for.
+	 * @param array $tab Tab to get content for.
+	 *
 	 * @return string
 	 */
 	private function get_help_content( $tab ) {

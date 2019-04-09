@@ -18,7 +18,8 @@ class Attachment {
 	/**
 	 * Grabs an image alt text.
 	 *
-	 * @param  int $attachment_id The attachment ID.
+	 * @param int $attachment_id The attachment ID.
+	 *
 	 * @return string The image alt text.
 	 */
 	public static function get_alt_tag( $attachment_id ) {
@@ -30,7 +31,8 @@ class Attachment {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param  string $img Image URL.
+	 * @param string $img Image URL.
+	 *
 	 * @return string The expanded image URL.
 	 */
 	public static function get_relative_path( $img ) {
@@ -51,6 +53,7 @@ class Attachment {
 	 * @codeCoverageIgnore
 	 *
 	 * @param string $url The URL to find the attachment for.
+	 *
 	 * @return int The found attachment ID, or 0 if none was found.
 	 */
 	public static function get_by_url( $url ) {
@@ -70,6 +73,7 @@ class Attachment {
 	 * @link https://dotlayer.com/20-wordpress-core-functions-that-dont-scale-and-how-to-work-around-it/
 	 *
 	 * @param string $url The attachment URL for which we want to know the Post ID.
+	 *
 	 * @return int The Post ID belonging to the attachment, 0 if not found.
 	 */
 	private static function url_to_postid( $url ) {

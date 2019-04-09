@@ -20,7 +20,8 @@ class Arr {
 	/**
 	 * Determine whether the given value is array accessible.
 	 *
-	 * @param  mixed $value Value to check.
+	 * @param mixed $value Value to check.
+	 *
 	 * @return bool
 	 */
 	public static function accessible( $value ) {
@@ -30,8 +31,9 @@ class Arr {
 	/**
 	 * Determine if the given key exists in the provided array.
 	 *
-	 * @param  \ArrayAccess|array $array Array to check key in.
-	 * @param  string|int         $key   Key to check for.
+	 * @param ArrayAccess|array $array Array to check key in.
+	 * @param string|int        $key   Key to check for.
+	 *
 	 * @return bool
 	 */
 	public static function exists( $array, $key ) {

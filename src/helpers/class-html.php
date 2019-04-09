@@ -18,7 +18,8 @@ class HTML {
 	/**
 	 * Extract attributes from a html tag.
 	 *
-	 * @param  string $elem Extract attributes from tag.
+	 * @param string $elem Extract attributes from tag.
+	 *
 	 * @return array
 	 */
 	public static function extract_attributes( $elem ) {
@@ -36,8 +37,9 @@ class HTML {
 	/**
 	 * Generate html attribute string for array.
 	 *
-	 * @param  array  $attributes Contains key/value pair to generate a string.
-	 * @param  string $prefix     If you want to append a prefic before every key.
+	 * @param array  $attributes Contains key/value pair to generate a string.
+	 * @param string $prefix     If you want to append a prefic before every key.
+	 *
 	 * @return string
 	 */
 	public static function attributes_to_string( $attributes = [], $prefix = '' ) {

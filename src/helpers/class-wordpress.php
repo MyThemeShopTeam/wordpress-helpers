@@ -24,6 +24,7 @@ class WordPress {
 	 * @codeCoverageIgnore
 	 *
 	 * @param string $output How to return roles.
+	 *
 	 * @return array
 	 */
 	public static function get_roles( $output = 'names' ) {
@@ -143,9 +144,11 @@ class WordPress {
 			return get_post_type( $post_id );
 		}
 
+		// @codeCoverageIgnoreStart
 		if ( $post = Param::get( 'post' ) ) { // phpcs:ignore
 			return get_post_type( $post );
 		}
+		// @codeCoverageIgnoreEnd
 
 		return false;
 	}
@@ -153,7 +156,8 @@ class WordPress {
 	/**
 	 * Strip all shortcodes active or orphan.
 	 *
-	 * @param  string $content Content to remove shortcodes from.
+	 * @param string $content Content to remove shortcodes from.
+	 *
 	 * @return string
 	 */
 	public static function strip_shortcodes( $content ) {
