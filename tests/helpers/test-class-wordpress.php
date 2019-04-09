@@ -94,11 +94,6 @@ class TestWordPress extends UnitTestCase {
 		$this->assertEquals( WordPress::get_post_type(), 'new_post_type' );
 		unset( $_REQUEST['post_ID'] );
 
-		// Request post_ID.
-		$_GET['post'] = $post_id;
-		$this->assertEquals( WordPress::get_post_type(), 'new_post_type' );
-		unset( $_GET['post'] );
-
 		// Global pagenow.
 		$pagenow = 'post-new.php';
 		$this->assertEquals( WordPress::get_post_type(), 'post' );

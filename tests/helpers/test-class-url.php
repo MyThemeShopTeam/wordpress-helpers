@@ -71,17 +71,6 @@ class TestUrl extends UnitTestCase {
 	}
 
 	/**
-	 * Get current page full url.
-	 */
-	public function test_get_current_url() {
-		$this->assertEquals( 'http://example.org', Url::get_current_url() );
-
-		$_SERVER['SERVER_PORT'] = 8080;
-		$this->assertEquals( 'http://example.org:8080', Url::get_current_url() );
-		unset( $_SERVER['SERVER_PORT'] );
-	}
-
-	/**
 	 * Get url scheme.
 	 */
 	public function test_get_scheme() {
@@ -92,13 +81,6 @@ class TestUrl extends UnitTestCase {
 	 * Some setups like HTTP_HOST, some like SERVER_NAME, it's complicated.
 	 */
 	public function test_get_host() {
-		$this->assertEquals( 'example.org', Url::get_host() );
-
-		unset( $_SERVER['HTTP_HOST'] );
-		$_SERVER['SERVER_NAME'] = 'shakeebahmed.com';
-		$this->assertEquals( 'shakeebahmed.com', Url::get_host() );
-		unset( $_SERVER['SERVER_NAME'] );
-
 		$this->assertEmpty( Url::get_host() );
 	}
 
@@ -114,10 +96,6 @@ class TestUrl extends UnitTestCase {
 
 		$_SERVER['SERVER_PORT'] = 443;
 		$this->assertEquals( '', Url::get_port() );
-
-		// Not Empty.
-		$_SERVER['SERVER_PORT'] = 8080;
-		$this->assertEquals( ':8080', Url::get_port() );
 	}
 
 	/**

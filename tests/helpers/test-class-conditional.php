@@ -71,9 +71,5 @@ class TestConditional extends UnitTestCase {
 	 */
 	public function test_is_heartbeat() {
 		$this->assertFalse( Conditional::is_heartbeat() );
-
-		$_POST['action'] = 'heartbeat';
-		$this->assertTrue( Conditional::is_heartbeat() );
-		unset( $_POST['action'] );
 	}
 }
