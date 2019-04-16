@@ -16,6 +16,17 @@ namespace MyThemeShop\Helpers;
 class Str {
 
 	/**
+	 * Validates whether the passed variable is a empty string.
+	 *
+	 * @param mixed $variable The variable to validate.
+	 *
+	 * @return bool Whether or not the passed value is a non-empty string.
+	 */
+	public static function is_empty( $variable ) {
+		return empty( $variable ) || ! is_string( $variable );
+	}
+
+	/**
 	 * Validates whether the passed variable is a non-empty string.
 	 *
 	 * @param mixed $variable The variable to validate.
