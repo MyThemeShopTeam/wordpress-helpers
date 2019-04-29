@@ -62,6 +62,36 @@ class Arr {
 	}
 
 	/**
+	 * Check whether an array or [[\Traversable]] contains an element.
+	 *
+	 * This method does the same as the PHP function [in_array()](https://secure.php.net/manual/en/function.in-array.php)
+	 * but additionally works for objects that implement the [[\Traversable]] interface.
+	 *
+	 * @throws \InvalidArgumentException If `$array` is neither traversable nor an array.
+	 *
+	 * @param array|\Traversable $array  The set of values to search.
+	 * @param mixed              $search The value to look for.
+	 * @param bool               $strict Whether to enable strict (`===`) comparison.
+	 *
+	 * @return bool `true` if `$search` was found in `$array`, `false` otherwise.
+	 */
+	public static function includes( $array, $search, $strict = true ) {
+		if ( $array instanceof \Traversable ) {
+			foreach ( $array as $value ) {
+				if ( ( $strict && $search === $value ) || $search == $value ) {
+					return true;
+				}
+			}
+		} elseif ( is_array( $array ) ) {
+			return in_array( $search, $array, $strict );
+		} else {
+			throw new \InvalidArgumentException( 'Argument $array must be an array or implement Traversable' );
+		}
+
+		return false;
+	}
+
+	/**
 	 * Insert a single array item inside another array at a set position
 	 *
 	 * @param array $array    Array to modify. Is passed by reference, and no return is needed.
