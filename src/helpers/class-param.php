@@ -34,11 +34,12 @@ class Param {
 	 * @param string $id      Field id to get.
 	 * @param mixed  $default Default value to return if field is not found.
 	 * @param int    $filter  The ID of the filter to apply.
+	 * @param int    $flag    The ID of the flag to apply.
 	 *
 	 * @return mixed
 	 */
-	public static function post( $id, $default = false, $filter = FILTER_DEFAULT ) {
-		return filter_has_var( INPUT_POST, $id ) ? filter_input( INPUT_POST, $id, $filter ) : $default;
+	public static function post( $id, $default = false, $filter = FILTER_DEFAULT, $flag = '' ) {
+		return filter_has_var( INPUT_POST, $id ) ? filter_input( INPUT_POST, $id, $filter, $flag ) : $default;
 	}
 
 	/**
@@ -64,6 +65,6 @@ class Param {
 	 * @return mixed
 	 */
 	public static function server( $id, $default = false, $filter = FILTER_DEFAULT ) {
-		return filter_has_var( INPUT_SERVER, $id ) ? filter_input( INPUT_SERVER, $id, $filter ) : $default;
+		return isset( $_SERVER[ $id ] ) ? filter_var( $_SERVER[ $id ], $filter ) : $default;
 	}
 }
