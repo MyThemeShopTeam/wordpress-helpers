@@ -81,7 +81,7 @@ class TestUrl extends UnitTestCase {
 	 * Some setups like HTTP_HOST, some like SERVER_NAME, it's complicated.
 	 */
 	public function test_get_host() {
-		$this->assertEmpty( Url::get_host() );
+		$this->assertNotEmpty( Url::get_host() );
 	}
 
 	/**

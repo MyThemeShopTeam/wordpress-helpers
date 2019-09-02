@@ -77,15 +77,31 @@ class Arr {
 	 */
 	public static function includes( $array, $search, $strict = true ) {
 		if ( $array instanceof \Traversable ) {
-			foreach ( $array as $value ) {
-				if ( ( $strict && $search === $value ) || $search == $value ) {
-					return true;
-				}
-			}
-		} elseif ( is_array( $array ) ) {
-			return in_array( $search, $array, $strict );
-		} else {
+			return self::includes_traversable( $array, $search, $strict );
+		}
+
+		$is_array = is_array( $array );
+		if ( ! $is_array ) {
 			throw new \InvalidArgumentException( 'Argument $array must be an array or implement Traversable' );
+		}
+
+		return $is_array ? in_array( $search, $array, $strict ) : false; // phpcs:ignore
+	}
+
+	/**
+	 * Check Traversable contains an element.
+	 *
+	 * @param \Traversable $array  The set of values to search.
+	 * @param mixed        $search The value to look for.
+	 * @param bool         $strict Whether to enable strict (`===`) comparison.
+	 *
+	 * @return bool `true` if `$search` was found in `$array`, `false` otherwise.
+	 */
+	private static function includes_traversable( $array, $search, $strict = true ) {
+		foreach ( $array as $value ) {
+			if ( ( $strict && $search === $value ) || $search == $value ) { // phpcs:ignore
+				return true;
+			}
 		}
 
 		return false;
