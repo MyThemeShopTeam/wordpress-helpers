@@ -47,21 +47,6 @@ class Arr {
 	}
 
 	/**
-	 * Get an item from an array.
-	 * Supports dot notation:
-	 * e.g `Arr::get($array, 'section.subsection.item')`
-	 *
-	 * @param array      $array   Source array.
-	 * @param string     $key     Key to get value for.
-	 * @param mixed|null $default Default value if key not exists.
-	 *
-	 * @return mixed|null
-	 */
-	public static function get( array $array, $key, $default = null ) {
-		return isset( $array[ $key ] ) ? $array[ $key ] : $default;
-	}
-
-	/**
 	 * Check whether an array or [[\Traversable]] contains an element.
 	 *
 	 * This method does the same as the PHP function [in_array()](https://secure.php.net/manual/en/function.in-array.php)
