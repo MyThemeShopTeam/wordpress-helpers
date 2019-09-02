@@ -44,6 +44,37 @@ class TestArr extends UnitTestCase {
 	}
 
 	/**
+	 * Determine if the given value exists in the provided array.
+	 *
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function test_inlcudes_exception() {
+		Arr::includes( false, 'shakeeb', true );
+
+		// Array ------------------------------
+		$array = array( 'shakeeb', 'ahmed' );
+
+		// Strict comparison.
+		$this->assertTrue( Arr::includes( $array, 'shakeeb', true ) );
+		$this->assertFalse( Arr::includes( $array, 'Shakeeb', true ) );
+
+		// Non-Strict comparison.
+		$this->assertTrue( Arr::includes( $array, 'Shakeeb', false ) );
+		$this->assertFalse( Arr::includes( $array, 'Shak023', false ) );
+
+		// Traversable ------------------------------
+		$widgets = new TestWidgets;
+
+		// Strict comparison.
+		$this->assertTrue( Arr::includes( $widgets, 'Blue', true ) );
+		$this->assertFalse( Arr::includes( $widgets, 'blue', true ) );
+
+		// Non-Strict comparison.
+		$this->assertTrue( Arr::includes( $widgets, 'blue', false ) );
+		$this->assertFalse( Arr::includes( $widgets, 'Shak023', false ) );
+	}
+
+	/**
 	 * Insert a single array item inside another array at a set position
 	 */
 	public function test_insert() {

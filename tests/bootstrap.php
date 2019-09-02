@@ -75,6 +75,7 @@ class WP_Helpers_Tests_Bootstrap {
 	 */
 	public function includes() {
 		require dirname( __FILE__ ) . '/framework/class-unit-test-case.php';
+		require dirname( __FILE__ ) . '/double/class-traversable.php';
 	}
 
 	/**
