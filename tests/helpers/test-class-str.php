@@ -19,6 +19,21 @@ use MyThemeShop\Helpers\Str;
 class TestStr extends UnitTestCase {
 
 	/**
+	 * Validates whether the passed variable is a empty string.
+	 */
+	public function test_is_empty() {
+		// True.
+		$this->assertFalse( Str::is_empty( '**' ) );
+		$this->assertFalse( Str::is_empty( '1112' ) );
+		$this->assertFalse( Str::is_empty( 'Hello world' ) );
+
+		// False.
+		$this->assertTrue( Str::is_empty( '' ) );
+		$this->assertTrue( Str::is_empty( 112 ) );
+		$this->assertTrue( Str::is_empty( false ) );
+	}
+
+	/**
 	 * Validates whether the passed variable is a non-empty string.
 	 */
 	public function test_is_non_empty() {
