@@ -16,7 +16,7 @@ interface CountableTraversableAggregate  extends CountableTraversable, IteratorA
 
 class TestWidgets implements CountableTraversableAggregate {
 
-	private $widgets = [ 'Blue', 'Red' ];
+	private $widgets = [ 'Blue', 'Red', '1' ];
 
 	public function getIterator()  {
 		return new ArrayIterator( $this->widgets );

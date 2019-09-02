@@ -48,25 +48,25 @@ class TestArr extends UnitTestCase {
 	 */
 	public function test_inlcudes() {
 		// Array ------------------------------
-		$array = array( 'shakeeb', 'ahmed' );
+		$array = array( 'shakeeb', 'ahmed', '1' );
 
 		// Strict comparison.
 		$this->assertTrue( Arr::includes( $array, 'shakeeb', true ) );
 		$this->assertFalse( Arr::includes( $array, 'Shakeeb', true ) );
 
 		// Non-Strict comparison.
-		$this->assertTrue( Arr::includes( $array, 'Shakeeb', false ) );
-		$this->assertFalse( Arr::includes( $array, 'Shak023', false ) );
+		$this->assertTrue( Arr::includes( $array, 1, false ) );
+		$this->assertFalse( Arr::includes( $array, 2, false ) );
 
 		// Traversable ------------------------------
-		$widgets = new TestWidgets;
+		$widgets = new \TestWidgets;
 
 		// Strict comparison.
 		$this->assertTrue( Arr::includes( $widgets, 'Blue', true ) );
 		$this->assertFalse( Arr::includes( $widgets, 'blue', true ) );
 
 		// Non-Strict comparison.
-		$this->assertTrue( Arr::includes( $widgets, 'blue', false ) );
+		$this->assertTrue( Arr::includes( $widgets, 1, false ) );
 		$this->assertFalse( Arr::includes( $widgets, 'Shak023', false ) );
 	}
 
