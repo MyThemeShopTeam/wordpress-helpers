@@ -45,12 +45,8 @@ class TestArr extends UnitTestCase {
 
 	/**
 	 * Determine if the given value exists in the provided array.
-	 *
-	 * @expectedException \InvalidArgumentException
 	 */
-	public function test_inlcudes_exception() {
-		Arr::includes( false, 'shakeeb', true );
-
+	public function test_inlcudes() {
 		// Array ------------------------------
 		$array = array( 'shakeeb', 'ahmed' );
 
@@ -72,6 +68,15 @@ class TestArr extends UnitTestCase {
 		// Non-Strict comparison.
 		$this->assertTrue( Arr::includes( $widgets, 'blue', false ) );
 		$this->assertFalse( Arr::includes( $widgets, 'Shak023', false ) );
+	}
+
+	/**
+	 * Determine if the given value exists in the provided array.
+	 *
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function test_inlcudes_exception() {
+		Arr::includes( false, 'shakeeb', true );
 	}
 
 	/**
