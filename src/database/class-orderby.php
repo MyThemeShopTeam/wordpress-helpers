@@ -21,10 +21,10 @@ trait OrderBy {
 	 *     ->orderBy('created_at')
 	 *     ->orderBy('modified_at', 'desc')
 	 *
-	 *     // multiple order statements
+	 *     // multiple order clauses
 	 *     ->orderBy(['firstname', 'lastname'], 'desc')
 	 *
-	 *     // muliple order statements with diffrent directions
+	 *     // muliple order clauses with diffrent directions
 	 *     ->orderBy(['firstname' => 'asc', 'lastname' => 'desc'])
 	 *
 	 * @param array|string $columns   Columns.
@@ -39,11 +39,11 @@ trait OrderBy {
 
 		foreach ( $columns as $key => $column ) {
 			if ( is_numeric( $key ) ) {
-				$this->statements['orders'][ $column ] = $direction;
+				$this->sql_clauses['order_by'][ $column ] = $direction;
 				continue;
 			}
 
-			$this->statements['orders'][ $key ] = $column;
+			$this->sql_clauses['order_by'][ $key ] = $column;
 		}
 
 		return $this;
@@ -61,6 +61,6 @@ trait OrderBy {
 			return array_map( 'trim', explode( ',', $argument ) );
 		}
 
-		return [ $argument ];
+		return array( $argument );
 	}
 }

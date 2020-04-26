@@ -21,31 +21,27 @@ trait Translate {
 	 * @return string
 	 */
 	private function translateSelect() { // @codingStandardsIgnoreLine
-		$query = [ 'select' ];
+		$query  = array( 'SELECT' );
+		$select = $this->get_sql_clause( 'select', true );
 
 		if ( $this->found_rows ) {
 			$query[] = 'SQL_CALC_FOUND_ROWS';
 		}
+
 		if ( $this->distinct ) {
-			$query[] = 'distinct';
+			$query[] = 'DISTINCT';
 		}
 
-		// Build the selected fields.
-		$query[] = ! empty( $this->statements['select'] ) && is_array( $this->statements['select'] ) ? join( ', ', $this->statements['select'] ) : '*';
-
-		// Append the table.
-		$query[] = 'from ' . $this->table;
-
-		// Build the where statements.
-		if ( ! empty( $this->statements['wheres'] ) ) {
-			$query[] = join( ' ', $this->statements['wheres'] );
-		}
+		$query[] = ! empty( $select ) ? $select : '*';
+		$query[] = 'FROM ' . $this->get_sql_clause( 'from', true );
+		$query[] = $this->get_sql_clause( 'join', true );
+		$query[] = $this->get_sql_clause( 'where', true );
 
 		$this->translateGroupBy( $query );
 		$this->translateOrderBy( $query );
 		$this->translateLimit( $query );
 
-		return join( ' ', $query );
+		return join( ' ', array_filter( $query ) );
 	}
 
 	/**
@@ -54,11 +50,11 @@ trait Translate {
 	 * @return string
 	 */
 	private function translateUpdate() { // @codingStandardsIgnoreLine
-		$query = [ "update {$this->table} set" ];
+		$query = array( "UPDATE {$this->table} set" );
 
 		// Add the values.
-		$values = [];
-		foreach ( $this->statements['values'] as $key => $value ) {
+		$values = array();
+		foreach ( $this->sql_clauses['values'] as $key => $value ) {
 			$values[] = $key . ' = ' . $this->esc_value( $value );
 		}
 
@@ -66,9 +62,9 @@ trait Translate {
 			$query[] = join( ', ', $values );
 		}
 
-		// Build the where statements.
-		if ( ! empty( $this->statements['wheres'] ) ) {
-			$query[] = join( ' ', $this->statements['wheres'] );
+		// Build the where clauses.
+		if ( ! empty( $this->sql_clauses['where'] ) ) {
+			$query[] = join( ' ', $this->sql_clauses['where'] );
 		}
 
 		$this->translateLimit( $query );
@@ -82,11 +78,11 @@ trait Translate {
 	 * @return string
 	 */
 	private function translateDelete() { // @codingStandardsIgnoreLine
-		$query = [ "delete from {$this->table}" ];
+		$query = array( "DELETE from {$this->table}" );
 
-		// Build the where statements.
-		if ( ! empty( $this->statements['wheres'] ) ) {
-			$query[] = join( ' ', $this->statements['wheres'] );
+		// Build the where clauses.
+		if ( ! empty( $this->sql_clauses['where'] ) ) {
+			$query[] = join( ' ', $this->sql_clauses['where'] );
 		}
 
 		$this->translateLimit( $query );
@@ -100,37 +96,39 @@ trait Translate {
 	 * @param array $query Query holder.
 	 */
 	protected function translateOrderBy( &$query ) { // @codingStandardsIgnoreLine
-		if ( empty( $this->statements['orders'] ) ) {
+		if ( empty( $this->sql_clauses['order_by'] ) ) {
 			return;
 		}
 
-		$orders = [];
-		foreach ( $this->statements['orders'] as $column => $direction ) {
+		$order_by = array();
+		foreach ( $this->sql_clauses['order_by'] as $column => $direction ) {
 
 			if ( ! is_null( $direction ) ) {
 				$column .= ' ' . $direction;
 			}
 
-			$orders[] = $column;
+			$order_by[] = $column;
 		}
 
-		$query[] = 'order by ' . join( ', ', $orders );
+		$query[] = 'order by ' . join( ', ', $order_by );
 	}
 
 	/**
-	 * Build the group by statements.
+	 * Build the group by clauses.
 	 *
 	 * @param array $query Query holder.
 	 */
 	private function translateGroupBy( &$query ) { // @codingStandardsIgnoreLine
-		if ( empty( $this->statements['groups'] ) ) {
+		$group_by = $this->get_sql_clause( 'group_by', true );
+		$having   = $this->get_sql_clause( 'having', true );
+		if ( empty( $group_by ) ) {
 			return;
 		}
 
-		$query[] = 'group by ' . join( ', ', $this->statements['groups'] );
+		$query[] = 'GROUP BY ' . $group_by;
 
-		if ( ! empty( $this->statements['having'] ) ) {
-			$query[] = $this->statements['having'];
+		if ( ! empty( $having ) ) {
+			$query[] = $having;
 		}
 	}
 
@@ -140,8 +138,6 @@ trait Translate {
 	 * @param array $query Query holder.
 	 */
 	private function translateLimit( &$query ) { // @codingStandardsIgnoreLine
-		if ( ! empty( $this->limit ) ) {
-			$query[] = $this->limit;
-		}
+		$query[] = $this->get_sql_clause( 'limit', true );
 	}
 }
