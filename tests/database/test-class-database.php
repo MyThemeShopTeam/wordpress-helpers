@@ -640,9 +640,9 @@ class TestDatabase extends UnitTestCase {
 						'customerName',
 						'checkNumber',
 					)
-				);
-				$table->join( 'customers', 'employeeNumber', 'salesRepEmployeeNumber' );
-				$table->join( 'payments', 'payments.customerNumber', 'customers.customerNumber' );
+				)
+				->join( 'customers', 'employeeNumber', 'salesRepEmployeeNumber' )
+				->join( 'payments', 'payments.customerNumber', 'customers.customerNumber' );
 			}
 		);
 
@@ -695,6 +695,31 @@ class TestDatabase extends UnitTestCase {
 					)
 				);
 				$table->join( 'customers', 'employeeNumber', 'salesRepEmployeeNumber', '=', 't1' );
+			}
+		);
+
+		$this->assertQueryTranslation(
+			'SELECT lastName, firstName, customerName, checkNumber, amount ' .
+			'FROM phpunit ' .
+			'JOIN customers AS t2 ON employeeNumber = salesRepEmployeeNumber ' .
+			'ORDER BY customerName, checkNumber',
+			'Select',
+			function( $table ) {
+				$table->select(
+					array(
+						'lastName',
+						'firstName',
+						'customerName',
+						'checkNumber',
+						'amount',
+					)
+				)->orderBy(
+					array(
+						'customerName',
+						'checkNumber',
+					)
+				);
+				$table->join( 'customers AS t2', 'employeeNumber', 'salesRepEmployeeNumber' );
 			}
 		);
 
