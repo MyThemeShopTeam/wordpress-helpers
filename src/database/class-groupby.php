@@ -29,7 +29,9 @@ trait GroupBy {
 			$columns = $this->argument_to_array( $columns );
 		}
 
-		$this->sql_clauses['group_by'] = $this->sql_clauses['group_by'] + $columns;
+		foreach ( $columns as $column ) {
+			$this->add_sql_clause( 'group_by', $column );
+		}
 
 		return $this;
 	}
@@ -44,7 +46,7 @@ trait GroupBy {
 	 * @return self The current query builder.
 	 */
 	public function having( $column, $param1 = null, $param2 = null ) {
-		$this->sql_clauses['having'] = $this->generateWhere( $column, $param1, $param2, 'having' );
+		$this->add_sql_clause( 'having', $this->generateWhere( $column, $param1, $param2, 'HAVING' ) );
 
 		return $this;
 	}

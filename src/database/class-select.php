@@ -33,7 +33,7 @@ trait Select {
 		}
 
 		foreach ( $fields as $key => $field ) {
-			$this->add_sql_clause( 'select', is_string( $key ) ? "$key as $field" : $field );
+			$this->add_sql_clause( 'select', is_string( $key ) ? "$key AS $field" : $field );
 		}
 
 		return $this;

@@ -21,8 +21,7 @@ trait Translate {
 	 * @return string
 	 */
 	private function translateSelect() { // @codingStandardsIgnoreLine
-		$query  = array( 'SELECT' );
-		$select = $this->get_sql_clause( 'select', true );
+		$query = array( 'SELECT' );
 
 		if ( $this->found_rows ) {
 			$query[] = 'SQL_CALC_FOUND_ROWS';
@@ -32,14 +31,13 @@ trait Translate {
 			$query[] = 'DISTINCT';
 		}
 
-		$query[] = ! empty( $select ) ? $select : '*';
-		$query[] = 'FROM ' . $this->get_sql_clause( 'from', true );
+		$query[] = $this->has_sql_clause( 'select' ) ? $this->get_sql_clause( 'select', true ) : '*';
+		$query[] = $this->translateFrom();
 		$query[] = $this->get_sql_clause( 'join', true );
 		$query[] = $this->get_sql_clause( 'where', true );
-
-		$this->translateGroupBy( $query );
-		$this->translateOrderBy( $query );
-		$this->translateLimit( $query );
+		$query[] = $this->translateGroupBy();
+		$query[] = $this->translateOrderBy();
+		$query[] = $this->translateLimit();
 
 		return join( ' ', array_filter( $query ) );
 	}
@@ -50,7 +48,7 @@ trait Translate {
 	 * @return string
 	 */
 	private function translateUpdate() { // @codingStandardsIgnoreLine
-		$query = array( "UPDATE {$this->table} set" );
+		$query = array( "UPDATE {$this->table} SET" );
 
 		// Add the values.
 		$values = array();
@@ -62,14 +60,10 @@ trait Translate {
 			$query[] = join( ', ', $values );
 		}
 
-		// Build the where clauses.
-		if ( ! empty( $this->sql_clauses['where'] ) ) {
-			$query[] = join( ' ', $this->sql_clauses['where'] );
-		}
+		$query[] = $this->get_sql_clause( 'where', true );
+		$query[] = $this->translateLimit();
 
-		$this->translateLimit( $query );
-
-		return join( ' ', $query );
+		return join( ' ', array_filter( $query ) );
 	}
 
 	/**
@@ -78,66 +72,65 @@ trait Translate {
 	 * @return string
 	 */
 	private function translateDelete() { // @codingStandardsIgnoreLine
-		$query = array( "DELETE from {$this->table}" );
+		$query   = array( 'DELETE' );
+		$query[] = $this->translateFrom();
+		$query[] = $this->get_sql_clause( 'where', true );
+		$query[] = $this->translateLimit();
 
-		// Build the where clauses.
-		if ( ! empty( $this->sql_clauses['where'] ) ) {
-			$query[] = join( ' ', $this->sql_clauses['where'] );
+		return join( ' ', array_filter( $query ) );
+	}
+
+	/**
+	 * Build the from statement.
+	 *
+	 * @return string
+	 */
+	private function translateFrom() { // @codingStandardsIgnoreLine
+		if ( ! $this->has_sql_clause( 'from' ) ) {
+			$this->add_sql_clause( 'from', $this->table );
 		}
 
-		$this->translateLimit( $query );
-
-		return join( ' ', $query );
+		return 'FROM ' . $this->get_sql_clause( 'from', true );
 	}
 
 	/**
 	 * Build the order by statement
 	 *
-	 * @param array $query Query holder.
+	 * @return string
 	 */
-	protected function translateOrderBy( &$query ) { // @codingStandardsIgnoreLine
-		if ( empty( $this->sql_clauses['order_by'] ) ) {
-			return;
+	protected function translateOrderBy() { // @codingStandardsIgnoreLine
+		if ( ! $this->has_sql_clause( 'order_by' ) ) {
+			return '';
 		}
 
-		$order_by = array();
-		foreach ( $this->sql_clauses['order_by'] as $column => $direction ) {
-
-			if ( ! is_null( $direction ) ) {
-				$column .= ' ' . $direction;
-			}
-
-			$order_by[] = $column;
-		}
-
-		$query[] = 'order by ' . join( ', ', $order_by );
+		return 'ORDER BY ' . $this->get_sql_clause( 'order_by', true );
 	}
 
 	/**
 	 * Build the group by clauses.
 	 *
-	 * @param array $query Query holder.
+	 * @return string
 	 */
-	private function translateGroupBy( &$query ) { // @codingStandardsIgnoreLine
-		$group_by = $this->get_sql_clause( 'group_by', true );
-		$having   = $this->get_sql_clause( 'having', true );
-		if ( empty( $group_by ) ) {
-			return;
+	private function translateGroupBy() { // @codingStandardsIgnoreLine
+		if ( ! $this->has_sql_clause( 'group_by' ) ) {
+			return '';
 		}
 
-		$query[] = 'GROUP BY ' . $group_by;
+		$group_by = 'GROUP BY ' . $this->get_sql_clause( 'group_by', true );
 
-		if ( ! empty( $having ) ) {
-			$query[] = $having;
+		if ( $this->has_sql_clause( 'having' ) ) {
+			$group_by .= ' ' . $this->get_sql_clause( 'having', true );
 		}
+
+		return $group_by;
 	}
 
 	/**
 	 * Build offset and limit.
 	 *
-	 * @param array $query Query holder.
+	 * @return string
 	 */
-	private function translateLimit( &$query ) { // @codingStandardsIgnoreLine
-		$query[] = $this->get_sql_clause( 'limit', true );
+	private function translateLimit() { // @codingStandardsIgnoreLine
+		return $this->get_sql_clause( 'limit', true );
 	}
 }

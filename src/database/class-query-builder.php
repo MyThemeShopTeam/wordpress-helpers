@@ -18,6 +18,7 @@ class Query_Builder {
 	use Escape;
 	use Select;
 	use Where;
+	use Joins;
 	use GroupBy;
 	use OrderBy;
 	use Clauses;
@@ -68,9 +69,6 @@ class Query_Builder {
 		$this->table   = $table;
 		$this->context = $context;
 		$this->reset();
-
-		// Append the table.
-		$this->add_sql_clause( 'from', $this->table );
 	}
 
 	/**

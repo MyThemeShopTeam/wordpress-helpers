@@ -46,7 +46,7 @@ trait Clauses {
 	 *
 	 * @return boolean True if set and not empty.
 	 */
-	protected function has_sql_clause( $type ) {
+	public function has_sql_clause( $type ) {
 		return isset( $this->sql_clauses[ $type ] ) && ! empty( $this->sql_clauses[ $type ] );
 	}
 
@@ -56,7 +56,7 @@ trait Clauses {
 	 * @param string $type   Clause type.
 	 * @param string $clause SQL clause.
 	 */
-	protected function add_sql_clause( $type, $clause ) {
+	public function add_sql_clause( $type, $clause ) {
 		if ( isset( $this->sql_clauses[ $type ] ) && ! empty( $clause ) ) {
 			$this->sql_clauses[ $type ][] = $clause;
 		}
@@ -89,7 +89,7 @@ trait Clauses {
 		}
 
 		$separator = ' ';
-		if ( 'select' === $type ) {
+		if ( in_array( $type, array( 'select', 'order_by', 'group_by' ), true ) ) {
 			$separator = ', ';
 		}
 

@@ -121,16 +121,16 @@ class TestDatabase extends UnitTestCase {
 
 		// With alias as string.
 		$this->assertQueryTranslation(
-			'SELECT id, foo as f FROM phpunit',
+			'SELECT id, foo AS f FROM phpunit',
 			'Select',
 			function( $table ) {
-				$table->select( 'id, foo as f' );
+				$table->select( 'id, foo AS f' );
 			}
 		);
 
 		// With array with alias.
 		$this->assertQueryTranslation(
-			'SELECT id as d, foo as f FROM phpunit',
+			'SELECT id AS d, foo AS f FROM phpunit',
 			'Select',
 			function( $table ) {
 				$table->select(
@@ -496,7 +496,7 @@ class TestDatabase extends UnitTestCase {
 
 		// Simple.
 		$this->assertQueryTranslation(
-			'SELECT * FROM phpunit order by id asc',
+			'SELECT * FROM phpunit ORDER BY id',
 			'Select',
 			function( $table ) {
 				$table->orderBy( 'id' );
@@ -505,7 +505,7 @@ class TestDatabase extends UnitTestCase {
 
 		// Other direction.
 		$this->assertQueryTranslation(
-			'SELECT * FROM phpunit order by id desc',
+			'SELECT * FROM phpunit ORDER BY id DESC',
 			'Select',
 			function( $table ) {
 				$table->orderBy( 'id', 'desc' );
@@ -514,7 +514,7 @@ class TestDatabase extends UnitTestCase {
 
 		// More keys comma separated.
 		$this->assertQueryTranslation(
-			'SELECT * FROM phpunit order by firstname desc, lastname desc',
+			'SELECT * FROM phpunit ORDER BY firstname DESC, lastname DESC',
 			'Select',
 			function( $table ) {
 				$table->orderBy( 'firstname, lastname', 'desc' );
@@ -523,7 +523,7 @@ class TestDatabase extends UnitTestCase {
 
 		// Multipe sortings diffrent direction.
 		$this->assertQueryTranslation(
-			'SELECT * FROM phpunit order by firstname asc, lastname desc',
+			'SELECT * FROM phpunit ORDER BY firstname, lastname DESC',
 			'Select',
 			function( $table ) {
 				$table->orderBy(
@@ -537,7 +537,7 @@ class TestDatabase extends UnitTestCase {
 
 		// Raw sorting.
 		$this->assertQueryTranslation(
-			'SELECT * FROM phpunit order by firstname <> nick',
+			'SELECT * FROM phpunit ORDER BY firstname <> nick',
 			'Select',
 			function( $table ) {
 				$table->orderBy( 'firstname <> nick', null );
@@ -548,11 +548,11 @@ class TestDatabase extends UnitTestCase {
 	/**
 	 * MySql grammar tests
 	 */
-	public function bak_test_update() {
+	public function test_update() {
 
 		// Simple.
 		$this->assertQueryTranslation(
-			'update phpunit set foo = \'bar\'',
+			'UPDATE phpunit SET foo = \'bar\'',
 			'Update',
 			function( $table ) {
 				$table->set( 'foo', 'bar' );
@@ -561,7 +561,7 @@ class TestDatabase extends UnitTestCase {
 
 		// Multiple.
 		$this->assertQueryTranslation(
-			'update phpunit set foo = \'bar\', bar = \'foo\'',
+			'UPDATE phpunit SET foo = \'bar\', bar = \'foo\'',
 			'Update',
 			function( $table ) {
 				$table
@@ -572,7 +572,7 @@ class TestDatabase extends UnitTestCase {
 
 		// Array.
 		$this->assertQueryTranslation(
-			'update phpunit set foo = \'bar\', bar = \'foo\'',
+			'UPDATE phpunit SET foo = \'bar\', bar = \'foo\'',
 			'Update',
 			function( $table ) {
 				$table->set(
@@ -586,7 +586,7 @@ class TestDatabase extends UnitTestCase {
 
 		// With where and limit.
 		$this->assertQueryTranslation(
-			'update phpunit set foo = \'bar\', bar = \'foo\' where id = 1 LIMIT 0, 1',
+			'UPDATE phpunit SET foo = \'bar\', bar = \'foo\' WHERE id = 1 LIMIT 0, 1',
 			'Update',
 			function( $table ) {
 				$table
@@ -601,11 +601,11 @@ class TestDatabase extends UnitTestCase {
 	/**
 	 * MySql grammar tests
 	 */
-	public function bak_test_delete() {
+	public function test_delete() {
 
 		// Simple.
 		$this->assertQueryTranslation(
-			'delete FROM phpunit WHERE id = 1 LIMIT 0, 1',
+			'DELETE FROM phpunit WHERE id = 1 LIMIT 0, 1',
 			'Delete',
 			function( $table ) {
 				$table->where( 'id', 1 )->limit( 1 );
@@ -614,24 +614,164 @@ class TestDatabase extends UnitTestCase {
 	}
 
 	/**
-	 * MySql grammar tests
+	 * Join tests
 	 */
-	public function bak_test_groupby() {
+	public function test_join() {
+
+		// Simple.
 		$this->assertQueryTranslation(
-			'SELECT count(id) as incoming, target_post_id as post_id FROM phpunit WHERE target_post_id in (100, 120, 123) group by target_post_id',
+			'SELECT lastName, firstName, customerName, checkNumber, amount ' .
+			'FROM phpunit ' .
+			'JOIN customers ON employeeNumber = salesRepEmployeeNumber ' .
+			'JOIN payments ON payments.customerNumber = customers.customerNumber ' .
+			'ORDER BY customerName, checkNumber',
 			'Select',
 			function( $table ) {
-				$table->selectCount( 'id', 'incoming' )->select( 'target_post_id as post_id' )
+				$table->select(
+					array(
+						'lastName',
+						'firstName',
+						'customerName',
+						'checkNumber',
+						'amount',
+					)
+				)->orderBy(
+					array(
+						'customerName',
+						'checkNumber',
+					)
+				);
+				$table->join( 'customers', 'employeeNumber', 'salesRepEmployeeNumber' );
+				$table->join( 'payments', 'payments.customerNumber', 'customers.customerNumber' );
+			}
+		);
+
+		// Operator.
+		$this->assertQueryTranslation(
+			'SELECT lastName, firstName, customerName, checkNumber, amount ' .
+			'FROM phpunit ' .
+			'JOIN customers ON employeeNumber > salesRepEmployeeNumber ' .
+			'ORDER BY customerName, checkNumber',
+			'Select',
+			function( $table ) {
+				$table->select(
+					array(
+						'lastName',
+						'firstName',
+						'customerName',
+						'checkNumber',
+						'amount',
+					)
+				)->orderBy(
+					array(
+						'customerName',
+						'checkNumber',
+					)
+				);
+				$table->join( 'customers', 'employeeNumber', 'salesRepEmployeeNumber', '>' );
+			}
+		);
+
+		// alias.
+		$this->assertQueryTranslation(
+			'SELECT lastName, firstName, customerName, checkNumber, amount ' .
+			'FROM phpunit ' .
+			'JOIN customers AS t1 ON employeeNumber = salesRepEmployeeNumber ' .
+			'ORDER BY customerName, checkNumber',
+			'Select',
+			function( $table ) {
+				$table->select(
+					array(
+						'lastName',
+						'firstName',
+						'customerName',
+						'checkNumber',
+						'amount',
+					)
+				)->orderBy(
+					array(
+						'customerName',
+						'checkNumber',
+					)
+				);
+				$table->join( 'customers', 'employeeNumber', 'salesRepEmployeeNumber', '=', 't1' );
+			}
+		);
+
+		$this->assertQueryTranslation(
+			'SELECT lastName, firstName, customerName, checkNumber, amount ' .
+			'FROM phpunit ' .
+			'LEFT JOIN customers ON employeeNumber = salesRepEmployeeNumber ' .
+			'LEFT JOIN payments ON payments.customerNumber = customers.customerNumber ' .
+			'ORDER BY customerName, checkNumber',
+			'Select',
+			function( $table ) {
+				$table->select(
+					array(
+						'lastName',
+						'firstName',
+						'customerName',
+						'checkNumber',
+						'amount',
+					)
+				)->orderBy(
+					array(
+						'customerName',
+						'checkNumber',
+					)
+				);
+				$table->leftJoin( 'customers', 'employeeNumber', 'salesRepEmployeeNumber' );
+				$table->leftJoin( 'payments', 'payments.customerNumber', 'customers.customerNumber' );
+			}
+		);
+
+		$this->assertQueryTranslation(
+			'SELECT lastName, firstName, customerName, checkNumber, amount ' .
+			'FROM phpunit ' .
+			'RIGHT JOIN customers ON employeeNumber = salesRepEmployeeNumber ' .
+			'RIGHT JOIN payments ON payments.customerNumber = customers.customerNumber ' .
+			'ORDER BY customerName, checkNumber',
+			'Select',
+			function( $table ) {
+				$table->select(
+					array(
+						'lastName',
+						'firstName',
+						'customerName',
+						'checkNumber',
+						'amount',
+					)
+				)->orderBy(
+					array(
+						'customerName',
+						'checkNumber',
+					)
+				);
+				$table->rightJoin( 'customers', 'employeeNumber', 'salesRepEmployeeNumber' );
+				$table->rightJoin( 'payments', 'payments.customerNumber', 'customers.customerNumber' );
+			}
+		);
+	}
+
+	/**
+	 * MySql grammar tests
+	 */
+	public function test_groupby() {
+		$this->assertQueryTranslation(
+			'SELECT COUNT(id) AS incoming, target_post_id AS post_id FROM phpunit WHERE target_post_id IN (100, 120, 123) GROUP BY target_post_id',
+			'Select',
+			function( $table ) {
+				$table->selectCount( 'id', 'incoming' )->select( 'target_post_id AS post_id' )
 					->whereIn( 'target_post_id', array( 100, 120, 123 ) )
 					->groupBy( 'target_post_id' );
 			}
 		);
 
 		$this->assertQueryTranslation(
-			'SELECT count(id) as incoming, target_post_id as post_id FROM phpunit where target_post_id in (100, 120, 123) group by target_post_id having count(id) > 25',
+			'SELECT COUNT(id) AS incoming, target_post_id AS post_id FROM phpunit WHERE target_post_id IN (100, 120, 123) GROUP BY target_post_id HAVING count(id) > 25',
 			'Select',
 			function( $table ) {
-				$table->selectCount( 'id', 'incoming' )->select( 'target_post_id as post_id' )
+				$table->selectCount( 'id', 'incoming' )->select( 'target_post_id AS post_id' )
 					->whereIn( 'target_post_id', array( 100, 120, 123 ) )
 					->groupBy( 'target_post_id' )
 					->having( 'count(id)', '>', 25 );
