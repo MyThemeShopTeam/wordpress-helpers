@@ -43,6 +43,8 @@ install:
   - if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" || $TRAVIS_PHP_VERSION == "nightly" ]]; then composer require --dev phpunit/phpunit ^5.7; fi
   - composer install -o --prefer-dist --no-interaction
   - composer global require "phpunit/phpunit=4.8.*|5.7.*"
+  - composer global require "dealerdirect/phpcodesniffer-composer-installer"
+  - composer global require "phpcompatibility/phpcompatibility-wp"
 
 before_script:
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
