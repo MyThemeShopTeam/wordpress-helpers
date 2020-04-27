@@ -22,12 +22,12 @@ trait Where {
 	 *     ->where('age', '>', 18)
 	 *     ->where('name', 'in', ['charles', 'john', 'jeffry'])
 	 *
-	 * @throws \Exception If $type is not 'AND', 'or', 'where'.
+	 * @throws \Exception If $type is not 'AND', 'OR', 'WHERE'.
 	 *
 	 * @param mixed  $column The SQL column.
 	 * @param mixed  $param1 Operator or value depending if $param2 isset.
 	 * @param mixed  $param2 The value if $param1 is an operator.
-	 * @param string $type the where type ( AND, or ).
+	 * @param string $type the where type ( AND, OR ).
 	 *
 	 * @return self The current query builder.
 	 */
@@ -209,7 +209,7 @@ trait Where {
 	 * @return self The current query builder.
 	 */
 	public function orWhereLike( $column, $value, $start = '%', $end = '%' ) { // @codingStandardsIgnoreLine
-		return $this->where( $column, 'LIKE', $this->esc_like( $value, $start, $end ), 'or' );
+		return $this->where( $column, 'LIKE', $this->esc_like( $value, $start, $end ), 'OR' );
 	}
 
 	/**
@@ -245,7 +245,7 @@ trait Where {
 	 * @return self The current query builder.
 	 */
 	public function orWhereNotLike( $column, $value, $start = '%', $end = '%' ) { // @codingStandardsIgnoreLine
-		return $this->where( $column, 'NOT LIKE', $this->esc_like( $value, $start, $end ), 'or' );
+		return $this->where( $column, 'NOT LIKE', $this->esc_like( $value, $start, $end ), 'OR' );
 	}
 
 	/**
