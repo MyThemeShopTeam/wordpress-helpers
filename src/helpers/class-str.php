@@ -205,7 +205,8 @@ class Str {
 		// Remove part of an entity at the end.
 		$excerpt = preg_replace( '/&[^;\s]{0,6}$/', '', $excerpt );
 		if ( $str !== $excerpt ) {
-			$excerpt = mb_substr( $str, 0, mb_strrpos( trim( $excerpt ), ' ' ) );
+			$strrpos = function_exists( 'mb_strrpos' ) ? 'mb_strrpos' : 'strrpos';
+			$excerpt = mb_substr( $str, 0, $strrpos( trim( $excerpt ), ' ' ) );
 		}
 
 		return $excerpt;
