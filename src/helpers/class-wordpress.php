@@ -165,6 +165,9 @@ class WordPress {
 			return $content;
 		}
 
+		// Remove Caption shortcode.
+		$content = \preg_replace( '#\s*\[caption[^]]*\].*?\[/caption\]\s*#is', '', $content );
+
 		return preg_replace( '~\[\/?.*?\]~s', '', $content );
 	}
 }
