@@ -33,13 +33,13 @@ class TestArr extends UnitTestCase {
 	 * Determine if the given key exists in the provided array.
 	 */
 	public function test_exists() {
-		$array = array( 'shakeeb', 'ahmed' );
+		$array = array( 'awesome', 'ahmed' );
 		$this->assertTrue( Arr::exists( $array, 0 ) );
 		$this->assertTrue( Arr::exists( $array, 1 ) );
 		$this->assertFalse( Arr::exists( $array, 2 ) );
 
-		$array = array( 'shakeeb' => 'ahmed' );
-		$this->assertTrue( Arr::exists( $array, 'shakeeb' ) );
+		$array = array( 'awesome' => 'ahmed' );
+		$this->assertTrue( Arr::exists( $array, 'awesome' ) );
 		$this->assertFalse( Arr::exists( $array, 'ahmed' ) );
 	}
 
@@ -48,11 +48,11 @@ class TestArr extends UnitTestCase {
 	 */
 	public function test_inlcudes() {
 		// Array ------------------------------
-		$array = array( 'shakeeb', 'ahmed', '1' );
+		$array = array( 'awesome', 'ahmed', '1' );
 
 		// Strict comparison.
-		$this->assertTrue( Arr::includes( $array, 'shakeeb', true ) );
-		$this->assertFalse( Arr::includes( $array, 'Shakeeb', true ) );
+		$this->assertTrue( Arr::includes( $array, 'awesome', true ) );
+		$this->assertFalse( Arr::includes( $array, 'awesome', true ) );
 
 		// Non-Strict comparison.
 		$this->assertTrue( Arr::includes( $array, 1, false ) );
@@ -76,7 +76,7 @@ class TestArr extends UnitTestCase {
 	 * @expectedException \InvalidArgumentException
 	 */
 	public function test_inlcudes_exception() {
-		Arr::includes( false, 'shakeeb', true );
+		Arr::includes( false, 'awesome', true );
 	}
 
 	/**
@@ -197,11 +197,11 @@ class TestArr extends UnitTestCase {
 		$array = array();
 
 		// Add.
-		Arr::add_delete_value( $array, 'shakeeb' );
-		$this->assertContains( 'shakeeb', $array );
+		Arr::add_delete_value( $array, 'awesome' );
+		$this->assertContains( 'awesome', $array );
 
 		// Delete.
-		Arr::add_delete_value( $array, 'shakeeb' );
-		$this->assertNotContains( 'shakeeb', $array );
+		Arr::add_delete_value( $array, 'awesome' );
+		$this->assertNotContains( 'awesome', $array );
 	}
 }

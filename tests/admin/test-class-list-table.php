@@ -61,7 +61,7 @@ class TestList_Table extends UnitTestCase {
 		$_REQUEST['order'] = 'asc';
 		$this->assertEquals( $this->invokeMethod( $this->table, 'get_order' ), 'ASC' );
 
-		$_REQUEST['s'] = 'shakeeb';
-		$this->assertEquals( $this->invokeMethod( $this->table, 'get_search' ), 'shakeeb' );
+		$_REQUEST['s'] = 'awesome';
+		$this->assertEquals( $this->invokeMethod( $this->table, 'get_search' ), 'awesome' );
 	}
 }
