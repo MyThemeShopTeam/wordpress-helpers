@@ -97,7 +97,7 @@ class TestJsonManager extends UnitTestCase {
 		$script  = '';
 		$script .= "<script type='text/javascript'>\n";
 		$script .= "/* <![CDATA[ */\n";
-		$script .= "var mythemeshop = {\"name\":\"shakeeb\",\"count\":10,\"isRegistered\":true};" . PHP_EOL . "\n";
+		$script .= "var mythemeshop = {\"name\":\"awesome\",\"count\":10,\"isRegistered\":true};" . PHP_EOL . "\n";
 		$script .= "/* ]]> */\n";
 		$script .= "</script>\n";
 
