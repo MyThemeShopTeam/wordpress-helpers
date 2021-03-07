@@ -43,10 +43,10 @@ class TestWordPress extends UnitTestCase {
 	 * Strip all shortcodes active or orphan.
 	 */
 	public function test_strip_shortcodes() {
-		$this->assertEquals( 'Shakeeb Ahmed', WordPress::strip_shortcodes( '[dummy]Shakeeb Ahmed[/dummy]' ) );
-		$this->assertEquals( 'Shakeeb Ahmed', WordPress::strip_shortcodes( '[dummy]Shakeeb Ahmed' ) );
-		$this->assertEquals( 'Shakeeb Ahmed', WordPress::strip_shortcodes( 'Shakeeb Ahmed[/dummy]' ) );
-		$this->assertEquals( 'Shakeeb Ahmed', WordPress::strip_shortcodes( 'Shakeeb Ahmed' ) );
+		$this->assertEquals( 'John Doe', WordPress::strip_shortcodes( '[dummy]John Doe[/dummy]' ) );
+		$this->assertEquals( 'John Doe', WordPress::strip_shortcodes( '[dummy]John Doe' ) );
+		$this->assertEquals( 'John Doe', WordPress::strip_shortcodes( 'John Doe[/dummy]' ) );
+		$this->assertEquals( 'John Doe', WordPress::strip_shortcodes( 'John Doe' ) );
 	}
 
 	/**

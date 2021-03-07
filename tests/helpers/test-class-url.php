@@ -24,9 +24,9 @@ class TestUrl extends UnitTestCase {
 	 */
 	public function test_is_url() {
 		// True.
-		$this->assertTrue( Url::is_url( 'http://shakeebahmed.com' ) );
-		$this->assertTrue( Url::is_url( 'https://shakeebahmed.com' ) );
-		$this->assertTrue( Url::is_url( '//shakeebahmed.com' ) );
+		$this->assertTrue( Url::is_url( 'http://mythemeshop.com' ) );
+		$this->assertTrue( Url::is_url( 'https://mythemeshop.com' ) );
+		$this->assertTrue( Url::is_url( '//mythemeshop.com' ) );
 
 		// False.
 		$this->assertFalse( Url::is_url( false ) );
@@ -106,8 +106,8 @@ class TestUrl extends UnitTestCase {
 		$this->assertEquals( 'localhost', Url::get_domain( 'http://localhost/dummy' ) );
 		$this->assertEquals( 'domain.com', Url::get_domain( 'http://domain.com' ) );
 		$this->assertEquals( 'domain.com', Url::get_domain( 'https://domain.com' ) );
-		$this->assertEquals( 'shakeebahmed.com', Url::get_domain( 'http://shakeebahmed.com/hello-world' ) );
-		$this->assertEquals( 'shakeebahmed.com', Url::get_domain( 'https://shakeebahmed.com/hello-world' ) );
+		$this->assertEquals( 'mythemeshop.com', Url::get_domain( 'http://mythemeshop.com/hello-world' ) );
+		$this->assertEquals( 'mythemeshop.com', Url::get_domain( 'https://mythemeshop.com/hello-world' ) );
 		$this->assertEquals( 'meus.reviews', Url::get_domain( 'https://meus.reviews' ) );
 	}
 }

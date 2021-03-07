@@ -152,7 +152,7 @@ class TestStr extends UnitTestCase {
 	 */
 	public function test_human_number() {
 		// Not numeric.
-		$this->assertEquals( Str::human_number( 'shakeeb' ), 0 );
+		$this->assertEquals( Str::human_number( 'awesome' ), 0 );
 
 		// Negative.
 		$this->assertEquals( Str::human_number( -100 ), -100 );

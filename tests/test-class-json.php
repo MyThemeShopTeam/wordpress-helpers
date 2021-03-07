@@ -30,7 +30,7 @@ class TestJsonManager extends UnitTestCase {
 	public function test_add() {
 
 		// Empty.
-		$this->manager->add( '', 'shakeeb', 'mythemeshop' );
+		$this->manager->add( '', 'awesome', 'mythemeshop' );
 
 		// Key don't exists.
 		$this->manager->add( 'test', 'value', 'mythemeshop' );
@@ -47,14 +47,14 @@ class TestJsonManager extends UnitTestCase {
 		);
 
 		// Key exists and array merge.
-		$this->manager->add( 'name', [ 'first' => 'shakeeb' ], 'mythemeshop' );
+		$this->manager->add( 'name', [ 'first' => 'awesome' ], 'mythemeshop' );
 		$this->assertArrayEquals(
 			$this->getPrivate( $this->manager, 'data' ),
 			[
 				'mythemeshop' => [
 					'test' => 'changed',
 					'name' => [
-						'first' => 'shakeeb',
+						'first' => 'awesome',
 					],
 				],
 			]
@@ -67,7 +67,7 @@ class TestJsonManager extends UnitTestCase {
 				'mythemeshop' => [
 					'test' => 'changed',
 					'name' => [
-						'first' => 'shakeeb',
+						'first' => 'awesome',
 						'last'  => 'ahmed',
 					],
 				],
@@ -79,11 +79,11 @@ class TestJsonManager extends UnitTestCase {
 	 * Remove something from JSON object.
 	 */
 	public function test_remove() {
-		$this->manager->add( 'name', 'shakeeb', 'mythemeshop' );
+		$this->manager->add( 'name', 'awesome', 'mythemeshop' );
 		$this->manager->remove( 'test', 'mythemeshop' );
 		$this->assertArrayEquals(
 			$this->getPrivate( $this->manager, 'data' ),
-			[ 'mythemeshop' => [ 'name' => 'shakeeb' ] ]
+			[ 'mythemeshop' => [ 'name' => 'awesome' ] ]
 		);
 	}
 
@@ -91,13 +91,13 @@ class TestJsonManager extends UnitTestCase {
 	 * Print data.
 	 */
 	public function test_output() {
-		$this->manager->add( 'name', 'shakeeb', 'mythemeshop' );
+		$this->manager->add( 'name', 'awesome', 'mythemeshop' );
 		$this->manager->add( 'count', 10, 'mythemeshop' );
 		$this->manager->add( 'isRegistered', true, 'mythemeshop' );
 		$script  = '';
 		$script .= "<script type='text/javascript'>\n";
 		$script .= "/* <![CDATA[ */\n";
-		$script .= "var mythemeshop = {\"name\":\"shakeeb\",\"count\":10,\"isRegistered\":true};" . PHP_EOL . "\n";
+		$script .= "var mythemeshop = {\"name\":\"awesome\",\"count\":10,\"isRegistered\":true};" . PHP_EOL . "\n";
 		$script .= "/* ]]> */\n";
 		$script .= "</script>\n";
 
@@ -117,7 +117,7 @@ class TestJsonManager extends UnitTestCase {
 	 * Empty object.
 	 */
 	public function test_empty_object() {
-		$this->manager->add( 'name', 'shakeeb', 'mythemeshop' );
+		$this->manager->add( 'name', 'awesome', 'mythemeshop' );
 		$this->manager->remove( 'name', 'mythemeshop' );
 		$this->expectOutputString( '' );
 		$this->manager->output();

@@ -28,7 +28,7 @@ class TestAttachment extends UnitTestCase {
 		$this->assertEmpty( Attachment::get_alt_tag( 1 ) );
 
 		// Not Empty.
-		update_post_meta( $attachment, '_wp_attachment_image_alt', 'shakeeb-ahmed' );
-		$this->assertEquals( Attachment::get_alt_tag( $attachment ), 'shakeeb-ahmed' );
+		update_post_meta( $attachment, '_wp_attachment_image_alt', 'awesome-alt' );
+		$this->assertEquals( Attachment::get_alt_tag( $attachment ), 'awesome-alt' );
 	}
 }

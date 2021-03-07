@@ -210,10 +210,10 @@ class TestDatabase extends UnitTestCase {
 
 		// String.
 		$this->assertQueryTranslation(
-			'SELECT * FROM phpunit WHERE username = \'meshakeeb\'',
+			'SELECT * FROM phpunit WHERE username = \'surajv\'',
 			'Select',
 			function( $table ) {
-				$table->where( 'username', 'meshakeeb' );
+				$table->where( 'username', 'surajv' );
 			}
 		);
 
@@ -336,10 +336,10 @@ class TestDatabase extends UnitTestCase {
 		);
 
 		$this->assertQueryTranslation(
-			'SELECT * FROM phpunit WHERE username = \'meshakeeb\' OR skills IN (\'php\', \'javascript\', \'ruby\')',
+			'SELECT * FROM phpunit WHERE username = \'surajv\' OR skills IN (\'php\', \'javascript\', \'ruby\')',
 			'Select',
 			function( $table ) {
-				$table->where( 'username', 'meshakeeb' )
+				$table->where( 'username', 'surajv' )
 					->orWhereIn( 'skills', array( 'php', 'javascript', 'ruby' ) );
 			}
 		);
@@ -353,10 +353,10 @@ class TestDatabase extends UnitTestCase {
 		);
 
 		$this->assertQueryTranslation(
-			'SELECT * FROM phpunit WHERE username = \'meshakeeb\' OR id NOT IN (23, 25, 30)',
+			'SELECT * FROM phpunit WHERE username = \'surajv\' OR id NOT IN (23, 25, 30)',
 			'Select',
 			function( $table ) {
-				$table->where( 'username', 'meshakeeb' )
+				$table->where( 'username', 'surajv' )
 					->orWhereNotIn( 'id', array( 23, 25, 30 ) );
 			}
 		);
@@ -379,10 +379,10 @@ class TestDatabase extends UnitTestCase {
 		);
 
 		$this->assertQueryTranslation(
-			'SELECT * FROM phpunit WHERE username = \'meshakeeb\' OR id BETWEEN 10 AND 100',
+			'SELECT * FROM phpunit WHERE username = \'surajv\' OR id BETWEEN 10 AND 100',
 			'Select',
 			function( $table ) {
-				$table->where( 'username', 'meshakeeb' )
+				$table->where( 'username', 'surajv' )
 					->orWhereBetween( 'id', array( 10, 100 ) );
 			}
 		);
@@ -396,10 +396,10 @@ class TestDatabase extends UnitTestCase {
 		);
 
 		$this->assertQueryTranslation(
-			'SELECT * FROM phpunit WHERE username = \'meshakeeb\' OR id NOT BETWEEN 10 AND 100',
+			'SELECT * FROM phpunit WHERE username = \'surajv\' OR id NOT BETWEEN 10 AND 100',
 			'Select',
 			function( $table ) {
-				$table->where( 'username', 'meshakeeb' )
+				$table->where( 'username', 'surajv' )
 					->orWhereNotBetween( 'id', array( 10, 100 ) );
 			}
 		);
@@ -414,10 +414,10 @@ class TestDatabase extends UnitTestCase {
 		);
 
 		$this->assertQueryTranslation(
-			'SELECT * FROM phpunit WHERE username = \'meshakeeb\' OR name IS NULL',
+			'SELECT * FROM phpunit WHERE username = \'surajv\' OR name IS NULL',
 			'Select',
 			function( $table ) {
-				$table->where( 'username', 'meshakeeb' )
+				$table->where( 'username', 'surajv' )
 					->orWhereNull( 'name' );
 			}
 		);
@@ -431,10 +431,10 @@ class TestDatabase extends UnitTestCase {
 		);
 
 		$this->assertQueryTranslation(
-			'SELECT * FROM phpunit WHERE username = \'meshakeeb\' OR name IS NOT NULL',
+			'SELECT * FROM phpunit WHERE username = \'surajv\' OR name IS NOT NULL',
 			'Select',
 			function( $table ) {
-				$table->where( 'username', 'meshakeeb' )
+				$table->where( 'username', 'surajv' )
 					->orWhereNotNull( 'name' );
 			}
 		);
@@ -447,10 +447,10 @@ class TestDatabase extends UnitTestCase {
 		$this->expectException( 'Exception' );
 
 		$this->assertQueryTranslation(
-			'SELECT * FROM phpunit WHERE username = \'meshakeeb\' OR name IS NOT NULL',
+			'SELECT * FROM phpunit WHERE username = \'surajv\' OR name IS NOT NULL',
 			'Select',
 			function( $table ) {
-				$table->where( 'username', 'meshakeeb' )
+				$table->where( 'username', 'surajv' )
 					->where( 'username', 'mekhan', null, 'something' );
 			}
 		);
