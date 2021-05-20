@@ -224,8 +224,9 @@ class Notification {
 		/**
 		 * Filter: 'wp_helpers_notifications_render' - Allows developer to filter notifications before the output is finalized.
 		 *
-		 * @param string $notifications HTML output.
-		 * @param array  $options       Notice args.
+		 * @param string $output  HTML output.
+		 * @param array  $message Notice message.
+		 * @param array  $options Notice args.
 		 */
 		$output = apply_filters( 'wp_helpers_notifications_render', $output, $this->message, $this->options );
 
