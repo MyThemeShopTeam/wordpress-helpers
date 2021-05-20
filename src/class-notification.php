@@ -227,7 +227,7 @@ class Notification {
 		 * @param string $notifications HTML output.
 		 * @param array  $options       Notice args.
 		 */
-		$output = apply_filters( 'wp_helpers_notifications_render', $output, $this->options );
+		$output = apply_filters( 'wp_helpers_notifications_render', $output, $this->message, $this->options );
 
 		// Build the output DIV.
 		return $output;
