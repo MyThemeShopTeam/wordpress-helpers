@@ -219,7 +219,18 @@ class Notification {
 			$attributes['class'] = implode( ' ', array_filter( $classes ) );
 		}
 
+		$output = '<div' . HTML::attributes_to_string( $attributes ) . '>' . wpautop( $this->message ) . '</div>' . PHP_EOL;
+
+		/**
+		 * Filter: 'wp_helpers_notifications_render' - Allows developer to filter notifications before the output is finalized.
+		 *
+		 * @param string $output  HTML output.
+		 * @param array  $message Notice message.
+		 * @param array  $options Notice args.
+		 */
+		$output = apply_filters( 'wp_helpers_notifications_render', $output, $this->message, $this->options );
+
 		// Build the output DIV.
-		return '<div' . HTML::attributes_to_string( $attributes ) . '>' . wpautop( $this->message ) . '</div>' . PHP_EOL;
+		return $output;
 	}
 }
