@@ -211,6 +211,7 @@ class Notification {
 		// Maintain WordPress visualisation of alerts when they are not persistent.
 		if ( $this->is_persistent() ) {
 			$classes[]                   = 'is-dismissible';
+			$classes[]                   = 'wp-helpers-notice';
 			$attributes['id']            = $this->args( 'id' );
 			$attributes['data-security'] = wp_create_nonce( $this->args( 'id' ) );
 		}
