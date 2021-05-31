@@ -220,6 +220,7 @@ class Notification {
 			$attributes['class'] = implode( ' ', array_filter( $classes ) );
 		}
 
+		// Build the output DIV.
 		$output = '<div' . HTML::attributes_to_string( $attributes ) . '>' . wpautop( $this->message ) . '</div>' . PHP_EOL;
 
 		/**
@@ -231,7 +232,6 @@ class Notification {
 		 */
 		$output = apply_filters( 'wp_helpers_notifications_render', $output, $this->message, $this->options );
 
-		// Build the output DIV.
 		return $output;
 	}
 }
