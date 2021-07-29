@@ -338,4 +338,20 @@ class Notification_Center {
 	private function is_network_admin() {
 		return function_exists( 'is_network_admin' ) && is_network_admin();
 	}
+
+	/**
+	 * Check if a notification with the given ID exists.
+	 *
+	 * @param string $id Notification ID.
+	 * @return boolean
+	 */
+	public function has_notification( $id ) {
+		$notifications = $this->get_notifications();
+		foreach ( $notifications as $notification ) {
+			if ( isset( $notification['options']['id'] ) && $notification['options']['id'] === $id ) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
