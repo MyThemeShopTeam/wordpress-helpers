@@ -145,6 +145,6 @@ class Arr {
 	 * @return array Returns an array after applying the function to each one.
 	 */
 	public static function from_string( $string, $separator = ',' ) {
-		return array_map( $callback, explode( $separator, $string ) );
+		return array_map( 'trim', explode( $separator, $string ) );
 	}
 }
