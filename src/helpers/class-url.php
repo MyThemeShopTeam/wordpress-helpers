@@ -69,12 +69,37 @@ class Url {
 			return false;
 		}
 
+		if ( self::is_affiliate( $url ) ) {
+			return true;
+		}
+
 		$domain = self::get_domain( $domain ? $domain : home_url() );
 		if ( Str::contains( $domain, $url ) ) {
 			return false;
 		}
 
 		return true;
+	}
+
+	/**
+	 * Checks whether a link is an affiliate link.
+	 *
+	 * @param string $url URL string to check. This should be a absolute URL.
+	 *
+	 * @return bool
+	 */
+	public static function is_affiliate( $url ) {
+		if ( empty( $url ) ) {
+			return false;
+		}
+
+		/**
+		 * Filter: 'wp_helpers_is_affiliate_link' - Allows developer to consider a link as affiliate.
+		 *
+		 * @param bool   $value Default false.
+		 * @param string $url URL.
+		 */
+		return apply_filters( 'wp_helpers_is_affiliate_link', false, $url );
 	}
 
 	/**
