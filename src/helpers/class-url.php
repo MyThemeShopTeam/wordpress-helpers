@@ -65,12 +65,16 @@ class Url {
 	 * @return bool
 	 */
 	public static function is_external( $url, $domain = false ) {
-		if ( empty( $url ) || '#' === $url[0] || '/' === $url[0] ) { // Link to current page or relative link.
+		if ( empty( $url ) || '#' === $url[0] ) { // Link to current page.
 			return false;
 		}
 
 		if ( self::is_affiliate( $url ) ) {
 			return true;
+		}
+
+		if ( '/' === $url[0] ) { // Link to current page or relative link.
+			return false;
 		}
 
 		$domain = self::get_domain( $domain ? $domain : home_url() );
