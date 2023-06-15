@@ -1,6 +1,6 @@
 # WordPress Helpers
 
-Collection of utilities required during development of a plugin or theme for WordPress. Build for developers by developers.
+Collection of utilities required during development of a plugin or theme for WordPress. Built for developers by developers.
 
 ## How to use in managed environments
 
